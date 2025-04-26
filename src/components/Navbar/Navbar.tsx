@@ -18,6 +18,7 @@ const categories = [
   "Baby Products",
   "Safety Products",
   "Flash Sales",
+  "Tea Store"
 ];
 
 export default function Navbar() {

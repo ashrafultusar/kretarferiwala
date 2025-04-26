@@ -30,7 +30,7 @@ const AllProducts = () => {
         {products.map((product) => (
           <div
             key={product.id}
-            className="border p-4 rounded-md text-center transition-all duration-300 hover:border-orange-500 group"
+            className="border p-4 rounded-md text-center transition-all duration-300 hover:border-orange-500 group cursor-pointer"
           >
             {/* Top Small Icon */}
             <div className="flex justify-start">
