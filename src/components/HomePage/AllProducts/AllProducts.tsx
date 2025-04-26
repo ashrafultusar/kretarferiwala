@@ -2,6 +2,7 @@
 
 import React from "react";
 import Image from "next/image";
+import TitleWithLine from "@/Shared/TitleWithLine/TitleWithLine";
 
 interface Product {
   id: number;
@@ -21,10 +22,8 @@ const products: Product[] = Array.from({ length: 10 }, (_, index) => ({
 
 const AllProducts = () => {
   return (
-    <section className="container mx-auto my-2 px-4">
-      <h1 className="font-bold md:text-2xl lg:text-4xl text-center mb-8">
-        All Products
-      </h1>
+    <section className="container mx-auto my-6 px-4">
+      <TitleWithLine title="All Products"></TitleWithLine>
 
       {/* Cards Grid */}
       <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-5 gap-6">
