@@ -2,12 +2,15 @@
 
 import { useParams } from "next/navigation";
 import Image from "next/image";
+import { useState } from "react";
 import { products } from "@/components/HomePage/AllProducts/AllProducts";
 
 const ProductDetails = () => {
   const params = useParams();
   const id = Number(params?.id);
   const product = products.find((p) => p.id === id);
+
+  const [activeTab, setActiveTab] = useState<"description" | "return">("description");
 
   if (!product) {
     return <div className="text-center py-10">Product not found</div>;
@@ -71,14 +74,62 @@ const ProductDetails = () => {
         </div>
       </div>
 
-      {/* Description Section */}
-      <div className="mt-8 p-4 border rounded bg-gray-50 text-sm leading-relaxed">
-        <p>
-          বিষয়ঃ ১) উল্লিখিত ডেলিভারি চার্জ ১(এক) কেজি পর্যন্ত ওজনের পণ্যের জন্য।
-          পণ্যের ওজন বাড়ালে ডেলিভারি চার্জ ও বাড়বে। ২) ছবি এবং বর্ণনার সাথে পণ্য
-          মিলে থাকা সত্ত্বেও আপনি পণ্য গ্রহণ করতে না চাইলে কুরিয়ার চার্জ ১৩০ টাকা
-          কুরিয়ার অফিসে প্রদান করে পণ্য আমাদের ঠিকানায় রিটার্ন করবেন।
-        </p>
+      {/* Tabs Section */}
+      <div className="mt-8">
+        <div className="flex  space-x-4 border-b">
+          <button
+            onClick={() => setActiveTab("description")}
+            className={`py-2 px-4 cursor-pointer ${
+              activeTab === "description" ? "border-b-2 border-green-600 text-green-600 font-semibold" : "text-gray-500"
+            }`}
+          >
+            Description
+          </button>
+          <button
+            onClick={() => setActiveTab("return")}
+            className={`py-2 px-4 cursor-pointer ${
+              activeTab === "return" ? "border-b-2 border-green-600 text-green-600 font-semibold" : "text-gray-500"
+            }`}
+          >
+            Return Policy
+          </button>
+        </div>
+
+        {/* Tab Content */}
+        <div className="mt-4 bg-gray-50 p-4 rounded shadow text-sm leading-relaxed">
+          {activeTab === "description" ? (
+            <div>
+              <p className="mb-2">
+                ঈদের স্পেশাল অফার ৩ দিনের জন্য।
+              </p>
+              <p className="mb-2">
+                ৫ পিস জাফরান সাবান ১২০০ টাকা সাথে একটা নাইট ক্রিম ফ্রি।
+              </p>
+              <p className="mb-4">
+                ১০ পিস জাফরান সাবান ২৪০০ টাকা সাথে ২ টা নাইট ক্রিম ফ্রি।
+              </p>
+              <p className="font-bold">জাফরান সাবানের বিশেষত্ব:</p>
+              <ul className="list-disc list-inside mt-2 space-y-1">
+                <li>ফেস উজ্জ্বল করে ও সেদ গ্লো বাড়ায়।</li>
+                <li>স্কিন পরিষ্কার রাখে ও দাগ দূর করে।</li>
+                <li>অ্যাকনি কমায় ও রেডনেস হ্রাস করে।</li>
+                <li>স্কিন টানটান করে ও বয়সের ছাপ রোধ করে।</li>
+                <li>পুড়া ও কালো দাগ মুছে ফেলে।</li>
+                <li>স্কিন সফট করে ও ময়েশ্চার দেয়।</li>
+                <li>১০০% অরগানিক উপাদান দিয়ে প্রস্তুত।</li>
+              </ul>
+            </div>
+          ) : (
+            <div>
+              <p>
+                ১) উল্লিখিত ডেলিভারি চার্জ ১ কেজি পর্যন্ত ওজনের পণ্যের জন্য।  
+              </p>
+              <p className="mt-2">
+                ২) ছবি এবং বর্ণনার সাথে পণ্য মিলে থাকা সত্ত্বেও পণ্য রিটার্ন করতে চাইলে কুরিয়ার চার্জ নিজ দায়িত্বে দিতে হবে।
+              </p>
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );

@@ -97,7 +97,7 @@ const AllProducts = () => {
           <Link href={`/productdetails/${product.id}`} key={product.id}
             
            
-            className="border p-4 rounded-md text-center transition-all duration-300 hover:border-orange-500 group cursor-pointer"
+            className="border p-4 text-center transition-all duration-300 hover:border-orange-500 group cursor-pointer"
           >
             <div className="flex justify-start">
               <Image
@@ -120,7 +120,10 @@ const AllProducts = () => {
             </div>
 
             <h2 className="text-sm font-medium mt-4 truncate">{product.name}</h2>
-            <p className="text-md font-semibold mt-2">Tk {product.price}.00</p>
+            <div className="flex items-center justify-center space-x-2 text-md font-semibold mt-2">
+            <span>৳ {product.price}</span>
+            <span className=" text-gray-400 line-through">৳ {product.price + 500}</span>
+          </div>
 
             <button className="mt-4 bg-orange-400 cursor-pointer text-white px-4 py-2 rounded hover:bg-orange-500 transition">
               Quick Add
