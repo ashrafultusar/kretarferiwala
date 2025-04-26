@@ -7,6 +7,8 @@ import { FiShoppingCart } from 'react-icons/fi';
 import { FaSearch } from 'react-icons/fa';
 import { useState } from 'react';
 
+
+
 const categories = [
   "Electronics",
   "Kitchen Accessories",
@@ -30,7 +32,7 @@ export default function Navbar() {
               <IoMenuSharp className="text-2xl text-black" />
             </button>
             <div className="flex items-center space-x-2">
-              <Image src="/icons/logo.png" alt="Logo" width={40} height={40} />
+              <Image src="/logo_icon/logo.png" alt="Logo" width={40} height={40} />
               <span className="text-black font-bold text-lg">Shop</span>
             </div>
             <div className="text-black text-2xl">
@@ -41,7 +43,7 @@ export default function Navbar() {
           {/* Desktop view */}
           <div className="hidden md:flex w-full items-center justify-between">
             <div className="flex items-center space-x-2">
-              <Image src="/icons/logo.png" alt="Logo" width={50} height={50} />
+              <Image src="/logo_icon/logo.png" alt="Logo" width={50} height={50} />
             </div>
             <div className="flex-1 mx-6">
               <div className="relative">
@@ -56,7 +58,7 @@ export default function Navbar() {
             <div className="flex items-center space-x-4">
               <div className="flex flex-col items-end">
                 <span className="text-sm text-gray-600">অর্ডার করতে কল করুন</span>
-                <span className="text-red-500 font-semibold">01710417359</span>
+                <span className="text-red-500 font-semibold">01700400000</span>
               </div>
               <div className="text-black text-2xl">
                 <FiShoppingCart />
