@@ -3,14 +3,18 @@
 import { useParams } from "next/navigation";
 import Image from "next/image";
 import { useState } from "react";
-import { products } from "@/components/HomePage/AllProducts/AllProducts";
+
+import RelatedProducts from "@/components/RelatedProducts/RelatedProducts";
+import { products } from "@/components/HomePage/AllProducts/productsData";
 
 const ProductDetails = () => {
   const params = useParams();
   const id = Number(params?.id);
   const product = products.find((p) => p.id === id);
 
-  const [activeTab, setActiveTab] = useState<"description" | "return">("description");
+  const [activeTab, setActiveTab] = useState<"description" | "return">(
+    "description"
+  );
 
   if (!product) {
     return <div className="text-center py-10">Product not found</div>;
@@ -34,8 +38,12 @@ const ProductDetails = () => {
         <div className="flex flex-col justify-start space-y-4">
           <h1 className="text-2xl font-semibold">{product.name}</h1>
           <div className="flex items-center space-x-4">
-            <span className="text-red-600 text-3xl font-bold">৳ {product.price}</span>
-            <span className="line-through text-gray-400">৳ {product.price + 500}</span>
+            <span className="text-red-600 text-3xl font-bold">
+              ৳ {product.price}
+            </span>
+            <span className="line-through text-gray-400">
+              ৳ {product.price + 500}
+            </span>
           </div>
 
           <div className="flex items-center space-x-4">
@@ -45,10 +53,10 @@ const ProductDetails = () => {
               className="w-16 border rounded p-2"
               min={1}
             />
-            <button className="bg-red-600 hover:bg-red-700 text-white font-semibold py-2 px-6 rounded">
+            <button className="bg-red-600 hover:bg-red-700 text-white font-semibold py-2 px-6 rounded cursor-pointer">
               অর্ডার করুন
             </button>
-            <button className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-6 rounded">
+            <button className="bg-orange-400 hover:bg-orange-500 text-white font-semibold py-2 px-6 rounded cursor-pointer">
               Buy Now
             </button>
           </div>
@@ -56,10 +64,12 @@ const ProductDetails = () => {
           {/* Call Button */}
           <div className="space-y-3">
             <button className="w-full bg-blue-100 text-black p-3 rounded shadow">
-              কল করতে ক্লিক করুন: 01324737750
+              কল করতে ক্লিক করুন: 01700400000
             </button>
           </div>
-
+          <p className="font-bold">
+            Code : <span className="font-medium">ES345</span>
+          </p>
           {/* Delivery Info */}
           <div className="text-sm">
             <div className="flex justify-between border-t pt-3">
@@ -80,7 +90,9 @@ const ProductDetails = () => {
           <button
             onClick={() => setActiveTab("description")}
             className={`py-2 px-4 cursor-pointer ${
-              activeTab === "description" ? "border-b-2 border-green-600 text-green-600 font-semibold" : "text-gray-500"
+              activeTab === "description"
+                ? "border-b-2 border-green-600 text-green-600 font-semibold"
+                : "text-gray-500"
             }`}
           >
             Description
@@ -88,7 +100,9 @@ const ProductDetails = () => {
           <button
             onClick={() => setActiveTab("return")}
             className={`py-2 px-4 cursor-pointer ${
-              activeTab === "return" ? "border-b-2 border-green-600 text-green-600 font-semibold" : "text-gray-500"
+              activeTab === "return"
+                ? "border-b-2 border-green-600 text-green-600 font-semibold"
+                : "text-gray-500"
             }`}
           >
             Return Policy
@@ -99,9 +113,7 @@ const ProductDetails = () => {
         <div className="mt-4 bg-gray-50 p-4 rounded shadow text-sm leading-relaxed">
           {activeTab === "description" ? (
             <div>
-              <p className="mb-2">
-                ঈদের স্পেশাল অফার ৩ দিনের জন্য।
-              </p>
+              <p className="mb-2">ঈদের স্পেশাল অফার ৩ দিনের জন্য।</p>
               <p className="mb-2">
                 ৫ পিস জাফরান সাবান ১২০০ টাকা সাথে একটা নাইট ক্রিম ফ্রি।
               </p>
@@ -122,14 +134,20 @@ const ProductDetails = () => {
           ) : (
             <div>
               <p>
-                ১) উল্লিখিত ডেলিভারি চার্জ ১ কেজি পর্যন্ত ওজনের পণ্যের জন্য।  
+                ১) উল্লিখিত ডেলিভারি চার্জ ১ কেজি পর্যন্ত ওজনের পণ্যের জন্য।
               </p>
               <p className="mt-2">
-                ২) ছবি এবং বর্ণনার সাথে পণ্য মিলে থাকা সত্ত্বেও পণ্য রিটার্ন করতে চাইলে কুরিয়ার চার্জ নিজ দায়িত্বে দিতে হবে।
+                ২) ছবি এবং বর্ণনার সাথে পণ্য মিলে থাকা সত্ত্বেও পণ্য রিটার্ন
+                করতে চাইলে কুরিয়ার চার্জ নিজ দায়িত্বে দিতে হবে।
               </p>
             </div>
           )}
         </div>
+      </div>
+
+      {/* related products */}
+      <div className="my-7">
+        <RelatedProducts></RelatedProducts>
       </div>
     </div>
   );
