@@ -1,5 +1,6 @@
 // app/page.tsx or app/home/page.tsx (Next.js 13+ এর জন্য)
 import AllProducts from "@/components/HomePage/AllProducts/AllProducts";
+
 import Slider from "@/components/Slider/Slider";
 
 export default function Home() {
@@ -9,7 +10,6 @@ export default function Home() {
       <div className="w-full">
         <Slider />
       </div>
-
       <AllProducts></AllProducts>
       
     </div>
