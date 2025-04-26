@@ -6,6 +6,7 @@ import { ImCross } from 'react-icons/im';
 import { FiShoppingCart } from 'react-icons/fi';
 import { FaSearch } from 'react-icons/fa';
 import { useState } from 'react';
+import Link from 'next/link';
 
 
 
@@ -31,10 +32,10 @@ export default function Navbar() {
             <button onClick={() => setIsOpen(true)}>
               <IoMenuSharp className="text-2xl text-black" />
             </button>
-            <div className="flex items-center space-x-2">
+            <Link href="/" className="flex cursor-pointer  items-center space-x-2">
               <Image src="/logo_icon/logo.png" alt="Logo" width={40} height={40} />
               <span className="text-black font-bold text-lg">Shop</span>
-            </div>
+            </Link>
             <div className="text-black text-2xl">
               <FiShoppingCart />
             </div>
@@ -42,9 +43,9 @@ export default function Navbar() {
 
           {/* Desktop view */}
           <div className="hidden md:flex w-full items-center justify-between">
-            <div className="flex items-center space-x-2">
+            <Link href="/" className="flex items-center space-x-2 cursor-pointer">
               <Image src="/logo_icon/logo.png" alt="Logo" width={50} height={50} />
-            </div>
+            </Link>
             <div className="flex-1 mx-6">
               <div className="relative">
                 <input
