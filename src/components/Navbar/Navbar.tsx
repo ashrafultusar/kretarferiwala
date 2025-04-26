@@ -70,7 +70,7 @@ export default function Navbar() {
         {/* Categories (only desktop) */}
         <div className="hidden md:flex bg-gray-100 py-3 mt-2 justify-center space-x-8">
           {categories.map((category, index) => (
-            <span key={index} className=" text-black hover:text-red-500 cursor-pointer">
+            <span key={index} className=" text-black hover:text-[#fc8934] cursor-pointer">
               {category}
             </span>
           ))}
