@@ -1,5 +1,5 @@
-
 "use client";
+
 import Image from 'next/image';
 import { IoMenuSharp } from 'react-icons/io5';
 import { ImCross } from 'react-icons/im';
@@ -7,8 +7,6 @@ import { FiShoppingCart } from 'react-icons/fi';
 import { FaSearch } from 'react-icons/fa';
 import { useState } from 'react';
 import Link from 'next/link';
-
-
 
 const categories = [
   "Electronics",
@@ -18,7 +16,7 @@ const categories = [
   "Baby Products",
   "Safety Products",
   "Flash Sales",
-  "Tea Store"
+  "Tea Store",
 ];
 
 export default function Navbar() {
@@ -72,9 +70,13 @@ export default function Navbar() {
         {/* Categories (only desktop) */}
         <div className="hidden md:flex bg-gray-100 py-3 mt-2 justify-center space-x-8">
           {categories.map((category, index) => (
-            <span key={index} className=" text-black hover:text-[#fc8934] cursor-pointer">
+            <Link
+              key={index}
+              href={`/category/${encodeURIComponent(category)}`}
+              className="text-black hover:text-[#fc8934] cursor-pointer"
+            >
               {category}
-            </span>
+            </Link>
           ))}
         </div>
       </nav>
@@ -96,12 +98,17 @@ export default function Navbar() {
             <FaSearch className="absolute right-3 top-3 text-gray-400" />
           </div>
 
-          {/* Categories (inside mobile menu) */}
+          {/* Categories */}
           <div className="flex flex-col space-y-4 mt-4">
             {categories.map((category, index) => (
-              <span key={index} className="text-black text-base hover:text-red-500 cursor-pointer">
+              <Link
+                key={index}
+                href={`/products-category/${encodeURIComponent(category)}`}
+                className="text-black text-base hover:text-red-500 cursor-pointer"
+                onClick={() => setIsOpen(false)}
+              >
                 {category}
-              </span>
+              </Link>
             ))}
           </div>
         </div>
