@@ -105,7 +105,7 @@ const OrderConfirmation = () => {
             <tr className="border-b">
               <td className="px-2 py-2 flex items-center gap-2">
                 <Image
-                  src="/your-product-image.png"
+                  src="/card/card2.jpg"
                   alt="Product"
                   width={40}
                   height={40}
@@ -137,7 +137,7 @@ const OrderConfirmation = () => {
               <td className="px-2 py-2">{1999 * quantity} টাকা</td>
 
               <td className="px-2 py-2">
-                <button className="text-red-500 hover:text-red-700">
+                <button className="text-red-500 hover:text-red-700 cursor-pointer ">
                   🗑️
                 </button>
               </td>
