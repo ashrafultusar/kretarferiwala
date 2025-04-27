@@ -26,12 +26,12 @@ export default function Navbar() {
     <>
       <nav className="bg-white shadow-md px-4 py-3">
         <div className="max-w-7xl mx-auto flex items-center justify-between">
-          {/* Mobile hamburger + logo + cart */}
+          {/* Mobile View */}
           <div className="flex items-center md:hidden w-full justify-between">
             <button onClick={() => setIsOpen(true)}>
               <IoMenuSharp className="text-2xl text-black" />
             </button>
-            <Link href="/" className="flex cursor-pointer  items-center space-x-2">
+            <Link href="/" className="flex cursor-pointer items-center space-x-2">
               <Image src="/logo_icon/logo.png" alt="Logo" width={40} height={40} />
               <span className="text-black font-bold text-lg">Shop</span>
             </Link>
@@ -40,7 +40,7 @@ export default function Navbar() {
             </div>
           </div>
 
-          {/* Desktop view */}
+          {/* Desktop View */}
           <div className="hidden md:flex w-full items-center justify-between">
             <Link href="/" className="flex items-center space-x-2 cursor-pointer">
               <Image src="/logo_icon/logo.png" alt="Logo" width={50} height={50} />
@@ -67,12 +67,12 @@ export default function Navbar() {
           </div>
         </div>
 
-        {/* Categories (only desktop) */}
+        {/* Desktop Categories */}
         <div className="hidden md:flex bg-gray-100 py-3 mt-2 justify-center space-x-8">
           {categories.map((category, index) => (
             <Link
               key={index}
-              href={`/category/${encodeURIComponent(category)}`}
+              href={`/products-category/${encodeURIComponent(category)}`}
               className="text-black hover:text-[#fc8934] cursor-pointer"
             >
               {category}
@@ -88,7 +88,7 @@ export default function Navbar() {
             <ImCross className="text-2xl text-black" />
           </button>
 
-          {/* Search bar */}
+          {/* Mobile Search */}
           <div className="relative">
             <input
               type="text"
@@ -98,7 +98,7 @@ export default function Navbar() {
             <FaSearch className="absolute right-3 top-3 text-gray-400" />
           </div>
 
-          {/* Categories */}
+          {/* Mobile Categories */}
           <div className="flex flex-col space-y-4 mt-4">
             {categories.map((category, index) => (
               <Link
