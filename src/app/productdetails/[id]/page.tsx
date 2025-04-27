@@ -6,6 +6,8 @@ import { useState } from "react";
 
 import RelatedProducts from "@/components/RelatedProducts/RelatedProducts";
 import { products } from "@/components/HomePage/AllProducts/productsData";
+import Link from "next/link";
+
 
 const ProductDetails = () => {
   const params = useParams();
@@ -21,7 +23,7 @@ const ProductDetails = () => {
   }
 
   return (
-    <div className="max-w-7xl mx-auto px-4 py-8">
+    <div className="container mx-auto px-4 py-8">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
         {/* Left: Product Image */}
         <div className="relative w-full h-80 md:h-[500px]">
@@ -53,10 +55,9 @@ const ProductDetails = () => {
               className="w-16 border rounded p-2"
               min={1}
             />
-            <button className="bg-orange-400 hover:bg-orange-500 text-white font-semibold py-2 px-6 rounded cursor-pointer">
+            <Link href={'/checkout'}  className="bg-orange-400 hover:bg-orange-500 text-white font-semibold py-2 px-6 rounded cursor-pointer">
               অর্ডার করুন
-            </button>
-           
+            </Link>
           </div>
 
           {/* Call Button */}
@@ -142,7 +143,8 @@ const ProductDetails = () => {
           )}
         </div>
       </div>
-
+      {/* quality Featured
+      <Features></Features> */}
       {/* related products */}
       <div className="my-7">
         <RelatedProducts></RelatedProducts>
