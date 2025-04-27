@@ -1,7 +1,6 @@
 "use client";
 
 import ProductCard from "@/Shared/ProductCard/ProductCard";
-import TitleWithLine from "@/Shared/TitleWithLine/TitleWithLine";
 import { useParams } from "next/navigation";
 
 const dummyProducts = [
@@ -60,7 +59,11 @@ export default function CategoryPage() {
 
   return (
     <div className="max-w-7xl mx-auto p-6">
-      <TitleWithLine title={decodedCategory}></TitleWithLine>
+      
+<div>
+  <h1 className="text-center text-lg md:text-3xl lg:text-4xl font-bold mb-2 md:mb-4 ">Category / <span className="font-medium">{decodedCategory}</span></h1>
+</div>
+
 
       {filteredProducts.length > 0 ? (
         <div className="grid grid-cols-2 md:grid-cols-3 gap-6">
