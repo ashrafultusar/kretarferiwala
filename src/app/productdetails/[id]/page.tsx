@@ -53,12 +53,10 @@ const ProductDetails = () => {
               className="w-16 border rounded p-2"
               min={1}
             />
-            <button className="bg-red-600 hover:bg-red-700 text-white font-semibold py-2 px-6 rounded cursor-pointer">
+            <button className="bg-orange-400 hover:bg-orange-500 text-white font-semibold py-2 px-6 rounded cursor-pointer">
               অর্ডার করুন
             </button>
-            <button className="bg-orange-400 hover:bg-orange-500 text-white font-semibold py-2 px-6 rounded cursor-pointer">
-              Buy Now
-            </button>
+           
           </div>
 
           {/* Call Button */}

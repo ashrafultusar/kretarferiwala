@@ -12,7 +12,7 @@ export const products = [
         id: 2,
         name: "Kitchen Accessories",
         price: 750,
-        image: "/card/card.jpg",
+        image: "/card/card2.jpg",
         icon: "/logo_icon/logo.png",
       },
       {
