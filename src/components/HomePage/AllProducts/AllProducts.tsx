@@ -14,6 +14,7 @@ const AllProducts = () => {
         {products.map((Product) => (
           <ProductCard key={Product.id} {...Product} />
         ))}
+        
       </div>
     </section>
   );
