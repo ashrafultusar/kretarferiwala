@@ -15,45 +15,48 @@ export default function ProductCard({
   image,
 }: ProductCardProps) {
   return (
-    <div className="w-full max-w-xs overflow-hidden bg-white rounded-sm shadow-lg group  duration-300 hover:shadow-2xl transition-transform hover:scale-105 hover:border-orange-500">
-      {/* Product Image */}
-      <div className="relative">
-        <Image
-          src={image}
-          alt={name}
-          width={400}
-          height={400}
-          className="object-cover w-full h-56 transition-transform duration-400 group-hover:scale-112"
-        />
+    <>
+      <div className="relative w-full max-w-xs h-[380px] bg-white rounded-sm shadow-lg group duration-300 hover:shadow-2xl transition-transform hover:scale-105 hover:border-orange-500 flex flex-col justify-between overflow-hidden">
+        {/* Product Image */}
+        <div className="relative h-56 w-full overflow-hidden">
+          <Image
+            src={image}
+            alt={name}
+            width={400}
+            height={400}
+            className="object-cover w-full h-full transition-transform duration-400 group-hover:scale-110"
+          />
 
-        {/* Discount Badge */}
-        <div className="absolute top-2 left-2 bg-red-500 text-white text-xs font-bold px-2 py-1 rounded">
-          -{Math.round(((price + 500 - price) / (price + 500)) * 100)}%
-        </div>
-      </div>
-
-      {/* Product Info */}
-      <div className="py-5 text-center">
-        {/* Product Name */}
-        <h2 className="block w-full text-xl font-bold text-gray-800 ">
-          {name}
-        </h2>
-        {/* Product Price */}
-        <div className="flex items-center justify-center space-x-2 mt-2">
-          <span className="text-red-600 font-bold text-md">৳ {price}</span>
-          <span className="text-gray-400 line-through text-sm">
-            ৳ {price + 500}
-          </span>
+          {/* Discount Badge */}
+          <div className="absolute top-2 left-2 bg-red-500 text-white text-xs font-bold px-2 py-1 rounded">
+            -{Math.round(((price + 500 - price) / (price + 500)) * 100)}%
+          </div>
         </div>
 
-        {/* Order Button */}
-        <Link
-          href={`/productdetails/${id}`}
-          className="mt-4 bg-orange-400 hover:bg-orange-500 w-full text-white text-sm rounded-sm font-semibold py-2 px-7 transition text-center inline-block"
-        >
-          অর্ডার করুন
-        </Link>
+        {/* Product Info */}
+        <div className="flex flex-col justify-between flex-grow p-3 text-center">
+          {/* Product Name */}
+          <h2 className="text-sm md:text-xl  font-semibold text-gray-800 line-clamp-1 mb-2">
+            {name}
+          </h2>
+
+          {/* Product Price */}
+          <div className="flex items-center justify-center space-x-2 mb-2">
+            <span className="text-red-600 font-bold text-md">৳ {price}</span>
+            <span className="text-gray-400 line-through text-xs">
+              ৳ {price + 500}
+            </span>
+          </div>
+
+          {/* Order Button */}
+          <Link
+            href={`/productdetails/${id}`}
+            className="mt-auto bg-orange-400 hover:bg-orange-500 w-full text-white text-xs rounded-sm font-semibold py-2 px-5 transition text-center inline-block"
+          >
+            অর্ডার করুন
+          </Link>
+        </div>
       </div>
-    </div>
+    </>
   );
 }

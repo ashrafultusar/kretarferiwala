@@ -8,6 +8,7 @@ import "swiper/css/navigation";
 
 import Image from "next/image";
 import Link from "next/link";
+import TitleWithLine from "@/Shared/TitleWithLine/TitleWithLine";
 
 // Define categories and images together
 const categories = [
@@ -51,6 +52,7 @@ const AllCategories: React.FC = () => {
 
   return (
     <div className="container mx-auto my-12 px-4">
+      <TitleWithLine title="Shop By Categories"></TitleWithLine>
       {navigationReady && (
         <Swiper
           slidesPerView={8}
