@@ -15,7 +15,7 @@ export default function ProductCard({
   image,
 }: ProductCardProps) {
   return (
-    <div className="w-full max-w-xs overflow-hidden bg-white rounded-sm shadow-lg group transition-all duration-300 hover:shadow-2xl hover:border-orange-500">
+    <div className="w-full max-w-xs overflow-hidden bg-white rounded-sm shadow-lg group  duration-300 hover:shadow-2xl transition-transform hover:scale-105 hover:border-orange-500">
       {/* Product Image */}
       <div className="relative">
         <Image
