@@ -1,22 +1,51 @@
-export default function AdminLayout({ children }: { children: React.ReactNode }) {
+'use client';
+
+import { useEffect, useState } from 'react';
+import AdminLayout from './AdminLayout';
+
+export default function ProtectedAdminLayout({ children }: { children: React.ReactNode }) {
+  const [password, setPassword] = useState('');
+  const [authorized, setAuthorized] = useState(false);
+
+  const adminPassword = '123456';
+
+  // Check localStorage on load
+  useEffect(() => {
+    const isAuth = localStorage.getItem('admin-auth');
+    if (isAuth === 'true') {
+      setAuthorized(true);
+    }
+  }, []);
+
+  const handleSubmit = () => {
+    if (password === adminPassword) {
+      setAuthorized(true);
+      localStorage.setItem('admin-auth', 'true'); // ✅ store auth state
+    } else {
+      alert('Wrong Password! Try again.');
+    }
+  };
+
+  if (!authorized) {
     return (
-      <div className="flex min-h-screen">
-        {/* Sidebar */}
-        <aside className="w-64 bg-orange-400  text-white p-6">
-          <h2 className="text-2xl font-bold mb-8">Admin Panel</h2>
-          <ul className="space-y-4">
-            <li className="hover:text-gray-300 cursor-pointer">Dashboard</li>
-            <li className="hover:text-gray-300 cursor-pointer">Products</li>
-            <li className="hover:text-gray-300 cursor-pointer">Orders</li>
-            <li className="hover:text-gray-300 cursor-pointer">Users</li>
-          </ul>
-        </aside>
-  
-        {/* Main Content */}
-        <main className="flex-1 p-6 bg-gray-100">
-          {children}
-        </main>
+      <div className="flex flex-col items-center justify-center h-screen bg-gray-100">
+        <h1 className="text-2xl mb-4 font-bold">Admin Login</h1>
+        <input
+          type="password"
+          placeholder="Enter Admin Password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          className="border px-4 py-2 rounded-md mb-4"
+        />
+        <button
+          onClick={handleSubmit}
+          className="bg-orange-500 text-white px-6 py-2 rounded-md hover:bg-orange-600"
+        >
+          Enter
+        </button>
       </div>
     );
   }
-  
+
+  return <AdminLayout>{children}</AdminLayout>;
+}
