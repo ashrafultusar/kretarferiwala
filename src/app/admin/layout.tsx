@@ -28,7 +28,7 @@ export default function ProtectedAdminLayout({ children }: { children: React.Rea
   };
 
   if (loading) {
-    // Optional: show a spinner or blank screen while checking auth
+    
     return <div className="h-screen flex items-center justify-center">Loading...</div>;
   }
 
