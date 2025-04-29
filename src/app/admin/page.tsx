@@ -1,7 +1,5 @@
 import AllCategoriesProducts from "./AllCategoriesProducts";
 
-
-
 export default function Dashboard() {
   return (
     <div className="space-y-8">
@@ -22,9 +20,8 @@ export default function Dashboard() {
         </div>
       </div>
 
-{/* product show  */}
-<AllCategoriesProducts></AllCategoriesProducts>
-     
+      {/* product show  */}
+      <AllCategoriesProducts></AllCategoriesProducts>
     </div>
   );
 }

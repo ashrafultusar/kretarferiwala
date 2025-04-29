@@ -51,7 +51,7 @@ const AllCategoriesProducts = () => {
   );
 
   return (
-    <div className="p-4">
+    <div className="max-w-7xl mx-auto p-4">
       {/* Tabs */}
       <div className="flex overflow-x-auto border-b border-gray-200 dark:border-gray-700 mb-6">
         {categories.map((category) => (

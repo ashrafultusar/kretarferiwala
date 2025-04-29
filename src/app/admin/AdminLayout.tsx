@@ -35,7 +35,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
         } md:block w-full md:w-64 bg-white shadow-md p-6 space-y-6 absolute md:relative z-20 md:z-auto`}
       >
         <div className="flex justify-between items-center">
-        <Link href={'/admin'} className="text-xl font-bold text-orange-500">Admin</Link>
+        <Link href={'/admin'} className="text-xl font-bold text-orange-500">Admin Home</Link>
           {/* Close button for mobile */}
           <button
             className="md:hidden text-gray-700"
@@ -46,10 +46,11 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
         </div>
 
         <nav className="space-y-4">
-          <a href="/admin/dashboard" className="block hover:text-orange-500">Dashboard</a>
-          <a href="/admin/products" className="block hover:text-orange-500">Products</a>
-          <a href="/admin/categories" className="block hover:text-orange-500">Categories</a>
+          
           <a href="/admin/orders" className="block hover:text-orange-500">Orders</a>
+          <a href="/admin/products" className="block hover:text-orange-500">Product Upload</a>
+          <a href="/admin/categories" className="block hover:text-orange-500">Categories</a>
+          
         </nav>
 
         <button
