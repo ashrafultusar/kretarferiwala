@@ -70,9 +70,14 @@ const AllCategories: React.FC = () => {
           modules={[Navigation, Autoplay]}
           className="mySwiper"
           breakpoints={{
+            0: { slidesPerView: 1 },
             320: { slidesPerView: 1 },
+            480: { slidesPerView: 2 },
             640: { slidesPerView: 3 },
-            1024: { slidesPerView: 8 },
+            768: { slidesPerView: 4 },
+            1024: { slidesPerView: 5 },
+            1280: { slidesPerView: 6 },
+            1536: { slidesPerView: 7 },
           }}
         >
           {categories.map((category, index) => (
@@ -87,7 +92,13 @@ const AllCategories: React.FC = () => {
                       className="object-contain"
                     />
                   </div>
-                  <h3 className="font-semibold text-gray-800">{category}</h3>
+                  <h3
+                    className="font-semibold text-gray-800 truncate w-full max-w-full whitespace-nowrap overflow-hidden text-center"
+                    title={category}
+                  >
+                    {category}
+                  </h3>
+
                   <p className="text-sm text-gray-500">Many items</p>
                 </div>
               </Link>
