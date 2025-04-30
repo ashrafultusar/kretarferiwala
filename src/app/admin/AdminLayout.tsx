@@ -62,7 +62,8 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
       </aside>
 
       {/* Main Content */}
-      <main className="flex-1 p-4 md:p-8 mt-16 md:mt-0">{children}</main>
+      {/* p-4 md:p-8 mt-16 md:mt-0 ei gula ei class theke remove kora hoyce chaile add kora jabe */}
+      <main className="flex-1 ">{children}</main>
     </div>
   );
 }
