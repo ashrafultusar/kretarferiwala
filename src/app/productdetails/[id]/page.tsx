@@ -1,12 +1,13 @@
 "use client";
 
 import { useParams } from "next/navigation";
-import Image from "next/image";
+
 import { useState } from "react";
 
 import RelatedProducts from "@/components/RelatedProducts/RelatedProducts";
 import { products } from "@/components/HomePage/AllProducts/productsData";
 import Link from "next/link";
+import ProductImageSlider from "@/components/ProductImageSlider/ProductImageSlider";
 
 
 const ProductDetails = () => {
@@ -26,15 +27,9 @@ const ProductDetails = () => {
     <div className="container mx-auto px-4 py-8">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
         {/* Left: Product Image */}
-        <div className="relative w-full h-80 md:h-[500px]">
-          <Image
-            src={product.image}
-            alt={product.name}
-            fill
-            className="object-contain"
-            priority
-          />
-        </div>
+       <ProductImageSlider></ProductImageSlider>
+
+
 
         {/* Right: Product Details */}
         <div className="flex flex-col justify-start space-y-4">
@@ -144,7 +139,7 @@ const ProductDetails = () => {
         </div>
       </div>
       {/* quality Featured
-      <Features></Features> */}
+      
       {/* related products */}
       <div className="my-7">
         <RelatedProducts></RelatedProducts>
