@@ -25,14 +25,14 @@ const ProductDetails = () => {
 
   return (
     <div className="container mx-auto px-4 py-8">
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+      <div className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-2 gap-8 mt-0">
         {/* Left: Product Image */}
        <ProductImageSlider></ProductImageSlider>
 
 
 
         {/* Right: Product Details */}
-        <div className="flex flex-col justify-start space-y-4">
+        <div className="flex flex-col justify-start space-y-4 mt-0 md:mt-1 lg:mt-6">
           <h1 className="text-2xl font-semibold">{product.name}</h1>
           <div className="flex items-center space-x-4">
             <span className="text-red-600 text-3xl font-bold">
