@@ -43,21 +43,21 @@ const ProductDetails = () => {
             </span>
           </div>
 
-          <div className="flex items-center space-x-4">
+          
             <input
               type="number"
               defaultValue={1}
               className="w-16 border rounded p-2"
               min={1}
             />
-            <Link href={'/checkout'}  className="bg-orange-400 hover:bg-orange-500 text-white font-semibold py-2 px-6 rounded cursor-pointer">
+            
+            <Link href={'/checkout'}  className="bg-orange-400 hover:bg-orange-500 text-white font-semibold py-2 md:py-3 px-6 rounded cursor-pointer text-center">
               অর্ডার করুন
             </Link>
-          </div>
 
           {/* Call Button */}
           <div className="space-y-3">
-            <button className="w-full bg-blue-100 text-black p-3 rounded shadow">
+            <button className="w-full bg-blue-100 text-black py-3 rounded shadow">
               কল করতে ক্লিক করুন: 01700400000
             </button>
           </div>
