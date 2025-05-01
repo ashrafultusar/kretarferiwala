@@ -9,46 +9,23 @@ import "swiper/css/navigation";
 import Image from "next/image";
 import Link from "next/link";
 import TitleWithLine from "@/Shared/TitleWithLine/TitleWithLine";
-
-// Define categories and images together
-const categories = [
-  "Electronics",
-  "Kitchen Accessories",
-  "Home Decor",
-  "Home Accessories",
-  "Baby Products",
-  "Safety Products",
-  "Flash Sales",
-  "Tea Store",
-  "Sports Items",
-  "Fashion Wear",
-  "Toys",
-  "Fitness Products",
-];
-
-const images = [
-  "/logo_icon/logo.png",
-  "/logo_icon/logo.png",
-  "/logo_icon/logo.png",
-  "/logo_icon/logo.png",
-  "/logo_icon/logo.png",
-  "/logo_icon/logo.png",
-  "/logo_icon/logo.png",
-  "/logo_icon/logo.png",
-  "/logo_icon/logo.png",
-  "/logo_icon/logo.png",
-  "/logo_icon/logo.png",
-  "/logo_icon/logo.png",
-];
+import useCategories from "@/hooks/useCategories";
 
 const AllCategories: React.FC = () => {
   const prevRef = useRef<HTMLButtonElement>(null);
   const nextRef = useRef<HTMLButtonElement>(null);
   const [navigationReady, setNavigationReady] = useState(false);
+  const { categories } = useCategories();
+
+ 
 
   useEffect(() => {
     setNavigationReady(true);
   }, []);
+
+  if (!categories.length) {
+    return <div className="text-center text-xl font-semibold">Loading Categories...</div>;
+  }
 
   return (
     <div className="container mx-auto my-12 px-4">
@@ -80,23 +57,23 @@ const AllCategories: React.FC = () => {
             1536: { slidesPerView: 7 },
           }}
         >
-          {categories.map((category, index) => (
-            <SwiperSlide key={index}>
-              <Link href={`/products-category/${encodeURIComponent(category)}`}>
+          {categories.map((category) => (
+            <SwiperSlide key={category._id}>
+              <Link href={`/products-category/${encodeURIComponent(category.name)}`}>
                 <div className="flex flex-col items-center justify-center bg-[#f7f9fc] rounded-xl p-6 shadow-sm hover:shadow-md transition-transform duration-300 hover:scale-105 gap-">
                   <div className="w-16 h-16 mb-4 relative">
                     <Image
-                      src={images[index] || "/logo_icon/logo.png"}
-                      alt={category}
+                      src={category.imageUrl || "/logo_icon/logo.png"} // Dynamic category image
+                      alt={category.name}
                       fill
                       className="object-contain"
                     />
                   </div>
                   <h3
                     className="font-semibold text-gray-800 truncate w-full max-w-full whitespace-nowrap overflow-hidden text-center"
-                    title={category}
+                    title={category.name}
                   >
-                    {category}
+                    {category.name}
                   </h3>
 
                   <p className="text-sm text-gray-500">Many items</p>
