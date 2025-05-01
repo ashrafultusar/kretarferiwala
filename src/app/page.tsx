@@ -6,7 +6,7 @@ import Slider from "@/components/Slider/Slider";
 
 export default function Home() {
   return (
-    <div className="flex flex-col min-h-screen">
+    <div className="flex flex-col min-h-screen mt-16 md:mt-40 lg:mt-32">
       {/* Full width Slider */}
       <div className="w-full">
         <Slider />
