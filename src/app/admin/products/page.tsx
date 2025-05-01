@@ -142,31 +142,29 @@ export default function ProductForm() {
 
         {/* Multiple File Input */}
         <div className="w-full border p-2 rounded flex justify-center items-center space-x-2 bg-white">
-  <label
-    htmlFor="imageUpload"
-    className="flex items-center cursor-pointer text-gray-600 hover:text-orange-500"
-  >
-    <MdCloudUpload className="text-xl mr-2"/>
-
-    Upload Images
-  </label>
-  <input
-    id="imageUpload"
-    type="file"
-    accept="image/*"
-    multiple
-    className="hidden"
-    onChange={(e) => {
-      const newFiles = e.target.files ? Array.from(e.target.files) : [];
-      setProduct((prev) => ({
-        ...prev,
-        images: [...prev.images, ...newFiles],
-      }));
-    }}
-    required
-  />
-</div>
-
+          <label
+            htmlFor="imageUpload"
+            className="flex items-center cursor-pointer text-gray-600 hover:text-orange-500"
+          >
+            <MdCloudUpload className="text-xl mr-2" />
+            Upload Images
+          </label>
+          <input
+            id="imageUpload"
+            type="file"
+            accept="image/*"
+            multiple
+            className="hidden"
+            onChange={(e) => {
+              const newFiles = e.target.files ? Array.from(e.target.files) : [];
+              setProduct((prev) => ({
+                ...prev,
+                images: [...prev.images, ...newFiles],
+              }));
+            }}
+            required
+          />
+        </div>
 
         {/* Optional: Show Preview of Selected Images */}
         {product.images.length > 0 && (
