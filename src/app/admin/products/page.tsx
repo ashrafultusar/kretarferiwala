@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Image from "next/image";
+import { toast } from "react-toastify";
 
 export default function ProductForm() {
   const [product, setProduct] = useState({
@@ -10,38 +11,55 @@ export default function ProductForm() {
     description: "",
     regularPrice: "",
     discountPrice: "",
-    image: null as File | null,
+    images: [] as File[],
   });
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-
+  
     const formData = new FormData();
     formData.append("name", product.name);
     formData.append("category", product.category);
     formData.append("description", product.description);
     formData.append("regularPrice", product.regularPrice);
     formData.append("discountPrice", product.discountPrice);
-    if (product.image) {
-      formData.append("image", product.image);
-    }
-
-    console.log("Submitting product:", product);
-    // API call goes here
-
-    setProduct({
-      name: "",
-      category: "",
-      description: "",
-      regularPrice: "",
-      discountPrice: "",
-      image: null,
+  
+    product.images.forEach((file) => {
+      formData.append("images", file);
     });
+  
+    try {
+      const res = await fetch("/api/products", {
+        method: "POST",
+        body: formData,
+      });
+  
+      if (res.ok) {
+        toast.success("Success message");
+        setProduct({
+          name: "",
+          category: "",
+          description: "",
+          regularPrice: "",
+          discountPrice: "",
+          images: [],
+        });
+      } else {
+        const error = await res.json();
+        toast.error("Error: " + error.message);
+      }
+    } catch (err) {
+      console.error(err);
+      toast.error("Something went wrong.");
+    }
   };
+  
+
+
 
   return (
-    <div  >
-      {/*  Banner Section */}
+    <div>
+      {/* Banner Section */}
       <div className="relative w-full h-64 mb-8">
         <Image
           src="/card/card2.jpg"
@@ -49,14 +67,14 @@ export default function ProductForm() {
           fill
           className="object-cover rounded-b-xl"
         />
-        <div className="absolute inset-0 bg-black/40 flex items-center justify-center ">
+        <div className="absolute inset-0 bg-black/40 flex items-center justify-center">
           <h1 className="text-white text-3xl md:text-4xl font-bold">
             Add Your New Product
           </h1>
         </div>
       </div>
 
-      {/*  Product Form */}
+      {/* Product Form */}
       <form
         onSubmit={handleSubmit}
         className="space-y-4 bg-white p-6 rounded-xl shadow max-w-xl mx-auto"
@@ -92,7 +110,9 @@ export default function ProductForm() {
           className="w-full border p-2 rounded"
           rows={4}
           value={product.description}
-          onChange={(e) => setProduct({ ...product, description: e.target.value })}
+          onChange={(e) =>
+            setProduct({ ...product, description: e.target.value })
+          }
           required
         />
 
@@ -120,19 +140,40 @@ export default function ProductForm() {
           />
         </div>
 
+        {/* Multiple File Input */}
         <input
           type="file"
           accept="image/*"
+          multiple
           className="w-full border p-2 rounded"
           onChange={(e) =>
-            setProduct({ ...product, image: e.target.files?.[0] || null })
+            setProduct({
+              ...product,
+              images: e.target.files ? Array.from(e.target.files) : [],
+            })
           }
           required
         />
 
+        {/* Optional: Show Preview of Selected Images */}
+        {product.images.length > 0 && (
+          <div className="grid grid-cols-3 gap-2">
+            {product.images.map((file, index) => (
+              <div key={index} className="w-full h-24 relative border rounded overflow-hidden">
+                <Image
+                  src={URL.createObjectURL(file)}
+                  alt={`Preview ${index + 1}`}
+                  fill
+                  className="object-cover"
+                />
+              </div>
+            ))}
+          </div>
+        )}
+
         <button
           type="submit"
-          className="bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded w-full font-semibold"
+          className="bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded w-full cursor-pointer font-semibold"
         >
           Add Product
         </button>
