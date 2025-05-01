@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Image from "next/image";
 import { toast } from "react-toastify";
+import { MdCloudUpload } from "react-icons/md";
 
 export default function ProductForm() {
   const [product, setProduct] = useState({
@@ -16,24 +17,24 @@ export default function ProductForm() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-  
+
     const formData = new FormData();
     formData.append("name", product.name);
     formData.append("category", product.category);
     formData.append("description", product.description);
     formData.append("regularPrice", product.regularPrice);
     formData.append("discountPrice", product.discountPrice);
-  
+
     product.images.forEach((file) => {
       formData.append("images", file);
     });
-  
+
     try {
       const res = await fetch("/api/products", {
         method: "POST",
         body: formData,
       });
-  
+
       if (res.ok) {
         toast.success("Success message");
         setProduct({
@@ -53,9 +54,6 @@ export default function ProductForm() {
       toast.error("Something went wrong.");
     }
   };
-  
-
-
 
   return (
     <div>
@@ -79,7 +77,9 @@ export default function ProductForm() {
         onSubmit={handleSubmit}
         className="space-y-4 bg-white p-6 rounded-xl shadow max-w-xl mx-auto"
       >
-        <h2 className="text-xl font-semibold mb-4 text-center">Add New Product</h2>
+        <h2 className="text-xl font-semibold mb-4 text-center">
+          Add New Product
+        </h2>
 
         <input
           type="text"
@@ -141,25 +141,41 @@ export default function ProductForm() {
         </div>
 
         {/* Multiple File Input */}
-        <input
-          type="file"
-          accept="image/*"
-          multiple
-          className="w-full border p-2 rounded"
-          onChange={(e) =>
-            setProduct({
-              ...product,
-              images: e.target.files ? Array.from(e.target.files) : [],
-            })
-          }
-          required
-        />
+        <div className="w-full border p-2 rounded flex justify-center items-center space-x-2 bg-white">
+  <label
+    htmlFor="imageUpload"
+    className="flex items-center cursor-pointer text-gray-600 hover:text-orange-500"
+  >
+    <MdCloudUpload className="text-xl mr-2"/>
+
+    Upload Images
+  </label>
+  <input
+    id="imageUpload"
+    type="file"
+    accept="image/*"
+    multiple
+    className="hidden"
+    onChange={(e) => {
+      const newFiles = e.target.files ? Array.from(e.target.files) : [];
+      setProduct((prev) => ({
+        ...prev,
+        images: [...prev.images, ...newFiles],
+      }));
+    }}
+    required
+  />
+</div>
+
 
         {/* Optional: Show Preview of Selected Images */}
         {product.images.length > 0 && (
           <div className="grid grid-cols-3 gap-2">
             {product.images.map((file, index) => (
-              <div key={index} className="w-full h-24 relative border rounded overflow-hidden">
+              <div
+                key={index}
+                className="w-full h-24 relative border rounded overflow-hidden"
+              >
                 <Image
                   src={URL.createObjectURL(file)}
                   alt={`Preview ${index + 1}`}
