@@ -15,9 +15,9 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   };
 
   return (
-    <div className="flex flex-col md:flex-row min-h-screen bg-gray-100">
+    <div className="flex flex-col md:flex-row min-h-screen bg-gray-100 mt-36 lg:mt-32">
       {/* Mobile topbar */}
-      <div className="md:hidden flex items-center justify-between bg-white px-4 py-3 shadow-md">
+      <div className="md:hidden flex items-center justify-between bg-white px-4 py-3 shadow-md ">
         <Link href={'/admin'} className="text-xl font-bold text-orange-500">Admin</Link>
         <button onClick={() => setShowSidebar(!showSidebar)}>
           {showSidebar ? (
@@ -32,7 +32,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
       <aside
         className={`${
           showSidebar ? 'block' : 'hidden'
-        } md:block w-full md:w-64 bg-white shadow-md p-6 space-y-6 absolute md:relative z-20 md:z-auto`}
+        } md:block w-full md:w-64 bg-white shadow-md p-6 space-y-6 absolute md:relative z-20 md:z-auto pt-10`}
       >
         <div className="flex justify-between items-center">
         <Link href={'/admin'} className="text-xl font-bold text-orange-500">Admin Home</Link>
@@ -63,7 +63,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
 
       {/* Main Content */}
       {/* p-4 md:p-8 mt-16 md:mt-0 ei gula ei class theke remove kora hoyce chaile add kora jabe */}
-      <main className="flex-1 ">{children}</main>
+      <main className="flex-1">{children}</main>
     </div>
   );
 }
