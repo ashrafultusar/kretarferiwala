@@ -18,7 +18,6 @@ const AllProducts = () => {
           <ProductCard
             key={product._id}
             id={product._id}
-           
             name={product.name}
             regularPrice={product.regularPrice}
             discountPrice={product.discountPrice}

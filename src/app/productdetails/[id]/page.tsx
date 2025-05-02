@@ -50,7 +50,7 @@ const ProductDetails = () => {
 
     if (id) fetchProduct();
   }, [id]);
-
+console.log(product);
   useEffect(() => {
     const fetchRelatedProducts = async () => {
       if (!product?.category) return;
