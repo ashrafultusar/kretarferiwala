@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import dbConnect from "@/lib/db";
 import Category from "@/models/category";
 import cloudinary from "@/lib/cloudinary";
+import { Types } from "mongoose";
 
 const uploadToCloudinary = async (file: File): Promise<{ secure_url: string }> => {
   const buffer = Buffer.from(await file.arrayBuffer());
@@ -48,6 +49,30 @@ export async function getCategories() {
     return NextResponse.json(categories, { status: 200 });
   } catch (err) {
     console.error("Failed to load categories:", err);
+    return NextResponse.json({ error: "Server error" }, { status: 500 });
+  }
+}
+
+
+
+export async function deleteCategory(req: Request) {
+  try {
+    await dbConnect();
+    const { searchParams } = new URL(req.url);
+    const id = searchParams.get("id");
+
+    if (!id || !Types.ObjectId.isValid(id)) {
+      return NextResponse.json({ error: "Invalid category ID" }, { status: 400 });
+    }
+
+    const deleted = await Category.findByIdAndDelete(id);
+    if (!deleted) {
+      return NextResponse.json({ error: "Category not found" }, { status: 404 });
+    }
+
+    return NextResponse.json({ message: "Category deleted" }, { status: 200 });
+  } catch (err) {
+    console.error("Failed to delete category:", err);
     return NextResponse.json({ error: "Server error" }, { status: 500 });
   }
 }

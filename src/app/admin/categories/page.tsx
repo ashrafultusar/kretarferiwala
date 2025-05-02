@@ -5,6 +5,7 @@ import Image from "next/image";
 import { toast } from "react-toastify";
 
 type Category = {
+  _id: string;
   name: string;
   image: string;
 };
@@ -31,7 +32,7 @@ const CategoryPage = () => {
 
     fetchCategories();
   }, []);
-console.log(categories);
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!category.trim() || !categoryImage) return;
@@ -70,11 +71,25 @@ console.log(categories);
       setImagePreview(URL.createObjectURL(file));
     }
   };
+  const handleDelete = async (id: string, index: number) => {
+    try {
+      const res = await fetch(`/api/category?id=${id}`, {
+        method: "DELETE",
+      });
 
-  const handleDelete = (index: number) => {
-    const updated = [...categories];
-    updated.splice(index, 1);
-    setCategories(updated);
+      if (res.ok) {
+        const updated = [...categories];
+        updated.splice(index, 1);
+        setCategories(updated);
+        toast.success("Category deleted");
+      } else {
+        const error = await res.json();
+        toast.error(error.error || "Failed to delete category");
+      }
+    } catch (err) {
+      console.error(err);
+      toast.error("Something went wrong");
+    }
   };
 
   return (
@@ -140,7 +155,9 @@ console.log(categories);
               All Categories
             </h3>
             {categories.length === 0 ? (
-              <p className="text-gray-600 text-center">No categories added yet.</p>
+              <p className="text-gray-600 text-center">
+                No categories added yet.
+              </p>
             ) : (
               <ul className="space-y-3 max-h-[400px] overflow-y-auto pr-2">
                 {categories.map((cat, index) => (
@@ -149,18 +166,20 @@ console.log(categories);
                     className="flex justify-between items-center px-4 py-2 rounded bg-white shadow-sm"
                   >
                     <div className="flex items-center gap-3">
-                      <Image 
+                      <Image
                         src={cat.image}
                         alt={cat.name}
                         width={40}
                         height={40}
                         className="rounded object-cover"
                       />
-                      <span className="text-gray-800 font-medium">{cat.name}</span>
+                      <span className="text-gray-800 font-medium">
+                        {cat.name}
+                      </span>
                     </div>
                     <button
-                      onClick={() => handleDelete(index)}
-                      className="text-red-500 hover:text-red-700 text-sm font-semibold"
+                      onClick={() => handleDelete(cat._id, index)}
+                      className="bg-orange-500 px-3 rounded-md py-2 text-white hover:bg-orange-600 text-sm font-semibold cursor-pointer"
                     >
                       Delete
                     </button>

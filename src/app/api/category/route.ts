@@ -1,4 +1,4 @@
-import { createCategory, getCategories } from "@/controller/categoryController";
+import { createCategory, deleteCategory, getCategories } from "@/controller/categoryController";
 
 export async function POST(req: Request) {
   return createCategory(req);
@@ -6,4 +6,8 @@ export async function POST(req: Request) {
 
 export async function GET() {
   return getCategories();
+}
+
+export async function DELETE(req: Request) {
+  return deleteCategory(req);
 }
