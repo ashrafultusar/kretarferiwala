@@ -1,4 +1,4 @@
-// app/page.tsx or app/home/page.tsx (Next.js 13+ এর জন্য)
+"use client";
 import AllCategories from "@/components/AllCategories/AllCategories";
 import AllProducts from "@/components/HomePage/AllProducts/AllProducts";
 
@@ -13,7 +13,6 @@ export default function Home() {
       </div>
       <AllCategories></AllCategories>
       <AllProducts></AllProducts>
-      
     </div>
   );
 }

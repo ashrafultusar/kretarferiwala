@@ -4,6 +4,7 @@ import { useEffect, useState, useCallback } from "react";
 export type Category = {
   _id: string;
   name: string;
+  image:string;
 };
 
 const useCategories = () => {
