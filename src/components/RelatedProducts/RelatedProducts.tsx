@@ -1,19 +1,31 @@
-import ProductCard from '@/Shared/ProductCard/ProductCard';
-import TitleWithLine from '@/Shared/TitleWithLine/TitleWithLine';
-import React from 'react';
-import { products } from '../HomePage/AllProducts/productsData';
+import ProductCard from "@/Shared/ProductCard/ProductCard";
 
-const RelatedProducts = () => {
-    return (
-        <div>
-            <TitleWithLine title='Related Products'></TitleWithLine>
-            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-5 gap-6">
-        {products.map((Product) => (
-          <ProductCard key={Product.id} {...Product} />
+
+interface Product {
+  id: string;
+  name: string;
+  regularPrice: number;
+  discountPrice: number;
+  image: string;
+  category?: string;
+  code?: string;
+}
+
+interface RelatedProductsProps {
+  relatedProducts: Product[];
+}
+
+export default function RelatedProducts({ relatedProducts }: RelatedProductsProps) {
+  if (!relatedProducts.length) return null;
+
+  return (
+    <div className="mt-12">
+      <h2 className="text-lg md:text-2xl font-bold text-gray-800 mb-6">Related Products</h2>
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+        {relatedProducts.map((product) => (
+          <ProductCard key={product.id} {...product} />
         ))}
       </div>
-        </div>
-    );
-};
-
-export default RelatedProducts;
+    </div>
+  );
+}

@@ -2,9 +2,11 @@
 
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
-import RelatedProducts from "@/components/RelatedProducts/RelatedProducts";
+
 import ProductImageSlider from "@/components/ProductImageSlider/ProductImageSlider";
 import Link from "next/link";
+import TitleWithLine from "@/Shared/TitleWithLine/TitleWithLine";
+import ProductCard from "@/Shared/ProductCard/ProductCard";
 
 interface Product {
   id: string;
@@ -13,19 +15,20 @@ interface Product {
   description: string;
   discountPrice: number;
   regularPrice: number;
+  category: string;
   code?: string;
 }
-
-
 
 const ProductDetails = () => {
   const params = useParams();
   const id = params?.id as string;
 
   const [product, setProduct] = useState<Product | null>(null);
-
+  const [relatedProducts, setRelatedProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
-  const [activeTab, setActiveTab] = useState<"description" | "return">("description");
+  const [activeTab, setActiveTab] = useState<"description" | "return">(
+    "description"
+  );
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -48,36 +51,74 @@ const ProductDetails = () => {
     if (id) fetchProduct();
   }, [id]);
 
+  useEffect(() => {
+    const fetchRelatedProducts = async () => {
+      if (!product?.category) return;
+
+      try {
+        const res = await fetch(`/api/products/related/${product.category}`);
+        const data = await res.json();
+        if (data.success) {
+          const filtered = data.data.filter((p: Product) => p.id !== id);
+          setRelatedProducts(filtered);
+        }
+      } catch (err) {
+        console.error("Failed to load related products:", err);
+      }
+    };
+
+    if (product) fetchRelatedProducts();
+  }, [product]);
+
   if (loading) {
-    return <div className="text-center py-10"><span className="loading loading-bars loading-xl text-red-500"></span></div>;
+    return (
+      <div className="text-center py-10">
+        <span className="loading loading-bars loading-xl text-red-500"></span>
+      </div>
+    );
   }
 
   if (!product) {
     return <div className="text-center py-10">প্রোডাক্ট পাওয়া যায়নি</div>;
   }
 
-
   return (
     <div className="container mx-auto px-4 py-8 mt-32">
       <div className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-2 gap-8 mt-0">
-        {/* Left: Product Image */}
         <ProductImageSlider images={product?.images} />
 
-        {/* Right: Product Details */}
         <div className="flex flex-col justify-start space-y-4 mt-0 md:mt-1 lg:mt-6">
           <h1 className="text-2xl font-semibold">{product?.name}</h1>
           <div className="flex items-center space-x-4">
-            <span className="text-red-600 text-3xl font-bold">৳ {product?.discountPrice}</span>
-            <span className="line-through text-gray-500">৳ {product?.regularPrice}</span>
+            <span className="text-red-600 text-3xl font-bold">
+              ৳ {product?.discountPrice}
+            </span>
+            <span className="line-through text-gray-500">
+              ৳ {product?.regularPrice}
+            </span>
           </div>
-          <input type="number" defaultValue={1} className="w-16 border rounded p-2" min={1} />
-          <Link href="/checkout" className="bg-orange-400 hover:bg-orange-500 text-white font-semibold py-2 md:py-3 px-6 rounded cursor-pointer text-center">
+          <input
+            type="number"
+            defaultValue={1}
+            className="w-16 border rounded p-2"
+            min={1}
+          />
+          <Link
+            href="/checkout"
+            className="bg-orange-400 hover:bg-orange-500 text-white font-semibold py-2 md:py-3 px-6 rounded cursor-pointer text-center"
+          >
             অর্ডার করুন
           </Link>
           <button className="w-full bg-blue-100 text-black py-3 rounded shadow">
             কল করতে ক্লিক করুন: 01700400000
           </button>
-          <p className="font-bold">Code : <span className="font-medium">{product.code || "N/A"}</span></p>
+          <p className="font-bold">
+            Code : <span className="font-medium">{product.code || "N/A"}</span>
+          </p>
+          <p className="font-bold">
+            Category :{" "}
+            <span className="font-medium">{product?.category || "N/A"}</span>
+          </p>
           <div className="text-sm">
             <div className="flex justify-between border-t pt-3">
               <span>ঢাকায় ডেলিভারি খরচ</span>
@@ -93,11 +134,13 @@ const ProductDetails = () => {
 
       {/* Tabs */}
       <div className="mt-8">
-        <div className="flex  space-x-4 border-b">
+        <div className="flex space-x-4 border-b">
           <button
             onClick={() => setActiveTab("description")}
             className={`py-2 px-4 cursor-pointer ${
-              activeTab === "description" ? "border-b-2 border-green-600 text-green-600 font-semibold" : "text-gray-500"
+              activeTab === "description"
+                ? "border-b-2 border-green-600 text-green-600 font-semibold"
+                : "text-gray-500"
             }`}
           >
             Description
@@ -105,7 +148,9 @@ const ProductDetails = () => {
           <button
             onClick={() => setActiveTab("return")}
             className={`py-2 px-4 cursor-pointer ${
-              activeTab === "return" ? "border-b-2 border-green-600 text-green-600 font-semibold" : "text-gray-500"
+              activeTab === "return"
+                ? "border-b-2 border-green-600 text-green-600 font-semibold"
+                : "text-gray-500"
             }`}
           >
             Return Policy
@@ -116,8 +161,13 @@ const ProductDetails = () => {
             <div dangerouslySetInnerHTML={{ __html: product.description }} />
           ) : (
             <div>
-              <p>১) উল্লিখিত ডেলিভারি চার্জ ১ কেজি পর্যন্ত ওজনের পণ্যের জন্য।</p>
-              <p className="mt-2">২) ছবি এবং বর্ণনার সাথে পণ্য মিলে থাকা সত্ত্বেও রিটার্ন করতে চাইলে কুরিয়ার চার্জ নিজ দায়িত্বে দিতে হবে।</p>
+              <p>
+                ১) উল্লিখিত ডেলিভারি চার্জ ১ কেজি পর্যন্ত ওজনের পণ্যের জন্য।
+              </p>
+              <p className="mt-2">
+                ২) ছবি এবং বর্ণনার সাথে পণ্য মিলে থাকা সত্ত্বেও রিটার্ন করতে
+                চাইলে কুরিয়ার চার্জ নিজ দায়িত্বে দিতে হবে।
+              </p>
             </div>
           )}
         </div>
@@ -125,7 +175,19 @@ const ProductDetails = () => {
 
       {/* Related products */}
       <div className="my-7">
-        <RelatedProducts />
+        <TitleWithLine title="Related Products" />
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+          {relatedProducts.map((item) => (
+            <ProductCard
+              key={item._id}
+              id={item._id}
+              name={item.name}
+              regularPrice={item.regularPrice}
+              discountPrice={item.discountPrice}
+              image={item.images[0]} // Use first image
+            />
+          ))}
+        </div>
       </div>
     </div>
   );

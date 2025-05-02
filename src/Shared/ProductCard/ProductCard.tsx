@@ -7,6 +7,7 @@ interface ProductCardProps {
   regularPrice: number;
   discountPrice: number;
   image: string;
+  
 }
 
 export default function ProductCard({
