@@ -9,15 +9,13 @@ import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/thumbs";
 
-const ProductImageSlider = () => {
-  const [thumbsSwiper, setThumbsSwiper] = useState<SwiperType | null>(null); // ✅ Correct type
+interface ProductImageSliderProps {
+  images: string[];
+}
 
-  const images = [
-    "/card/card2.jpg",
-    "/card/card2.jpg",
-    "/card/card2.jpg",
-    "/card/card2.jpg",
-  ];
+const ProductImageSlider = ({images}:ProductImageSliderProps) => {
+  const [thumbsSwiper, setThumbsSwiper] = useState<SwiperType | null>(null); 
+
 
   return (
     <div>
