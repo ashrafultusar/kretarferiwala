@@ -19,7 +19,7 @@ const AllProducts = () => {
             key={product._id}
             id={product._id}
             name={product.name}
-regularPrice={product.regularPrice}
+            regularPrice={product.regularPrice}
             discountPrice={product.discountPrice}
             image={product.images[0]} // Use first image
           />

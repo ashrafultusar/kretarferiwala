@@ -17,7 +17,7 @@ const AllCategories: React.FC = () => {
   const [navigationReady, setNavigationReady] = useState(false);
   const { categories } = useCategories();
 
- 
+ console.log(categories);
 
   useEffect(() => {
     setNavigationReady(true);
@@ -63,8 +63,8 @@ const AllCategories: React.FC = () => {
                 <div className="flex flex-col items-center justify-center bg-[#f7f9fc] rounded-xl p-6 shadow-sm hover:shadow-md transition-transform duration-300 hover:scale-105 gap-">
                   <div className="w-16 h-16 mb-4 relative">
                     <Image
-                      src= "/logo_icon/logo.png" // Dynamic category image
-                      alt={category.name}
+                      src= {category?.image}
+                      alt={category?.name}
                       fill
                       className="object-contain"
                     />
@@ -76,7 +76,7 @@ const AllCategories: React.FC = () => {
                     {category.name}
                   </h3>
 
-                  <p className="text-sm text-gray-500">Many items</p>
+                  
                 </div>
               </Link>
             </SwiperSlide>
