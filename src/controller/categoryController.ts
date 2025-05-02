@@ -1,34 +1,46 @@
 import { NextResponse } from "next/server";
 import dbConnect from "@/lib/db";
 import Category from "@/models/category";
+import cloudinary from "@/lib/cloudinary";
 
+const uploadToCloudinary = async (file: File): Promise<{ secure_url: string }> => {
+  const buffer = Buffer.from(await file.arrayBuffer());
 
-// POST: Create Category
+  return new Promise((resolve, reject) => {
+    cloudinary.uploader.upload_stream(
+      { folder: "categories" },
+      (err, result) => {
+        if (err) {
+          reject(err);
+        } else {
+          resolve(result as { secure_url: string });
+        }
+      }
+    ).end(buffer);
+  });
+};
+
 export async function createCategory(req: Request) {
   try {
     await dbConnect();
-    const { name } = await req.json();
+    const formData = await req.formData();
+    const name = formData.get("name")?.toString().trim();
+    const file = formData.get("image") as File | null;
 
-    if (!name || !name.trim()) {
-      return NextResponse.json({ error: "Category name is required" }, { status: 400 });
+    if (!name || !file) {
+      return NextResponse.json({ error: "Name and image are required" }, { status: 400 });
     }
 
-    // Check if category already exists
-    const existing = await Category.findOne({ name: name.trim() }); // ✅ fixed 'category' -> 'Category'
-    if (existing) {
-      return NextResponse.json({ error: "Category already exists" }, { status: 409 });
-    }
+    const { secure_url } = await uploadToCloudinary(file);
 
-    // Create new category
-    const newCategory = await Category.create({ name: name.trim() });
+    const newCategory = await Category.create({ name, image: secure_url });
     return NextResponse.json(newCategory, { status: 201 });
   } catch (err) {
-    console.error("Failed to load categories:", err);
+    console.error("Failed to create category:", err);
     return NextResponse.json({ error: "Server error" }, { status: 500 });
   }
 }
 
-// GET: Fetch All Categories
 export async function getCategories() {
   try {
     await dbConnect();

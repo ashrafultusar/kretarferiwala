@@ -1,21 +1,3 @@
-// import { NextResponse } from 'next/server';
-
-// import Product from '@/models/Product';
-// import dbConnect from '@/lib/db';
-
-// export async function GET() {
-//   await dbConnect();
-//   const products = await Product.find();
-//   return NextResponse.json(products);
-// }
-
-// export async function POST(req: Request) {
-//   await dbConnect();
-//   const data = await req.json();
-//   const newProduct = await Product.create(data);
-//   return NextResponse.json(newProduct, { status: 201 });
-// }
-
 
 import { NextResponse } from 'next/server';
 
@@ -40,4 +22,4 @@ export async function POST(req: Request) {
   } else {
     return NextResponse.json({ message: "Unsupported content type" }, { status: 400 });
   }
-}
+} 

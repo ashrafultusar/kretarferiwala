@@ -1,5 +1,5 @@
 // hooks/useCategories.ts
-import { useEffect, useState, useCallback } from 'react';
+import { useEffect, useState, useCallback } from "react";
 
 export type Category = {
   _id: string;
@@ -13,11 +13,11 @@ const useCategories = () => {
   const fetchCategories = useCallback(async () => {
     try {
       setLoading(true);
-      const res = await fetch('/api/category');
+      const res = await fetch("/api/category");
       const data = await res.json();
       setCategories(data);
     } catch (error) {
-      console.error('Error fetching categories:', error);
+      console.error("Error fetching categories:", error);
     } finally {
       setLoading(false);
     }

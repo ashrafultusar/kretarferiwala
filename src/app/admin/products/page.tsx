@@ -36,7 +36,7 @@ export default function ProductForm() {
       });
 
       if (res.ok) {
-        toast.success("Success message");
+        toast.success("Products add successfuly");
         setProduct({
           name: "",
           category: "",

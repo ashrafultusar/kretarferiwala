@@ -15,6 +15,7 @@ export default function Navbar() {
   const [lastScrollY, setLastScrollY] = useState(0); // track scroll position
 
   const { categories } = useCategories();
+  
 
   const handleScroll = () => {
     if (typeof window !== "undefined") {

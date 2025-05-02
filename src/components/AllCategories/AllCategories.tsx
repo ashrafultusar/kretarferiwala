@@ -63,7 +63,7 @@ const AllCategories: React.FC = () => {
                 <div className="flex flex-col items-center justify-center bg-[#f7f9fc] rounded-xl p-6 shadow-sm hover:shadow-md transition-transform duration-300 hover:scale-105 gap-">
                   <div className="w-16 h-16 mb-4 relative">
                     <Image
-                      src={category.imageUrl || "/logo_icon/logo.png"} // Dynamic category image
+                      src= "/logo_icon/logo.png" // Dynamic category image
                       alt={category.name}
                       fill
                       className="object-contain"
