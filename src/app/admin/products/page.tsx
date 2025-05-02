@@ -5,10 +5,11 @@ import Image from "next/image";
 import { toast } from "react-toastify";
 import { MdCloudUpload } from "react-icons/md";
 import useCategories from "@/hooks/useCategories";
+import { AiOutlineLoading3Quarters } from "react-icons/ai";
 
 export default function ProductForm() {
   const {categories}=useCategories()
-
+const [isLoading, setIsLoading] = useState(false);
   const [product, setProduct] = useState({
     name: "",
     category: "",
@@ -20,7 +21,7 @@ export default function ProductForm() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-
+    setIsLoading(true);
     const formData = new FormData();
     formData.append("name", product.name);
     formData.append("category", product.category);
@@ -55,6 +56,8 @@ export default function ProductForm() {
     } catch (err) {
       console.error(err);
       toast.error("Something went wrong.");
+    }finally {
+      setIsLoading(false); // ✅ Stop the spinner
     }
   };
 
@@ -191,9 +194,13 @@ export default function ProductForm() {
 
         <button
           type="submit"
-          className="bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded w-full cursor-pointer font-semibold"
-        >
-          Add Product
+          className="bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded w-full cursor-pointer font-semibold flex items-center justify-center"
+        >{isLoading ? (
+          <AiOutlineLoading3Quarters className="text-center animate-spin h-5 w-5 text-white" />
+        ) : (
+          "Add Product"
+        )}
+          
         </button>
       </form>
     </div>

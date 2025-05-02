@@ -3,6 +3,7 @@
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import { toast } from "react-toastify";
+import { AiOutlineLoading3Quarters } from "react-icons/ai";
 
 type Category = {
   _id: string;
@@ -15,6 +16,7 @@ const CategoryPage = () => {
   const [categories, setCategories] = useState<Category[]>([]);
   const [categoryImage, setCategoryImage] = useState<File | null>(null);
   const [imagePreview, setImagePreview] = useState<string>("");
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     const fetchCategories = async () => {
@@ -40,7 +42,7 @@ const CategoryPage = () => {
     const formData = new FormData();
     formData.append("name", category);
     formData.append("image", categoryImage);
-
+    setIsLoading(true);
     try {
       const res = await fetch("/api/category", {
         method: "POST",
@@ -61,6 +63,8 @@ const CategoryPage = () => {
     } catch (err) {
       console.error(err);
       toast.error("Something went wrong");
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -144,7 +148,11 @@ const CategoryPage = () => {
                 type="submit"
                 className="bg-orange-500 text-white px-4 py-2 rounded hover:bg-orange-600 cursor-pointer"
               >
-                Add
+                {isLoading ? (
+                  <AiOutlineLoading3Quarters className="text-center animate-spin h-5 w-5 text-white" />
+                ) : (
+                  "Add"
+                )}
               </button>
             </form>
           </div>
