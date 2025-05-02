@@ -96,7 +96,7 @@ const Footer = () => {
             <div className="h-[2px] w-10 bg-white mb-4" />
             <div className="w-full">
               <iframe
-                src="https://www.facebook.com/profile.php?id=100091527039942"
+                src="/card/card2.jpg"
                 width="100%"
                 height="150"
                 style={{ border: "none", overflow: "hidden" }}

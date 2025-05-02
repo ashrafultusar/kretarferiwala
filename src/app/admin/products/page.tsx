@@ -4,8 +4,11 @@ import { useState } from "react";
 import Image from "next/image";
 import { toast } from "react-toastify";
 import { MdCloudUpload } from "react-icons/md";
+import useCategories from "@/hooks/useCategories";
 
 export default function ProductForm() {
+  const {categories}=useCategories()
+
   const [product, setProduct] = useState({
     name: "",
     category: "",
@@ -92,18 +95,19 @@ export default function ProductForm() {
 
         {/* Category Dropdown */}
         <select
-          className="w-full border p-2 rounded"
-          value={product.category}
-          onChange={(e) => setProduct({ ...product, category: e.target.value })}
-          required
-        >
-          <option value="">Select Category</option>
-          <option value="skin-care">Skin Care</option>
-          <option value="hair-care">Hair Care</option>
-          <option value="makeup">Makeup</option>
-          <option value="fragrance">Fragrance</option>
-          <option value="wellness">Wellness</option>
-        </select>
+  className="w-full border p-2 rounded"
+  value={product.category}
+  onChange={(e) => setProduct({ ...product, category: e.target.value })}
+  required
+>
+  <option value="">Select Category</option>
+  {categories?.map((cat) => (
+    <option key={cat._id} value={cat.name}>
+      {cat.name}
+    </option>
+  ))}
+</select>
+
 
         <textarea
           placeholder="Product Description"
