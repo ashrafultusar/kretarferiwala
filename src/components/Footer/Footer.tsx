@@ -1,10 +1,116 @@
+"use client";
+
 import React from "react";
+import {
+  FaFacebookF,
+  FaInstagram,
+  FaEnvelope,
+  FaLinkedinIn,
+  FaYoutube,
+} from "react-icons/fa";
 
 const Footer = () => {
   return (
-    <footer >
-      <div className="border-t text-center border-gray-700 mt-5 pt-5 text-black text-sm bg-orange-400">
-        &copy; 2025 <span className="font-bold"><a href="https://ashraful-tusar.vercel.app">Ashraful Islam</a></span> All rights reserved.
+    <footer>
+      <div className="bg-[#db912f] text-white py-10 px-4">
+        <div className="container mx-auto grid grid-cols-1 md:grid-cols-4 gap-10">
+          {/* Outlet Location */}
+          <div>
+            <h4 className="text-lg font-semibold mb-2">Outlet Location</h4>
+            <div className="h-[2px] w-10 bg-white mb-4" />
+            <p className="text-black leading-relaxed text-sm">
+              ৩য় তলা, এভারগ্রিন মিজান ক্যমার, <br />
+              ৬২১/১, মেট্রো স্টেশনের পাশে, পিলার নং-২৭৪, কাজীপাড়া, মিরপুর,{" "}
+              <br />
+              ঢাকা-১২১৬ <br />
+              কল করুনঃ 09613-657755 <br />
+              ইমেইল করুনঃ <br />
+              info@xyz.com
+            </p>
+            {/* Social Icons */}
+            <div className="flex items-center gap-3 mt-4">
+              <a href="#" className="text-black hover:text-white">
+                <FaFacebookF />
+              </a>
+              <a href="#" className="text-black hover:text-white">
+                <FaInstagram />
+              </a>
+              <a href="#" className="text-black hover:text-white">
+                <FaEnvelope />
+              </a>
+              <a href="#" className="text-black hover:text-white">
+                <FaLinkedinIn />
+              </a>
+              <a href="#" className="text-black hover:text-white">
+                <FaYoutube />
+              </a>
+            </div>
+          </div>
+
+          {/* For Customer */}
+          <div>
+            <h4 className="text-lg font-semibold mb-2">For Customer</h4>
+            <div className="h-[2px] w-10 bg-white mb-4" />
+            <ul className="text-black text-sm space-y-2">
+              <li>
+                <a href="#">Contact</a>
+              </li>
+              <li>
+                <a href="#">Refund and Returns</a>
+              </li>
+              <li>
+                <a href="#">FAQ</a>
+              </li>
+              <li>
+                <a href="#">Blog</a>
+              </li>
+              <li>
+                <a href="#">Corporate Deal</a>
+              </li>
+            </ul>
+          </div>
+
+          {/* Company */}
+          <div>
+            <h4 className="text-lg font-semibold mb-2">Company</h4>
+            <div className="h-[2px] w-10 bg-white mb-4" />
+            <ul className="text-black text-sm space-y-2">
+              <li>
+                <a href="#">About</a>
+              </li>
+              <li>
+                <a href="#">Terms & Conditions</a>
+              </li>
+              <li>
+                <a href="#">Privacy Policy</a>
+              </li>
+              <li>
+                <a href="#">Career</a>
+              </li>
+            </ul>
+          </div>
+
+          {/* Facebook Embed */}
+          <div>
+            <h4 className="text-lg font-semibold mb-2">Like Us On Facebook</h4>
+            <div className="h-[2px] w-10 bg-white mb-4" />
+            <div className="w-full">
+              <iframe
+                src="https://www.facebook.com/profile.php?id=100091527039942"
+                width="100%"
+                height="150"
+                style={{ border: "none", overflow: "hidden" }}
+                allowFullScreen
+                allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"
+                title="Facebook Page"
+              ></iframe>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div className="border-t text-center border-gray-700  py-4 text-black text-sm ">
+       <p> &copy; 2025 <span className="font-bold"><a >Kretarferiwala</a></span> All rights reserved.</p>
+       <p>Develop by <a className="font-bold" href="https://ashraful-tusar.vercel.app">Tusar</a></p>
       </div>
     </footer>
   );
