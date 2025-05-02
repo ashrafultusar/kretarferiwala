@@ -7,7 +7,7 @@ const page = () => {
   const totalAmount = 6067;
 
   return (
-    <div className="flex justify-center px-4 py-10">
+    <div className="flex justify-center px-4 py-10 mt-14 md:mt-32">
       <div className="bg-white shadow-md rounded-lg p-8 max-w-7xl w-full text-center">
         <h1 className="text-3xl font-bold text-green-600 mb-6">Order Place Successfully</h1>
 

@@ -89,10 +89,10 @@ console.log(product);
 
         <div className="flex flex-col justify-start space-y-4 mt-0 md:mt-1 lg:mt-6">
           <h1 className="text-2xl font-semibold">{product?.name}</h1>
-          <div className="flex items-center space-x-4">
-            <span className="text-red-600 text-3xl font-bold">
-              ৳ {product?.discountPrice}
-            </span>
+          <div className="flex items-center space-x-4 ">
+         <p className="text-3xl font-bold">Price: <span className="text-red-600 text-3xl font-bold">
+               ৳ {product?.discountPrice}
+            </span></p>
             <span className="line-through text-gray-500">
               ৳ {product?.regularPrice}
             </span>
