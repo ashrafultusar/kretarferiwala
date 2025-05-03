@@ -5,14 +5,14 @@ interface PaginationProps {
   totalPages: number;
   onPageChange: (page: number) => void;
 }
- 
+
 const Pagination: React.FC<PaginationProps> = ({
   currentPage,
   totalPages,
   onPageChange,
 }) => {
   const createPageNumbers = () => {
-    const pages = [];
+    const pages: (number | string)[] = [];
 
     if (totalPages <= 7) {
       for (let i = 1; i <= totalPages; i++) pages.push(i);
@@ -34,21 +34,23 @@ const Pagination: React.FC<PaginationProps> = ({
 
   return (
     <div className="flex justify-center mt-6">
+      {/* Left Arrow */}
       <a
         href="#"
         onClick={(e) => {
           e.preventDefault();
           if (currentPage > 1) onPageChange(currentPage - 1);
         }}
-        className={`flex items-center justify-center px-4 py-2 mx-1 rounded-md bg-orange-400 hover:bg-orange-500 ${
+        className={`flex items-center justify-center px-4 py-2 mx-1 rounded-md border transition-colors ${
           currentPage === 1
-            ? "text-gray-400 cursor-not-allowed"
-            : "text-gray-700  hover:text-white"
+            ? "bg-orange-500 text-white cursor-not-allowed"
+            : "text-gray-700 hover:bg-orange-400 hover:text-white"
         }`}
       >
         &#8592;
       </a>
 
+      {/* Page Numbers */}
       {createPageNumbers().map((item, index) =>
         typeof item === "number" ? (
           <a
@@ -58,10 +60,10 @@ const Pagination: React.FC<PaginationProps> = ({
               e.preventDefault();
               onPageChange(item);
             }}
-            className={`px-4 py-2 mx-1 rounded-md ${
+            className={`px-4 py-2 mx-1 rounded-md border transition-colors ${
               currentPage === item
-                ? "bg-blue-500 text-white"
-                : "text-gray-700 hover:bg-blue-500 hover:text-white"
+                ? "bg-orange-300 text-black font-bold cursor-not-allowed"
+                : "text-gray-700 hover:bg-orange-400 hover:text-white"
             }`}
           >
             {item}
@@ -73,16 +75,17 @@ const Pagination: React.FC<PaginationProps> = ({
         )
       )}
 
+      {/* Right Arrow */}
       <a
         href="#"
         onClick={(e) => {
           e.preventDefault();
           if (currentPage < totalPages) onPageChange(currentPage + 1);
         }}
-        className={`flex items-center justify-center px-4 py-2 mx-1 rounded-md ${
+        className={`flex items-center justify-center px-4 py-2 mx-1 rounded-md border transition-colors ${
           currentPage === totalPages
-            ? "text-gray-400 cursor-not-allowed"
-            : "text-gray-700 hover:bg-blue-500 hover:text-white"
+            ? "bg-orange-500 text-white cursor-not-allowed"
+            : "text-gray-700 hover:bg-orange-400 hover:text-white"
         }`}
       >
         &#8594;
