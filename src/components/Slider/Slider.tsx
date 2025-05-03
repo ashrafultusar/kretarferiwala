@@ -41,7 +41,7 @@ const Slider = () => {
         <div className="hidden md:flex absolute bottom-10 left-1/2 transform -translate-x-1/2 z-20">
           <button
             onClick={handleScrollDown}
-            className="bg-white text-black rounded-full p-4 shadow-lg hover:bg-gray-200 transition animate-bounce"
+            className="bg-white text-black rounded-full p-4 shadow-lg hover:bg-gray-200 transition animate-bounce cursor-pointer"
           >
             ↓
           </button>

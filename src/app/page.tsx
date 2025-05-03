@@ -4,6 +4,7 @@ import AllProducts from "@/components/HomePage/AllProducts/AllProducts";
 
 import Slider from "@/components/Slider/Slider";
 
+
 export default function Home() {
   return (
     <div className="flex flex-col min-h-screen mt-16 md:mt-40 lg:mt-32">
@@ -13,6 +14,7 @@ export default function Home() {
       </div>
       <AllCategories></AllCategories>
       <AllProducts></AllProducts>
+     
     </div>
   );
 }

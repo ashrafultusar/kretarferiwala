@@ -23,7 +23,7 @@ export default function ProductCard({
       {/* Product Image */}
       <div className="relative h-56 w-full overflow-hidden">
         <Image
-          src={image}
+        src={image || "/placeholder.png"}
           alt={name}
           width={400}
           height={400}

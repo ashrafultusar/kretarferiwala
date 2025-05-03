@@ -7,6 +7,7 @@ import ProductImageSlider from "@/components/ProductImageSlider/ProductImageSlid
 import Link from "next/link";
 import TitleWithLine from "@/Shared/TitleWithLine/TitleWithLine";
 import ProductCard from "@/Shared/ProductCard/ProductCard";
+import Pagination from "@/components/Pagination/Pagination";
 
 interface Product {
   id: string;
@@ -30,6 +31,9 @@ const ProductDetails = () => {
     "description"
   );
 
+  const [currentPage, setCurrentPage] = useState(1);
+  const productsPerPage = 12;
+
   useEffect(() => {
     const fetchProduct = async () => {
       try {
@@ -50,7 +54,7 @@ const ProductDetails = () => {
 
     if (id) fetchProduct();
   }, [id]);
-console.log(product);
+
   useEffect(() => {
     const fetchRelatedProducts = async () => {
       if (!product?.category) return;
@@ -69,6 +73,12 @@ console.log(product);
 
     if (product) fetchRelatedProducts();
   }, [product]);
+
+  const totalPages = Math.ceil(relatedProducts.length / productsPerPage);
+  const paginatedProducts = relatedProducts.slice(
+    (currentPage - 1) * productsPerPage,
+    currentPage * productsPerPage
+  );
 
   if (loading) {
     return (
@@ -172,12 +182,12 @@ console.log(product);
           )}
         </div>
       </div>
-
+ 
       {/* Related products */}
       <div className="my-7">
         <TitleWithLine title="Related Products" />
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-          {relatedProducts.map((item) => (
+          {paginatedProducts.map((item) => (
             <ProductCard
               key={item._id}
               id={item._id}
@@ -188,6 +198,15 @@ console.log(product);
             />
           ))}
         </div>
+
+        {/* Pagination only if more than 40 */}
+        {relatedProducts.length > 40 && (
+          <Pagination
+            currentPage={currentPage}
+            totalPages={totalPages}
+            onPageChange={setCurrentPage}
+          />
+        )}
       </div>
     </div>
   );
