@@ -107,12 +107,7 @@ const ProductDetails = () => {
               ৳ {product?.regularPrice}
             </span>
           </div>
-          <input
-            type="number"
-            defaultValue={1}
-            className="w-16 border rounded p-2"
-            min={1}
-          />
+         
           <Link
             href="/checkout"
             className="bg-orange-400 hover:bg-orange-500 text-white font-semibold py-2 md:py-3 px-6 rounded cursor-pointer text-center"

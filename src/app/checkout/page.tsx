@@ -17,7 +17,7 @@ const OrderConfirmation = () => {
   const totalAmount = subTotal + deliveryCharge;
 
   return (
-    <div className="flex flex-col md:flex-row items-start gap-8 max-w-7xl mx-auto px-4 py-8">
+    <div className="flex flex-col md:flex-row items-start gap-8 max-w-7xl mx-auto px-4 py-8 mt-32">
 
       {/* Left Form */}
       <div className="bg-white w-full md:w-1/2 p-6 rounded-lg shadow-md">
