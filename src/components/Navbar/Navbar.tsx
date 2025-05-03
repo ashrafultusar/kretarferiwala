@@ -7,15 +7,24 @@ import { ImCross } from "react-icons/im";
 import { FiShoppingCart } from "react-icons/fi";
 import { FaSearch } from "react-icons/fa";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import useCategories from "@/hooks/useCategories";
 
 export default function Navbar() {
-  const [isOpen, setIsOpen] = useState(false);
-  const [scrollDirection, setScrollDirection] = useState("up"); // 'up' or 'down'
-  const [lastScrollY, setLastScrollY] = useState(0); // track scroll position
-
   const { categories } = useCategories();
-  
+  const [isOpen, setIsOpen] = useState(false);
+  const [scrollDirection, setScrollDirection] = useState("up");
+  const [lastScrollY, setLastScrollY] = useState(0);
+  const [searchTerm, setSearchTerm] = useState("");
+
+  const router = useRouter();
+
+  const handleSearch = () => {
+    if (searchTerm.trim()) {
+      router.push(`/search?query=${encodeURIComponent(searchTerm.trim())}`);
+      setSearchTerm("");
+    }
+  };
 
   const handleScroll = () => {
     if (typeof window !== "undefined") {
@@ -88,9 +97,15 @@ export default function Navbar() {
                 <input
                   type="text"
                   placeholder="Search Products..."
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                  onKeyDown={(e) => e.key === "Enter" && handleSearch()}
                   className="w-full border border-gray-300 rounded-md py-2 pl-4 pr-10 focus:outline-none focus:border-blue-400"
                 />
-                <FaSearch className="absolute right-3 top-3 text-gray-400" />
+                <FaSearch
+                  className="absolute right-3 top-3 text-gray-400 cursor-pointer"
+                  onClick={handleSearch}
+                />
               </div>
             </div>
             <div className="flex items-center space-x-4">
@@ -129,13 +144,20 @@ export default function Navbar() {
           </button>
 
           {/* Mobile Search */}
+          {/* Mobile Search */}
           <div className="relative">
             <input
               type="text"
               placeholder="Search Products..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              onKeyDown={(e) => e.key === "Enter" && handleSearch()}
               className="w-full border border-gray-300 rounded-md py-2 pl-4 pr-10 focus:outline-none focus:border-blue-400"
             />
-            <FaSearch className="absolute right-3 top-3 text-gray-400" />
+            <FaSearch
+              className="absolute right-3 top-3 text-gray-400 cursor-pointer"
+              onClick={handleSearch}
+            />
           </div>
 
           {/* Mobile Categories */}

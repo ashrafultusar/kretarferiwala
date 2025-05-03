@@ -12,7 +12,7 @@ import {
 const Footer = () => {
   return (
     <footer>
-      <div className="bg-[#db912f] text-white py-10 px-4">
+      <div className="bg-orange-400 text-white py-10 px-4">
         <div className="container mx-auto grid grid-cols-1 md:grid-cols-4 gap-10">
           {/* Outlet Location */}
           <div>
