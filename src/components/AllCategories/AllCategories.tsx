@@ -17,7 +17,7 @@ const AllCategories: React.FC = () => {
   const [navigationReady, setNavigationReady] = useState(false);
   const { categories } = useCategories();
 
- console.log(categories);
+
 
   useEffect(() => {
     setNavigationReady(true);

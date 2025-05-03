@@ -40,7 +40,7 @@ export default function SearchPage() {
     );
     setFiltered(filteredResults);
   }, [query, products]);
-console.log(products);
+
   return (
     <>
      <h1 className="text-2xl text-center bg-orange-400 py-6  font-bold mb-6 mt-14 md:mt-32">Found {filtered?.length} results for
@@ -50,7 +50,7 @@ console.log(products);
     <div className="max-w-7xl mx-auto px-4 py-8 ">
      
       {filtered.length === 0 ? (
-        <p>কোন প্রোডাক্ট পাওয়া যায়নি</p>
+        <p className="text-center">কোন প্রোডাক্ট পাওয়া যায়নি</p>
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
           {filtered.map((product) => (
