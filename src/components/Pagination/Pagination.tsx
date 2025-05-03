@@ -41,7 +41,7 @@ const Pagination: React.FC<PaginationProps> = ({
           e.preventDefault();
           if (currentPage > 1) onPageChange(currentPage - 1);
         }}
-        className={`flex items-center justify-center px-4 py-2 mx-1 rounded-md border transition-colors ${
+        className={`flex items-center justify-center px-3 py-1 mx-1 rounded-md border transition-colors ${
           currentPage === 1
             ? "bg-orange-500 text-white cursor-not-allowed"
             : "text-gray-700 hover:bg-orange-400 hover:text-white"
@@ -60,7 +60,7 @@ const Pagination: React.FC<PaginationProps> = ({
               e.preventDefault();
               onPageChange(item);
             }}
-            className={`px-4 py-2 mx-1 rounded-md border transition-colors ${
+            className={`px-3 py-1 mx-1 rounded-md border transition-colors ${
               currentPage === item
                 ? "bg-orange-300 text-black font-bold cursor-not-allowed"
                 : "text-gray-700 hover:bg-orange-400 hover:text-white"
@@ -69,7 +69,7 @@ const Pagination: React.FC<PaginationProps> = ({
             {item}
           </a>
         ) : (
-          <span key={index} className="px-3 py-2 text-gray-400">
+          <span key={index} className="px-3 py-1 text-gray-400">
             ...
           </span>
         )
@@ -82,7 +82,7 @@ const Pagination: React.FC<PaginationProps> = ({
           e.preventDefault();
           if (currentPage < totalPages) onPageChange(currentPage + 1);
         }}
-        className={`flex items-center justify-center px-4 py-2 mx-1 rounded-md border transition-colors ${
+        className={`flex items-center justify-center px-3 py-1 mx-1 rounded-md border transition-colors ${
           currentPage === totalPages
             ? "bg-orange-500 text-white cursor-not-allowed"
             : "text-gray-700 hover:bg-orange-400 hover:text-white"
