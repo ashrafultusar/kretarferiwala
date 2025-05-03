@@ -2,28 +2,37 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
-const OrderConfirmation = () => {
+const CheckoutPage = () => {
   const [quantity, setQuantity] = useState(1);
+  const [deliveryCharge, setDeliveryCharge] = useState(150); // Default to outside Dhaka
+
+  const [product, setProduct] = useState<any>(null);
+
+  useEffect(() => {
+    const stored = localStorage.getItem("checkoutProduct");
+    if (stored) {
+      setProduct(JSON.parse(stored));
+    }
+  }, []);
 
   const handleIncrease = () => setQuantity(quantity + 1);
   const handleDecrease = () => {
     if (quantity > 1) setQuantity(quantity - 1);
   };
 
-  const subTotal = 1999 * quantity;
-  const deliveryCharge = 70;
+  const subTotal = product ? product.discountPrice * quantity : 0;
   const totalAmount = subTotal + deliveryCharge;
 
   return (
     <div className="flex flex-col md:flex-row items-start gap-8 max-w-7xl mx-auto px-4 py-8 mt-32">
-
       {/* Left Form */}
       <div className="bg-white w-full md:w-1/2 p-6 rounded-lg shadow-md">
         <h2 className="text-center text-lg font-semibold mb-6">
           অর্ডারটি কনফর্ম করতে আপনার নাম, ঠিকানা, মোবাইল নাম্বার লিখে{" "}
-          <span className="text-red-500">অর্ডার কনফর্ম করুন</span> বাটনে ক্লিক করুন
+          <span className="text-red-500">অর্ডার কনফর্ম করুন</span> বাটনে ক্লিক
+          করুন
         </h2>
 
         <form className="space-y-4">
@@ -37,7 +46,9 @@ const OrderConfirmation = () => {
           </div>
 
           <div>
-            <label className="block mb-1 font-semibold">আপনার মোবাইল নম্বর *</label>
+            <label className="block mb-1 font-semibold">
+              আপনার মোবাইল নম্বর *
+            </label>
             <input
               type="text"
               placeholder="আপনার মোবাইল নম্বর"
@@ -46,7 +57,9 @@ const OrderConfirmation = () => {
           </div>
 
           <div>
-            <label className="block mb-1 font-semibold">আপনার সম্পূর্ণ ঠিকানা</label>
+            <label className="block mb-1 font-semibold">
+              আপনার সম্পূর্ণ ঠিকানা
+            </label>
             <input
               type="text"
               placeholder="আপনার সম্পূর্ণ ঠিকানা"
@@ -67,11 +80,23 @@ const OrderConfirmation = () => {
             <h3 className="font-semibold mb-2">কুরিয়ার চার্জ</h3>
             <div className="space-y-2">
               <label className="flex items-center bg-green-600 text-white p-2 rounded-md cursor-pointer">
-                <input type="radio" name="delivery" defaultChecked className="mr-2" />
+                <input
+                  type="radio"
+                  name="delivery"
+                  checked={deliveryCharge === 150}
+                  onChange={() => setDeliveryCharge(150)}
+                  className="mr-2"
+                />
                 ঢাকার বাইরে ১৫০ টাকা
               </label>
               <label className="flex items-center bg-gray-300 text-black p-2 rounded-md cursor-pointer">
-                <input type="radio" name="delivery" className="mr-2" />
+                <input
+                  type="radio"
+                  name="delivery"
+                  checked={deliveryCharge === 70}
+                  onChange={() => setDeliveryCharge(70)}
+                  className="mr-2"
+                />
                 ঢাকার ভিতরে ৭০ টাকা
               </label>
             </div>
@@ -102,46 +127,62 @@ const OrderConfirmation = () => {
           </thead>
 
           <tbody>
-            <tr className="border-b">
-              <td className="px-2 py-2 flex items-center gap-2">
-                <Image
-                  src="/card/card2.jpg"
-                  alt="Product"
-                  width={40}
-                  height={40}
-                  className="rounded"
-                />
-                <span>Rechargeable Double-Ended Spray Fan</span>
-              </td>
-
-              <td className="px-2 py-2">1999 টাকা</td>
-
-              <td className="px-2 py-2 flex items-center gap-2">
-                <button
-                  type="button"
-                  onClick={handleDecrease}
-                  className="bg-blue-500 text-white px-2 rounded"
-                >
-                  -
-                </button>
-                <span>{quantity}</span>
-                <button
-                  type="button"
-                  onClick={handleIncrease}
-                  className="bg-blue-500 text-white px-2 rounded"
-                >
-                  +
-                </button>
-              </td>
-
-              <td className="px-2 py-2">{1999 * quantity} টাকা</td>
-
-              <td className="px-2 py-2">
-                <button className="text-red-500 hover:text-red-700 cursor-pointer ">
-                  🗑️
-                </button>
-              </td>
-            </tr>
+            {product && (
+              <tr className="border-b">
+                <td className="px-2 py-2 flex items-center gap-2">
+                  <Image
+                    src={product.image}
+                    alt={product.name}
+                    width={40}
+                    height={40}
+                    className="rounded"
+                  />
+                  <span>{product.name}</span>
+                </td>
+                <td className="px-2 py-2">{product.discountPrice} টাকা</td>
+                <td className="px-2 py-2 flex items-center gap-2">
+                  <button
+                    type="button"
+                    onClick={() =>
+                      setProduct((prev: any) => ({
+                        ...prev,
+                        quantity: Math.max(1, prev.quantity - 1),
+                      }))
+                    }
+                    className="bg-blue-500 text-white px-2 rounded"
+                  >
+                    -
+                  </button>
+                  <span>{product.quantity}</span>
+                  <button
+                    type="button"
+                    onClick={() =>
+                      setProduct((prev: any) => ({
+                        ...prev,
+                        quantity: prev.quantity + 1,
+                      }))
+                    }
+                    className="bg-blue-500 text-white px-2 rounded"
+                  >
+                    +
+                  </button>
+                </td>
+                <td className="px-2 py-2">
+                  {product.discountPrice * product.quantity} টাকা
+                </td>
+                <td className="px-2 py-2">
+                  <button
+                    onClick={() => {
+                      localStorage.removeItem("checkoutProduct");
+                      setProduct(null);
+                    }}
+                    className="text-red-500 hover:text-red-700 cursor-pointer"
+                  >
+                    🗑️
+                  </button>
+                </td>
+              </tr>
+            )}
           </tbody>
         </table>
 
@@ -165,4 +206,4 @@ const OrderConfirmation = () => {
   );
 };
 
-export default OrderConfirmation;
+export default CheckoutPage;

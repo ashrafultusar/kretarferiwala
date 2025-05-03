@@ -1,5 +1,9 @@
-import Link from "next/link";
+
+
+"use client";
+
 import Image from "next/image";
+import Link from "next/link";
 
 interface ProductCardProps {
   id: string;
@@ -17,10 +21,10 @@ export default function ProductCard({
   image,
 }: ProductCardProps) {
   return (
-    <Link 
-    href={`/productdetails/${id}`} className="relative w-full max-w-xs h-[380px] bg-white rounded-sm shadow-lg group duration-300 hover:shadow-2xl transition-transform hover:scale-105 hover:border-orange-500 flex flex-col justify-between overflow-hidden">
-      {/* Product Image */}
-      <div className="relative h-56 w-full overflow-hidden">
+    <div className="relative w-full max-w-xs h-[380px] bg-white rounded-sm shadow-lg group duration-300 hover:shadow-2xl transition-transform hover:scale-105 hover:border-orange-500 flex flex-col justify-between overflow-hidden">
+      
+      {/* Product Image with link to details */}
+      <Link href={`/productdetails/${id}`} className="relative h-56 w-full overflow-hidden block">
         <Image
           src={image || "/placeholder.png"}
           alt={name}
@@ -32,13 +36,16 @@ export default function ProductCard({
         <div className="absolute top-2 left-2 bg-red-500 text-white text-xs font-bold px-2 py-1 rounded">
           {Math.round(((regularPrice - discountPrice) / regularPrice) * 100)}%
         </div>
-      </div>
+      </Link>
 
       {/* Product Info */}
       <div className="flex flex-col justify-between flex-grow p-3 text-center">
-        <h2 className="text-sm md:text-xl font-semibold text-gray-800 line-clamp-1 mb-2">
-          {name}
-        </h2>
+        <Link href={`/productdetails/${id}`}>
+          <h2 className="text-sm md:text-xl font-semibold text-gray-800 line-clamp-1 mb-2">
+            {name}
+          </h2>
+        </Link>
+
         <div className="flex items-center justify-center space-x-2 mb-2">
           <span className="text-red-600 font-bold text-md">
             ৳ {discountPrice}
@@ -47,10 +54,29 @@ export default function ProductCard({
             ৳ {regularPrice}
           </span>
         </div>
-        <button className="mt-auto bg-orange-400 hover:bg-orange-500 w-full text-white text-xs rounded-sm font-semibold py-2 px-5 transition text-center inline-block cursor-pointer">
+
+        {/* Direct Checkout Button */}
+        <Link
+          href={`/checkout`}
+
+          // last add korahoyce
+          onClick={() => {
+            const checkoutProduct = {
+              id,
+              name,
+              regularPrice,
+              discountPrice,
+              image,
+              quantity: 1, // default
+            };
+            localStorage.setItem("checkoutProduct", JSON.stringify(checkoutProduct));
+          }}
+// --------------
+          className="mt-auto bg-orange-400 hover:bg-orange-500 w-full text-white text-xs rounded-sm font-semibold py-2 px-5 transition text-center inline-block cursor-pointer"
+        >
           অর্ডার করুন
-        </button>
+        </Link>
       </div>
-    </Link>
+    </div>
   );
 }

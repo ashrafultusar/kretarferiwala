@@ -115,9 +115,9 @@ export default function Navbar() {
                 </span>
                 <span className="text-red-500 font-semibold">01700400000</span>
               </div>
-              <div className="text-black text-2xl">
+              <Link href={'/checkout'} className="text-black text-2xl">
                 <FiShoppingCart />
-              </div>
+              </Link>
             </div>
           </div>
         </div>
@@ -159,6 +159,7 @@ export default function Navbar() {
               onClick={handleSearch}
             />
           </div>
+
 
           {/* Mobile Categories */}
           <div className="flex flex-col space-y-4 mt-4">

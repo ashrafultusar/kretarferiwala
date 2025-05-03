@@ -8,8 +8,8 @@ import useCategories from "@/hooks/useCategories";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 
 export default function ProductForm() {
-  const {categories}=useCategories()
-const [isLoading, setIsLoading] = useState(false);
+  const { categories } = useCategories();
+  const [isLoading, setIsLoading] = useState(false);
   const [product, setProduct] = useState({
     name: "",
     category: "",
@@ -56,7 +56,7 @@ const [isLoading, setIsLoading] = useState(false);
     } catch (err) {
       console.error(err);
       toast.error("Something went wrong.");
-    }finally {
+    } finally {
       setIsLoading(false); // ✅ Stop the spinner
     }
   };
@@ -98,19 +98,18 @@ const [isLoading, setIsLoading] = useState(false);
 
         {/* Category Dropdown */}
         <select
-  className="w-full border p-2 rounded"
-  value={product.category}
-  onChange={(e) => setProduct({ ...product, category: e.target.value })}
-  required
->
-  <option value="">Select Category</option>
-  {categories?.map((cat) => (
-    <option key={cat._id} value={cat.name}>
-      {cat.name}
-    </option>
-  ))}
-</select>
-
+          className="w-full border p-2 rounded"
+          value={product.category}
+          onChange={(e) => setProduct({ ...product, category: e.target.value })}
+          required
+        >
+          <option value="">Select Category</option>
+          {categories?.map((cat) => (
+            <option key={cat._id} value={cat.name}>
+              {cat.name}
+            </option>
+          ))}
+        </select>
 
         <textarea
           placeholder="Product Description"
@@ -195,12 +194,12 @@ const [isLoading, setIsLoading] = useState(false);
         <button
           type="submit"
           className="bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded w-full cursor-pointer font-semibold flex items-center justify-center"
-        >{isLoading ? (
-          <AiOutlineLoading3Quarters className="text-center animate-spin h-5 w-5 text-white" />
-        ) : (
-          "Add Product"
-        )}
-          
+        >
+          {isLoading ? (
+            <AiOutlineLoading3Quarters className="text-center animate-spin h-5 w-5 text-white" />
+          ) : (
+            "Add Product"
+          )}
         </button>
       </form>
     </div>

@@ -146,10 +146,10 @@ const CategoryPage = () => {
               )}
               <button
                 type="submit"
-                className="bg-orange-500 text-white px-4 py-2 rounded hover:bg-orange-600 cursor-pointer"
+                className="bg-orange-500 text-white px-4 py-2 rounded hover:bg-orange-600 cursor-pointer flex justify-center items-center"
               >
                 {isLoading ? (
-                  <AiOutlineLoading3Quarters className="text-center animate-spin h-5 w-5 text-white" />
+                  <AiOutlineLoading3Quarters className="  animate-spin h-5 w-5 text-white" />
                 ) : (
                   "Add"
                 )}

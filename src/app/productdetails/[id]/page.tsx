@@ -100,16 +100,33 @@ const ProductDetails = () => {
         <div className="flex flex-col justify-start space-y-4 mt-0 md:mt-1 lg:mt-6">
           <h1 className="text-2xl font-semibold">{product?.name}</h1>
           <div className="flex items-center space-x-4 ">
-         <p className="text-3xl font-bold">Price: <span className="text-red-600 text-3xl font-bold">
-               ৳ {product?.discountPrice}
-            </span></p>
+            <p className="text-3xl font-bold">
+              Price:{" "}
+              <span className="text-red-600 text-3xl font-bold">
+                ৳ {product?.discountPrice}
+              </span>
+            </p>
             <span className="line-through text-gray-500">
               ৳ {product?.regularPrice}
             </span>
           </div>
-         
+
           <Link
             href="/checkout"
+            onClick={() => {
+              const checkoutProduct = {
+                id: product.id,
+                name: product.name,
+                regularPrice: product.regularPrice,
+                discountPrice: product.discountPrice,
+                image: product.images[0],
+                quantity: 1,
+              };
+              localStorage.setItem(
+                "checkoutProduct",
+                JSON.stringify(checkoutProduct)
+              );
+            }}
             className="bg-orange-400 hover:bg-orange-500 text-white font-semibold py-2 md:py-3 px-6 rounded cursor-pointer text-center"
           >
             অর্ডার করুন
@@ -177,7 +194,7 @@ const ProductDetails = () => {
           )}
         </div>
       </div>
- 
+
       {/* Related products */}
       <div className="my-7">
         <TitleWithLine title="Related Products" />
