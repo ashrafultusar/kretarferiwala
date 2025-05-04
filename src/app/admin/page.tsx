@@ -1,4 +1,4 @@
-import AllCategoriesProducts from "./AllCategoriesProducts";
+
 
 export default function Dashboard() {
   return (
@@ -19,8 +19,7 @@ export default function Dashboard() {
         </div>
       </div>
 
-      {/* product show  */}
-      <AllCategoriesProducts></AllCategoriesProducts>
+     
     </div>
   );
 }

@@ -29,7 +29,7 @@ export default function ProtectedAdminLayout({ children }: { children: React.Rea
 
   if (loading) {
     
-    return <div className="h-screen flex items-center justify-center">Loading...</div>;
+    return <div className="h-screen flex items-center justify-center text-red-500">Loading...</div>;
   }
 
   if (!authorized) {
