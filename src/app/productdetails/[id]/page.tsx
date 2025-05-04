@@ -10,6 +10,7 @@ import ProductCard from "@/Shared/ProductCard/ProductCard";
 import Pagination from "@/components/Pagination/Pagination";
 
 interface Product {
+  _id: string;
   id: string;
   name: string;
   images: string[];
@@ -18,6 +19,14 @@ interface Product {
   regularPrice: number;
   category: string;
   code?: string;
+}
+interface CartItem {
+  id: string;
+  name: string;
+  regularPrice: number;
+  discountPrice: number;
+  image: string;
+  quantity: number;
 }
 
 const ProductDetails = () => {
@@ -114,17 +123,32 @@ const ProductDetails = () => {
           <Link
             href="/checkout"
             onClick={() => {
-              const checkoutProduct = {
-                id: product.id,
-                name: product.name,
-                regularPrice: product.regularPrice,
-                discountPrice: product.discountPrice,
-                image: product.images[0],
+              const newProduct = {
+                id,
+                name: product?.name,
+                regularPrice: product?.regularPrice,
+                discountPrice: product?.discountPrice,
+                image: product?.images[0] || "/placeholder.png",
                 quantity: 1,
               };
+
+              const existingCart: CartItem[] = JSON.parse(
+                localStorage.getItem("checkoutCart") || "[]"
+              );
+
+              const existingIndex = existingCart.findIndex(
+                (item) => item.id === newProduct.id
+              );
+
+              if (existingIndex !== -1) {
+                existingCart[existingIndex].quantity += 1;
+              } else {
+                existingCart.push(newProduct);
+              }
+
               localStorage.setItem(
-                "checkoutProduct",
-                JSON.stringify(checkoutProduct)
+                "checkoutCart",
+                JSON.stringify(existingCart)
               );
             }}
             className="bg-orange-400 hover:bg-orange-500 text-white font-semibold py-2 md:py-3 px-6 rounded cursor-pointer text-center"

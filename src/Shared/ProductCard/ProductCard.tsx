@@ -1,5 +1,3 @@
-
-
 "use client";
 
 import Image from "next/image";
@@ -12,6 +10,15 @@ interface ProductCardProps {
   discountPrice: number;
   image: string;
 }
+interface CartItem {
+  id: string;
+  name: string;
+  regularPrice: number;
+  discountPrice: number;
+  image: string;
+  quantity: number;
+}
+
 
 export default function ProductCard({
   id,
@@ -22,9 +29,11 @@ export default function ProductCard({
 }: ProductCardProps) {
   return (
     <div className="relative w-full max-w-xs h-[380px] bg-white rounded-sm shadow-lg group duration-300 hover:shadow-2xl transition-transform hover:scale-105 hover:border-orange-500 flex flex-col justify-between overflow-hidden">
-      
       {/* Product Image with link to details */}
-      <Link href={`/productdetails/${id}`} className="relative h-56 w-full overflow-hidden block">
+      <Link
+        href={`/productdetails/${id}`}
+        className="relative h-56 w-full overflow-hidden block"
+      >
         <Image
           src={image || "/placeholder.png"}
           alt={name}
@@ -58,20 +67,30 @@ export default function ProductCard({
         {/* Direct Checkout Button */}
         <Link
           href={`/checkout`}
-
-          // last add korahoyce
           onClick={() => {
-            const checkoutProduct = {
+            const newProduct: CartItem = {
               id,
               name,
               regularPrice,
               discountPrice,
               image,
-              quantity: 1, // default
+              quantity: 1,
             };
-            localStorage.setItem("checkoutProduct", JSON.stringify(checkoutProduct));
+            
+            const existingCart: CartItem[] = JSON.parse(localStorage.getItem("checkoutCart") || "[]");
+            
+            const existingIndex = existingCart.findIndex((item: CartItem) => item.id === newProduct.id);
+            
+            if (existingIndex !== -1) {
+              existingCart[existingIndex].quantity += 1;
+            } else {
+              existingCart.push(newProduct);
+            }
+            
+            localStorage.setItem("checkoutCart", JSON.stringify(existingCart));
+            
           }}
-// --------------
+          
           className="mt-auto bg-orange-400 hover:bg-orange-500 w-full text-white text-xs rounded-sm font-semibold py-2 px-5 transition text-center inline-block cursor-pointer"
         >
           অর্ডার করুন

@@ -4,25 +4,53 @@ import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
-const CheckoutPage = () => {
-  const [quantity, setQuantity] = useState(1);
-  const [deliveryCharge, setDeliveryCharge] = useState(150); // Default to outside Dhaka
+type Product = {
+  id: string;
+  name: string;
+  image: string;
+  discountPrice: number;
+  quantity: number;
+};
 
-  const [product, setProduct] = useState<any>(null);
+const CheckoutPage = () => {
+  const [products, setProducts] = useState<Product[]>([]);
+  const [deliveryCharge, setDeliveryCharge] = useState(150);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const stored = localStorage.getItem("checkoutProduct");
+    const stored = localStorage.getItem("checkoutCart");
     if (stored) {
-      setProduct(JSON.parse(stored));
+      setProducts(JSON.parse(stored));
     }
+    setLoading(false);
   }, []);
 
-  const handleIncrease = () => setQuantity(quantity + 1);
-  const handleDecrease = () => {
-    if (quantity > 1) setQuantity(quantity - 1);
+  const handleIncrease = (id: string) => {
+    const updated = products.map((p) =>
+      p.id === id ? { ...p, quantity: p.quantity + 1 } : p
+    );
+    setProducts(updated);
+    localStorage.setItem("checkoutCart", JSON.stringify(updated));
   };
 
-  const subTotal = product ? product.discountPrice * quantity : 0;
+  const handleDecrease = (id: string) => {
+    const updated = products.map((p) =>
+      p.id === id ? { ...p, quantity: Math.max(1, p.quantity - 1) } : p
+    );
+    setProducts(updated);
+    localStorage.setItem("checkoutCart", JSON.stringify(updated));
+  };
+
+  const handleRemove = (id: string) => {
+    const updated = products.filter((p) => p.id !== id);
+    setProducts(updated);
+    localStorage.setItem("checkoutCart", JSON.stringify(updated));
+  };
+
+  const subTotal = products.reduce(
+    (sum, item) => sum + item.discountPrice * item.quantity,
+    0
+  );
   const totalAmount = subTotal + deliveryCharge;
 
   return (
@@ -75,7 +103,6 @@ const CheckoutPage = () => {
             />
           </div>
 
-          {/* Delivery Charge */}
           <div>
             <h3 className="font-semibold mb-2">কুরিয়ার চার্জ</h3>
             <div className="space-y-2">
@@ -112,96 +139,87 @@ const CheckoutPage = () => {
       </div>
 
       {/* Right Product Summary */}
-      <div className="bg-white w-full md:w-1/2 p-6 rounded-lg shadow-md overflow-x-auto">
-        <h2 className="text-lg font-semibold mb-4">Product</h2>
+      {loading ? (
+        <div>
+          <p>লোড হচ্ছে...</p>
+        </div>
+      ) : (
+        <div className="bg-white w-full md:w-1/2 p-6 rounded-lg shadow-md overflow-x-auto">
+          <h2 className="text-lg font-semibold mb-4">Product</h2>
 
-        <table className="w-full text-sm text-left">
-          <thead>
-            <tr className="bg-gray-200">
-              <th className="px-2 py-2">Product</th>
-              <th className="px-2 py-2">Price</th>
-              <th className="px-2 py-2">Quantity</th>
-              <th className="px-2 py-2">Total</th>
-              <th className="px-2 py-2">Action</th>
-            </tr>
-          </thead>
-
-          <tbody>
-            {product && (
-              <tr className="border-b">
-                <td className="px-2 py-2 flex items-center gap-2">
-                  <Image
-                    src={product.image}
-                    alt={product.name}
-                    width={40}
-                    height={40}
-                    className="rounded"
-                  />
-                  <span>{product.name}</span>
-                </td>
-                <td className="px-2 py-2">{product.discountPrice} টাকা</td>
-                <td className="px-2 py-2 flex items-center gap-2">
-                  <button
-                    type="button"
-                    onClick={() =>
-                      setProduct((prev: any) => ({
-                        ...prev,
-                        quantity: Math.max(1, prev.quantity - 1),
-                      }))
-                    }
-                    className="bg-blue-500 text-white px-2 rounded"
-                  >
-                    -
-                  </button>
-                  <span>{product.quantity}</span>
-                  <button
-                    type="button"
-                    onClick={() =>
-                      setProduct((prev: any) => ({
-                        ...prev,
-                        quantity: prev.quantity + 1,
-                      }))
-                    }
-                    className="bg-blue-500 text-white px-2 rounded"
-                  >
-                    +
-                  </button>
-                </td>
-                <td className="px-2 py-2">
-                  {product.discountPrice * product.quantity} টাকা
-                </td>
-                <td className="px-2 py-2">
-                  <button
-                    onClick={() => {
-                      localStorage.removeItem("checkoutProduct");
-                      setProduct(null);
-                    }}
-                    className="text-red-500 hover:text-red-700 cursor-pointer"
-                  >
-                    🗑️
-                  </button>
-                </td>
+          <table className="w-full text-sm text-left">
+            <thead>
+              <tr className="bg-gray-200">
+                <th className="px-2 py-2">Product</th>
+                <th className="px-2 py-2">Price</th>
+                <th className="px-2 py-2">Quantity</th>
+                <th className="px-2 py-2">Total</th>
+                <th className="px-2 py-2">Action</th>
               </tr>
-            )}
-          </tbody>
-        </table>
+            </thead>
 
-        {/* Amount summary */}
-        <div className="mt-6 space-y-2 text-sm">
-          <div className="flex justify-between">
-            <span>Sub-Total</span>
-            <span>{subTotal.toLocaleString()} টাকা</span>
-          </div>
-          <div className="flex justify-between">
-            <span>Delivery Charges</span>
-            <span>{deliveryCharge} টাকা</span>
-          </div>
-          <div className="flex justify-between font-bold text-red-500 pt-2 border-t mt-2">
-            <span>Total Amount</span>
-            <span>{totalAmount.toLocaleString()} টাকা</span>
+            <tbody>
+              {products.map((product) => (
+                <tr key={product.id} className="border-b">
+                  <td className="px-2 py-2 flex items-center gap-2">
+                    <Image
+                      src={product.image}
+                      alt={product.name}
+                      width={40}
+                      height={40}
+                      className="rounded"
+                    />
+                    <span>{product.name}</span>
+                  </td>
+                  <td className="px-2 py-2">{product.discountPrice} টাকা</td>
+                  <td className="px-2 py-2 flex items-center gap-2">
+                    <button
+                      onClick={() => handleDecrease(product.id)}
+                      className="bg-blue-500 text-white px-2 rounded"
+                    >
+                      -
+                    </button>
+                    <span>{product.quantity}</span>
+                    <button
+                      onClick={() => handleIncrease(product.id)}
+                      className="bg-blue-500 text-white px-2 rounded"
+                    >
+                      +
+                    </button>
+                  </td>
+                  <td className="px-2 py-2">
+                    {product.discountPrice * product.quantity} টাকা
+                  </td>
+                  <td className="px-2 py-2">
+                    <button
+                      onClick={() => handleRemove(product.id)}
+                      className="text-red-500 hover:text-red-700 cursor-pointer"
+                    >
+                      🗑️
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+
+          {/* Amount summary */}
+          <div className="mt-6 space-y-2 text-sm">
+            <div className="flex justify-between">
+              <span>Sub-Total</span>
+              <span>{subTotal.toLocaleString()} টাকা</span>
+            </div>
+            <div className="flex justify-between">
+              <span>Delivery Charges</span>
+              <span>{deliveryCharge} টাকা</span>
+            </div>
+            <div className="flex justify-between font-bold text-red-500 pt-2 border-t mt-2">
+              <span>Total Amount</span>
+              <span>{totalAmount.toLocaleString()} টাকা</span>
+            </div>
           </div>
         </div>
-      </div>
+      )}
     </div>
   );
 };
