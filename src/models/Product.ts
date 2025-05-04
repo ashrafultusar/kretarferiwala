@@ -29,7 +29,7 @@ const productSchema = new Schema(
       required: true,
     },
   },
-  { timestamps: true }
+  { timestamps: true } 
 );
 
 const Product = models.Product || model('Product', productSchema);

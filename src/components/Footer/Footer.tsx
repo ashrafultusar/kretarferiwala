@@ -109,8 +109,20 @@ const Footer = () => {
         </div>
       </div>
       <div className="border-t text-center border-gray-700  py-4 text-black text-sm ">
-       <p> &copy; 2025 <span className="font-bold"><a >Kretarferiwala</a></span> All rights reserved.</p>
-       <p>Develop by <a className="font-bold" href="https://ashraful-tusar.vercel.app">Tusar</a></p>
+        <p>
+          {" "}
+          &copy; 2025{" "}
+          <span className="font-bold">
+            <a>Kretarferiwala</a>
+          </span>{" "}
+          All rights reserved.
+        </p>
+        <p>
+          Develop by{" "}
+          <a className="font-bold" href="https://ashraful-tusar.vercel.app">
+            Tusar
+          </a>
+        </p>
       </div>
     </footer>
   );

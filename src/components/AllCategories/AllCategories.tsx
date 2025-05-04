@@ -17,14 +17,16 @@ const AllCategories: React.FC = () => {
   const [navigationReady, setNavigationReady] = useState(false);
   const { categories } = useCategories();
 
-
-
   useEffect(() => {
     setNavigationReady(true);
   }, []);
 
   if (!categories.length) {
-    return <div className="text-center text-xl font-semibold">Loading Categories...</div>;
+    return (
+      <div className="text-center text-xl font-semibold">
+        Loading Categories...
+      </div>
+    );
   }
 
   return (
@@ -59,11 +61,13 @@ const AllCategories: React.FC = () => {
         >
           {categories.map((category) => (
             <SwiperSlide key={category._id}>
-              <Link href={`/products-category/${encodeURIComponent(category.name)}`}>
+              <Link
+                href={`/products-category/${encodeURIComponent(category.name)}`}
+              >
                 <div className="flex flex-col border border-neutral-300 items-center justify-center bg-[#f7f9fc] rounded-xl p-6 shadow-sm hover:shadow-md transition-transform duration-300 hover:scale-105 ">
                   <div className="w-full h-16 mb-4 relative">
                     <Image
-                      src= {category?.image}
+                      src={category?.image}
                       alt={category?.name}
                       fill
                       className="object-contain"
@@ -75,8 +79,6 @@ const AllCategories: React.FC = () => {
                   >
                     {category.name}
                   </h3>
-
-                  
                 </div>
               </Link>
             </SwiperSlide>

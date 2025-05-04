@@ -230,7 +230,7 @@ const ProductDetails = () => {
               name={item.name}
               regularPrice={item.regularPrice}
               discountPrice={item.discountPrice}
-              image={item.images[0]} // Use first image
+              image={item.images[0]} 
             />
           ))}
         </div>

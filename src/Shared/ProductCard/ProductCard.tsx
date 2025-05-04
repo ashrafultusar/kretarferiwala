@@ -19,7 +19,6 @@ interface CartItem {
   quantity: number;
 }
 
-
 export default function ProductCard({
   id,
   name,
@@ -76,21 +75,23 @@ export default function ProductCard({
               image,
               quantity: 1,
             };
-            
-            const existingCart: CartItem[] = JSON.parse(localStorage.getItem("checkoutCart") || "[]");
-            
-            const existingIndex = existingCart.findIndex((item: CartItem) => item.id === newProduct.id);
-            
+
+            const existingCart: CartItem[] = JSON.parse(
+              localStorage.getItem("checkoutCart") || "[]"
+            );
+
+            const existingIndex = existingCart.findIndex(
+              (item: CartItem) => item.id === newProduct.id
+            );
+
             if (existingIndex !== -1) {
               existingCart[existingIndex].quantity += 1;
             } else {
               existingCart.push(newProduct);
             }
-            
+
             localStorage.setItem("checkoutCart", JSON.stringify(existingCart));
-            
           }}
-          
           className="mt-auto bg-orange-400 hover:bg-orange-500 w-full text-white text-xs rounded-sm font-semibold py-2 px-5 transition text-center inline-block cursor-pointer"
         >
           অর্ডার করুন

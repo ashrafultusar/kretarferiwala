@@ -31,8 +31,8 @@ const AllCategoriesProducts = () => {
       try {
         const response = await fetch(`/api/products`);
         const data = await response.json();
-        setProducts(data); // Set all products fetched
-        setFilteredProducts(data); // Set all products to be filtered later
+        setProducts(data); 
+        setFilteredProducts(data); 
       } catch (error) {
         console.error("Error fetching products:", error);
       } finally {
@@ -41,7 +41,7 @@ const AllCategoriesProducts = () => {
     };
 
     fetchAllProducts();
-  }, []); // Only run once on mount
+  }, []); 
 
   // Handle category change and filter products based on active category
   useEffect(() => {
@@ -51,11 +51,11 @@ const AllCategoriesProducts = () => {
       );
       setFilteredProducts(filtered);
     }
-  }, [activeCategory, products]); // Run when activeCategory or products change
+  }, [activeCategory, products]); 
 
   useEffect(() => {
     if (categories.length > 0) {
-      setActiveCategory(categories[0].name); // Set the first category as default
+      setActiveCategory(categories[0].name); 
     }
   }, [categories]);
 
@@ -72,16 +72,16 @@ const AllCategoriesProducts = () => {
         throw new Error("Failed to delete the product");
       }
 
-      // Update the UI by filtering out the deleted product
+      
       setProducts(products.filter((product) => product._id !== productToDelete));
       setFilteredProducts(filteredProducts.filter((product) => product._id !== productToDelete));
 
       toast.success("Product deleted successfully");
-      setIsModalOpen(false); // Close the modal
+      setIsModalOpen(false); 
     } catch (error) {
       console.error("Error deleting product:", error);
       alert("Error deleting the product");
-      setIsModalOpen(false); // Close the modal
+      setIsModalOpen(false);
     }
   };
 

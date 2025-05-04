@@ -6,7 +6,7 @@ import AdminLayout from './AdminLayout';
 export default function ProtectedAdminLayout({ children }: { children: React.ReactNode }) {
   const [password, setPassword] = useState('');
   const [authorized, setAuthorized] = useState(false);
-  const [loading, setLoading] = useState(true); // loading state
+  const [loading, setLoading] = useState(true); 
 
   const adminPassword = '123456';
 
@@ -15,7 +15,7 @@ export default function ProtectedAdminLayout({ children }: { children: React.Rea
     if (isAuth === 'true') {
       setAuthorized(true);
     }
-    setLoading(false); // auth check done
+    setLoading(false); 
   }, []);
 
   const handleSubmit = () => {

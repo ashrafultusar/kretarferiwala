@@ -9,7 +9,6 @@ interface Feature {
   description: string;
 }
 
-
 const features: Feature[] = [
   {
     icon: <FaThumbsUp className="text-red-500 text-4xl" />,

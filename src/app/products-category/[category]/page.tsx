@@ -4,8 +4,6 @@ import useProducts from "@/hooks/useProducts";
 import ProductCard from "@/Shared/ProductCard/ProductCard";
 import { useParams } from "next/navigation";
 
-
-
 export default function CategoryPage() {
   const params = useParams();
   const category = params.category;
@@ -36,13 +34,13 @@ export default function CategoryPage() {
         <div className="grid grid-cols-2 md:grid-cols-3 gap-6">
           {filteredProducts.map((product) => (
             <ProductCard
-                        key={product._id}
-                        id={product._id}
-                        name={product.name}
-                        regularPrice={product.regularPrice}
-                        discountPrice={product.discountPrice}
-                        image={product.images[0]} // Use first image
-                      />
+              key={product._id}
+              id={product._id}
+              name={product.name}
+              regularPrice={product.regularPrice}
+              discountPrice={product.discountPrice}
+              image={product.images[0]}
+            />
           ))}
         </div>
       ) : (

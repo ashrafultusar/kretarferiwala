@@ -4,20 +4,21 @@ import Category from "@/models/category";
 import cloudinary from "@/lib/cloudinary";
 import { Types } from "mongoose";
 
-const uploadToCloudinary = async (file: File): Promise<{ secure_url: string }> => {
+const uploadToCloudinary = async (
+  file: File
+): Promise<{ secure_url: string }> => {
   const buffer = Buffer.from(await file.arrayBuffer());
 
   return new Promise((resolve, reject) => {
-    cloudinary.uploader.upload_stream(
-      { folder: "categories" },
-      (err, result) => {
+    cloudinary.uploader
+      .upload_stream({ folder: "categories" }, (err, result) => {
         if (err) {
           reject(err);
         } else {
           resolve(result as { secure_url: string });
         }
-      }
-    ).end(buffer);
+      })
+      .end(buffer);
   });
 };
 
@@ -29,7 +30,10 @@ export async function createCategory(req: Request) {
     const file = formData.get("image") as File | null;
 
     if (!name || !file) {
-      return NextResponse.json({ error: "Name and image are required" }, { status: 400 });
+      return NextResponse.json(
+        { error: "Name and image are required" },
+        { status: 400 }
+      );
     }
 
     const { secure_url } = await uploadToCloudinary(file);
@@ -53,8 +57,6 @@ export async function getCategories() {
   }
 }
 
-
-
 export async function deleteCategory(req: Request) {
   try {
     await dbConnect();
@@ -62,12 +64,18 @@ export async function deleteCategory(req: Request) {
     const id = searchParams.get("id");
 
     if (!id || !Types.ObjectId.isValid(id)) {
-      return NextResponse.json({ error: "Invalid category ID" }, { status: 400 });
+      return NextResponse.json(
+        { error: "Invalid category ID" },
+        { status: 400 }
+      );
     }
 
     const deleted = await Category.findByIdAndDelete(id);
     if (!deleted) {
-      return NextResponse.json({ error: "Category not found" }, { status: 404 });
+      return NextResponse.json(
+        { error: "Category not found" },
+        { status: 404 }
+      );
     }
 
     return NextResponse.json({ message: "Category deleted" }, { status: 200 });

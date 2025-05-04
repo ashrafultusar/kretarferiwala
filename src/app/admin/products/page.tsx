@@ -57,7 +57,7 @@ export default function ProductForm() {
       console.error(err);
       toast.error("Something went wrong.");
     } finally {
-      setIsLoading(false); // ✅ Stop the spinner
+      setIsLoading(false); 
     }
   };
 

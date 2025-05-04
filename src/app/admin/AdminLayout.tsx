@@ -2,7 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { Menu, X } from "lucide-react"; // added X icon
+import { Menu, X } from "lucide-react"; 
 import Link from "next/link";
 
 export default function AdminLayout({
