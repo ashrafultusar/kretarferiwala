@@ -114,7 +114,7 @@ const AllCategoriesProducts = () => {
             onClick={() => setActiveCategory(category.name)}
             className={`inline-flex items-center h-10 px-4 -mb-px text-sm sm:text-base whitespace-nowrap focus:outline-none border-b-2 cursor-pointer ${
               activeCategory === category.name
-                ? "text-black border-orange-400 rounded-md bg-orange-500 "
+                ? "text-black border-orange-400 rounded-t-md bg-orange-500 "
                 : "text-gray-700 border-transparent dark:text-black"
             }`}
           >

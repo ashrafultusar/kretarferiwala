@@ -1,9 +1,10 @@
 "use client";
 
 import Image from "next/image";
-import Link from "next/link";
 import { useEffect, useState } from "react";
 import { MdDeleteForever } from "react-icons/md";
+import { useRouter } from "next/navigation";
+import { toast } from "react-toastify";
 
 type Product = {
   id: string;
@@ -14,9 +15,18 @@ type Product = {
 };
 
 const CheckoutPage = () => {
+  
   const [products, setProducts] = useState<Product[]>([]);
   const [deliveryCharge, setDeliveryCharge] = useState(150);
   const [loading, setLoading] = useState(true);
+  const [formData, setFormData] = useState({
+    name: "",
+    phone: "",
+    address: "",
+    note: "",
+  });
+  const [error, setError] = useState("");
+  const router = useRouter();
 
   useEffect(() => {
     const stored = localStorage.getItem("checkoutCart");
@@ -25,6 +35,12 @@ const CheckoutPage = () => {
     }
     setLoading(false);
   }, []);
+
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
 
   const handleIncrease = (id: string) => {
     const updated = products.map((p) =>
@@ -54,6 +70,43 @@ const CheckoutPage = () => {
   );
   const totalAmount = subTotal + deliveryCharge;
 
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setError("");
+
+    if (!formData.name || !formData.phone || !formData.address) {
+      setError("সব ফিল্ড পূরণ করুন");
+      return;
+    }
+
+    try {
+      const res = await fetch("/api/orders", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          ...formData,
+          products,
+          subTotal,
+          deliveryCharge,
+          totalAmount,
+        }),
+      });
+
+      if (res.ok) {
+        localStorage.removeItem("checkoutCart");
+        toast.success('Order Successfully')
+        router.push("/order-received");
+      } else {
+        const data = await res.json();
+        setError(data.message || "অর্ডার পাঠাতে সমস্যা হয়েছে");
+      }
+    } catch (err) {
+      console.error('error message:', err);
+      console.error("error message");
+      toast.error('Somthing is wrong')
+    }
+  };
+
   return (
     <div className="flex flex-col md:flex-row items-start gap-8 max-w-7xl mx-auto px-4 py-8 mt-32">
       {/* Left Form */}
@@ -64,11 +117,14 @@ const CheckoutPage = () => {
           করুন
         </h2>
 
-        <form className="space-y-4">
+        <form onSubmit={handleSubmit} className="space-y-4">
           <div>
             <label className="block mb-1 font-semibold">আপনার নাম *</label>
             <input
               type="text"
+              name="name"
+              value={formData.name}
+              onChange={handleChange}
               placeholder="আপনার নাম"
               className="w-full border rounded-md p-2"
               required
@@ -80,7 +136,10 @@ const CheckoutPage = () => {
               আপনার মোবাইল নম্বর *
             </label>
             <input
-              type="number"
+              type="text"
+              name="phone"
+              value={formData.phone}
+              onChange={handleChange}
               placeholder="আপনার মোবাইল নম্বর"
               className="w-full border rounded-md p-2"
               required
@@ -89,10 +148,13 @@ const CheckoutPage = () => {
 
           <div>
             <label className="block mb-1 font-semibold">
-              আপনার সম্পূর্ণ ঠিকানা
+              আপনার সম্পূর্ণ ঠিকানা *
             </label>
             <input
               type="text"
+              name="address"
+              value={formData.address}
+              onChange={handleChange}
               placeholder="আপনার সম্পূর্ণ ঠিকানা"
               className="w-full border rounded-md p-2"
               required
@@ -102,9 +164,11 @@ const CheckoutPage = () => {
           <div>
             <label className="block mb-1 font-semibold">আপনার মন্তব্য</label>
             <textarea
+              name="note"
+              value={formData.note}
+              onChange={handleChange}
               placeholder="কালার, সাইজ, অর্ডার সম্পর্কে কোনো কথা থাকলে লিখুন"
               className="w-full border rounded-md p-2"
-              required
             />
           </div>
 
@@ -134,12 +198,14 @@ const CheckoutPage = () => {
             </div>
           </div>
 
-          <Link
-            href="/order-received"
+          {error && <p className="text-red-500 text-sm">{error}</p>}
+
+          <button
+            type="submit"
             className="inline-block w-full text-center bg-red-500 hover:bg-red-600 text-white font-semibold py-3 rounded-md"
           >
             অর্ডার কনফর্ম করুন
-          </Link>
+          </button>
         </form>
       </div>
 
@@ -162,47 +228,42 @@ const CheckoutPage = () => {
                 <th className="px-2 py-2">Action</th>
               </tr>
             </thead>
-
             <tbody>
               {products.map((product) => (
                 <tr key={product.id} className="border-b">
-                  <td className="px-2 py-2 flex  items-center gap-2">
+                  <td className="px-2 py-2 flex items-center gap-2">
                     <Image
-                      src={product?.image}
-                      alt={product?.name}
+                      src={product.image}
+                      alt={product.name}
                       width={40}
                       height={40}
                       className="rounded"
                     />
-                    <span>
-                      {product?.name.split(" ").length > 5
-                        ? product?.name.split(" ").slice(0, 5).join(" ") + "..."
-                        : product?.name}
-                    </span>
+                    <span>{product.name}</span>
                   </td>
-                  <td className="px-2 py-2">{product?.discountPrice}Tk</td>
-                  <td className="px-2  py-2">
+                  <td className="px-2 py-2">{product.discountPrice}Tk</td>
+                  <td className="px-2 py-2">
                     <button
-                      onClick={() => handleDecrease(product?.id)}
-                      className="bg-orange-400 cursor-pointer  text-white px-2  rounded"
+                      onClick={() => handleDecrease(product.id)}
+                      className="bg-orange-400 text-white px-2 rounded"
                     >
                       -
                     </button>
-                    <span>{product?.quantity}</span>
+                    <span>{product.quantity}</span>
                     <button
-                      onClick={() => handleIncrease(product?.id)}
-                      className="bg-orange-400 cursor-pointer text-white px-2 rounded"
+                      onClick={() => handleIncrease(product.id)}
+                      className="bg-orange-400 text-white px-2 rounded"
                     >
                       +
                     </button>
                   </td>
                   <td className="px-2 py-2">
-                    {product?.discountPrice * product?.quantity}Tk
+                    {product.discountPrice * product.quantity}Tk
                   </td>
                   <td className="px-2 py-2">
                     <button
-                      onClick={() => handleRemove(product?.id)}
-                      className="text-red-500 hover:text-red-700 text-2xl cursor-pointer"
+                      onClick={() => handleRemove(product.id)}
+                      className="text-red-500 hover:text-red-700 text-2xl"
                     >
                       <MdDeleteForever />
                     </button>
@@ -212,7 +273,6 @@ const CheckoutPage = () => {
             </tbody>
           </table>
 
-          {/* Amount summary */}
           <div className="mt-6 space-y-2 text-sm">
             <div className="flex justify-between">
               <span>Sub-Total</span>
