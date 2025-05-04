@@ -14,7 +14,7 @@ export default function Home() {
       </div>
       <AllCategories></AllCategories>
       <AllProducts></AllProducts>
-     
+  
     </div>
   );
 }
