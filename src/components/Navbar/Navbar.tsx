@@ -4,11 +4,12 @@ import { useState, useEffect } from "react";
 import Image from "next/image";
 import { IoMenuSharp } from "react-icons/io5";
 import { ImCross } from "react-icons/im";
-import { FiShoppingCart } from "react-icons/fi";
+// import { FiShoppingCart } from "react-icons/fi";
 import { FaSearch } from "react-icons/fa";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import useCategories from "@/hooks/useCategories";
+// import { Product } from "@/hooks/useProducts";
 
 export default function Navbar() {
   const { categories } = useCategories();
@@ -18,7 +19,17 @@ export default function Navbar() {
   const [searchTerm, setSearchTerm] = useState("");
 
   const router = useRouter();
+// // cart value load from local storage
+//   const [products, setProducts] = useState<Product[]>([]);
 
+//   useEffect(() => {
+//     const stored = localStorage.getItem("checkoutCart");
+//     if (stored) {
+//       setProducts(JSON.parse(stored));
+//     }
+//   }, []);
+//   console.log(products);
+// ---
   const handleSearch = () => {
     if (searchTerm.trim()) {
       router.push(`/search?query=${encodeURIComponent(searchTerm.trim())}`);
@@ -74,9 +85,14 @@ export default function Navbar() {
               />
               <span className="text-black font-bold text-lg">Shop</span>
             </Link>
-            <div className="text-black text-2xl">
-              <FiShoppingCart />
-            </div>
+            {/* <Link href="/checkout" className="relative text-black text-2xl">
+                <FiShoppingCart />
+                {products.length > 0 && (
+                  <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs font-bold w-5 h-5 flex items-center justify-center rounded-full">
+                    {products.length}
+                  </span>
+                )}
+              </Link> */}
           </div>
 
           {/* Desktop View */}
@@ -115,9 +131,14 @@ export default function Navbar() {
                 </span>
                 <span className="text-red-500 font-semibold">01700400000</span>
               </div>
-              <Link href={'/checkout'} className="text-black text-2xl">
+              {/* <Link href="/checkout" className="relative text-black text-2xl">
                 <FiShoppingCart />
-              </Link>
+                {products.length > 0 && (
+                  <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs font-bold w-5 h-5 flex items-center justify-center rounded-full">
+                    {products.length}
+                  </span>
+                )}
+              </Link> */}
             </div>
           </div>
         </div>
@@ -159,7 +180,6 @@ export default function Navbar() {
               onClick={handleSearch}
             />
           </div>
-
 
           {/* Mobile Categories */}
           <div className="flex flex-col space-y-4 mt-4">

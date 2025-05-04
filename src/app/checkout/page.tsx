@@ -3,6 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import { MdDeleteForever } from "react-icons/md";
 
 type Product = {
   id: string;
@@ -70,6 +71,7 @@ const CheckoutPage = () => {
               type="text"
               placeholder="আপনার নাম"
               className="w-full border rounded-md p-2"
+              required
             />
           </div>
 
@@ -78,9 +80,10 @@ const CheckoutPage = () => {
               আপনার মোবাইল নম্বর *
             </label>
             <input
-              type="text"
+              type="number"
               placeholder="আপনার মোবাইল নম্বর"
               className="w-full border rounded-md p-2"
+              required
             />
           </div>
 
@@ -92,6 +95,7 @@ const CheckoutPage = () => {
               type="text"
               placeholder="আপনার সম্পূর্ণ ঠিকানা"
               className="w-full border rounded-md p-2"
+              required
             />
           </div>
 
@@ -100,6 +104,7 @@ const CheckoutPage = () => {
             <textarea
               placeholder="কালার, সাইজ, অর্ডার সম্পর্কে কোনো কথা থাকলে লিখুন"
               className="w-full border rounded-md p-2"
+              required
             />
           </div>
 
@@ -161,41 +166,45 @@ const CheckoutPage = () => {
             <tbody>
               {products.map((product) => (
                 <tr key={product.id} className="border-b">
-                  <td className="px-2 py-2 flex items-center gap-2">
+                  <td className="px-2 py-2 flex  items-center gap-2">
                     <Image
-                      src={product.image}
-                      alt={product.name}
+                      src={product?.image}
+                      alt={product?.name}
                       width={40}
                       height={40}
                       className="rounded"
                     />
-                    <span>{product.name}</span>
+                    <span>
+                      {product?.name.split(" ").length > 5
+                        ? product?.name.split(" ").slice(0, 5).join(" ") + "..."
+                        : product?.name}
+                    </span>
                   </td>
-                  <td className="px-2 py-2">{product.discountPrice} টাকা</td>
-                  <td className="px-2 py-2 flex items-center gap-2">
+                  <td className="px-2 py-2">{product?.discountPrice}Tk</td>
+                  <td className="px-2  py-2">
                     <button
-                      onClick={() => handleDecrease(product.id)}
-                      className="bg-blue-500 text-white px-2 rounded"
+                      onClick={() => handleDecrease(product?.id)}
+                      className="bg-orange-400 cursor-pointer  text-white px-2  rounded"
                     >
                       -
                     </button>
-                    <span>{product.quantity}</span>
+                    <span>{product?.quantity}</span>
                     <button
-                      onClick={() => handleIncrease(product.id)}
-                      className="bg-blue-500 text-white px-2 rounded"
+                      onClick={() => handleIncrease(product?.id)}
+                      className="bg-orange-400 cursor-pointer text-white px-2 rounded"
                     >
                       +
                     </button>
                   </td>
                   <td className="px-2 py-2">
-                    {product.discountPrice * product.quantity} টাকা
+                    {product?.discountPrice * product?.quantity}Tk
                   </td>
                   <td className="px-2 py-2">
                     <button
-                      onClick={() => handleRemove(product.id)}
-                      className="text-red-500 hover:text-red-700 cursor-pointer"
+                      onClick={() => handleRemove(product?.id)}
+                      className="text-red-500 hover:text-red-700 text-2xl cursor-pointer"
                     >
-                      🗑️
+                      <MdDeleteForever />
                     </button>
                   </td>
                 </tr>

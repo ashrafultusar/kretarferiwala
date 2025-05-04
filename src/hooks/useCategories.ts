@@ -1,5 +1,6 @@
 // hooks/useCategories.ts
 import { useEffect, useState, useCallback } from "react";
+import { Product } from "./useProducts";
 
 export type Category = {
   _id: string;
@@ -10,6 +11,7 @@ export type Category = {
 const useCategories = () => {
   const [categories, setCategories] = useState<Category[]>([]);
   const [loading, setLoading] = useState(true);
+
 
   const fetchCategories = useCallback(async () => {
     try {
@@ -27,6 +29,11 @@ const useCategories = () => {
   useEffect(() => {
     fetchCategories();
   }, [fetchCategories]);
+
+ 
+
+
+
 
   return { categories, loading, refreshCategories: fetchCategories };
 };
