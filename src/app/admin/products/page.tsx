@@ -57,36 +57,20 @@ export default function ProductForm() {
       console.error(err);
       toast.error("Something went wrong.");
     } finally {
-      setIsLoading(false); 
+      setIsLoading(false);
     }
   };
 
   return (
-    <div>
-      {/* Banner Section */}
-      <div className="relative w-full h-64 mb-8">
-        <Image
-          src="/card/card2.jpg"
-          alt="Banner"
-          fill
-          className="object-cover rounded-b-xl"
-        />
-        <div className="absolute inset-0 bg-black/40 flex items-center justify-center">
-          <h1 className="text-white text-3xl md:text-4xl font-bold">
-            Add Your New Product
-          </h1>
-        </div>
-      </div>
-
-      {/* Product Form */}
-      <form
-        onSubmit={handleSubmit}
-        className="space-y-4 bg-white p-6 rounded-xl shadow max-w-xl mx-auto"
-      >
-        <h2 className="text-xl font-semibold mb-4 text-center">
-          Add New Product
-        </h2>
-
+    <div className=" ">
+    <h2 className="text-2xl font-bold mb-6 text-center">Add New Product</h2>
+  
+    <form
+      onSubmit={handleSubmit}
+      className="flex flex-col lg:flex-row gap-6 "
+    >
+      {/* LEFT SIDE – FORM INPUTS */}
+      <div className="flex-1  p-6 rounded-xl shadow space-y-4">
         <input
           type="text"
           placeholder="Product Name"
@@ -95,8 +79,7 @@ export default function ProductForm() {
           onChange={(e) => setProduct({ ...product, name: e.target.value })}
           required
         />
-
-        {/* Category Dropdown */}
+  
         <select
           className="w-full border p-2 rounded"
           value={product.category}
@@ -110,7 +93,7 @@ export default function ProductForm() {
             </option>
           ))}
         </select>
-
+  
         <textarea
           placeholder="Product Description"
           className="w-full border p-2 rounded"
@@ -121,8 +104,8 @@ export default function ProductForm() {
           }
           required
         />
-
-        <div className="flex space-x-4">
+  
+        <div className="flex gap-4">
           <input
             type="number"
             placeholder="Regular Price"
@@ -133,7 +116,6 @@ export default function ProductForm() {
             }
             required
           />
-
           <input
             type="number"
             placeholder="Discount Price"
@@ -145,15 +127,20 @@ export default function ProductForm() {
             required
           />
         </div>
-
-        {/* Multiple File Input */}
-        <div className="w-full border p-2 rounded flex justify-center items-center space-x-2 bg-white">
+      </div>
+  
+      {/* RIGHT SIDE – IMAGE & BUTTONS */}
+      <div className="w-full lg:w-80 bg-white p-6 rounded-xl shadow space-y-4 flex flex-col">
+        <div className="border border-dashed border-gray-300 rounded p-4 text-center text-gray-600">
           <label
             htmlFor="imageUpload"
-            className="flex items-center cursor-pointer text-gray-600 hover:text-orange-500"
+            className="flex flex-col items-center justify-center cursor-pointer hover:text-orange-500"
           >
-            <MdCloudUpload className="text-xl mr-2" />
-            Upload Images
+            <MdCloudUpload className="text-3xl mb-1" />
+            <span>Upload Images</span>
+            <span className="mt-2 px-4 py-1 border rounded bg-gray-100">
+              Browse Files
+            </span>
           </label>
           <input
             id="imageUpload"
@@ -171,14 +158,14 @@ export default function ProductForm() {
             required
           />
         </div>
-
-        {/* Optional: Show Preview of Selected Images */}
+  
+        {/* Image Preview Grid */}
         {product.images.length > 0 && (
           <div className="grid grid-cols-3 gap-2">
             {product.images.map((file, index) => (
               <div
                 key={index}
-                className="w-full h-24 relative border rounded overflow-hidden"
+                className="w-full h-20 relative border rounded overflow-hidden"
               >
                 <Image
                   src={URL.createObjectURL(file)}
@@ -190,18 +177,20 @@ export default function ProductForm() {
             ))}
           </div>
         )}
-
+  
         <button
           type="submit"
-          className="bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded w-full cursor-pointer font-semibold flex items-center justify-center"
+          className="bg-orange-500 hover:bg-orange-600 text-white py-2 rounded w-full font-semibold flex items-center justify-center"
         >
           {isLoading ? (
-            <AiOutlineLoading3Quarters className="text-center animate-spin h-5 w-5 text-white" />
+            <AiOutlineLoading3Quarters className="animate-spin h-5 w-5" />
           ) : (
             "Add Product"
           )}
         </button>
-      </form>
-    </div>
+      </div>
+    </form>
+  </div>
+  
   );
 }

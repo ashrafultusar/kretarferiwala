@@ -1,9 +1,18 @@
 "use client";
 
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 import { useState } from "react";
-import { Menu, X } from "lucide-react"; 
+import {
+  Menu,
+  X,
+  LayoutDashboard,
+  Package,
+  Upload,
+  ShoppingBag,
+  Layers,
+} from "lucide-react";
 import Link from "next/link";
+import clsx from "clsx";
 
 export default function AdminLayout({
   children,
@@ -11,6 +20,7 @@ export default function AdminLayout({
   children: React.ReactNode;
 }) {
   const router = useRouter();
+  const pathname = usePathname(); 
   const [showSidebar, setShowSidebar] = useState(false);
 
   const handleLogout = () => {
@@ -18,73 +28,85 @@ export default function AdminLayout({
     router.push("/admin");
   };
 
-  return (
-    <div className="flex flex-col md:flex-row min-h-screen bg-gray-100 mt-36 lg:mt-32">
-      {/* Mobile topbar */}
-      <div className="md:hidden flex items-center justify-between bg-white px-4 py-3 shadow-md ">
-        <Link href={"/admin"} className="text-xl font-bold text-orange-500">
-          Admin
-        </Link>
-        <button onClick={() => setShowSidebar(!showSidebar)}>
-          {showSidebar ? (
-            <X className="w-6 h-6 text-gray-700 cursor-pointer" />
-          ) : (
-            <Menu className="w-6 h-6 text-gray-700 cursor-pointer" />
-          )}
-        </button>
-      </div>
+  const links = [
+    {
+      href: "/admin",
+      label: "Dashboard",
+      icon: LayoutDashboard,
+    },
+    {
+      href: "/admin/orders",
+      label: "Orders",
+      icon: ShoppingBag,
+    },
+    {
+      href: "/admin/allProducts",
+      label: "Products",
+      icon: Package,
+    },
+    {
+      href: "/admin/products",
+      label: "Upload Product",
+      icon: Upload,
+    },
+    {
+      href: "/admin/categories",
+      label: "Categories",
+      icon: Layers,
+    },
+  ];
 
+  return (
+    <div className="flex h-screen bg-gray-100">
       {/* Sidebar */}
       <aside
         className={`${
           showSidebar ? "block" : "hidden"
-        } md:block w-full md:w-64 bg-white shadow-md p-6 space-y-6 absolute md:relative z-20 md:z-auto pt-10`}
+        } md:block w-64 bg-[#0f766e] text-white shadow-lg z-30 md:relative fixed h-full`}
       >
-        <div className="flex justify-between items-center">
-          <Link href={"/admin"} className="text-xl font-bold text-orange-500">
-            Admin Home
-          </Link>
-          {/* Close button for mobile */}
-          <button
-            className="md:hidden text-gray-700"
-            onClick={() => setShowSidebar(false)}
-          >
-            <X className="w-6 h-6 cursor-pointer" />
-          </button>
+        <div className="p-6 text-2xl font-bold border-b border-gray-700">
+          OrderEmpire
         </div>
+        <nav className="flex flex-col gap-2 p-4 text-sm">
+          {links.map(({ href, label, icon: Icon }) => (
+            <Link
+              key={href}
+              href={href}
+              className={clsx(
+                "flex items-center gap-2 px-4 py-2 rounded hover:bg-[#115e59] transition-all cursor-pointer",
+                pathname === href && "bg-[#134e4a] font-semibold"
+              )}
+            >
+              <Icon className="w-4 h-4" />
+              {label}
+            </Link>
+          ))}
 
-        <nav className="space-y-4">
-          <Link href="/admin/orders" className="block hover:text-orange-500">
-            Orders
-          </Link>
-          <Link
-            href="/admin/allProducts"
-            className="block hover:text-orange-500"
+          <button
+            onClick={handleLogout}
+            className="mt-6 w-full py-2 bg-[#134e4a] hover:bg-red-700 text-white rounded text-center transition-all cursor-pointer"
           >
-            All Products
-          </Link>
-
-          <Link href="/admin/products" className="block hover:text-orange-500">
-            Product Upload
-          </Link>
-          <Link
-            href="/admin/categories"
-            className="block hover:text-orange-500"
-          >
-            Categories
-          </Link>
+            Logout
+          </button>
         </nav>
-
-        <button
-          onClick={handleLogout}
-          className="mt-2 py-1 rounded-sm text-sm text-white  cursor-pointer w-full bg-orange-400 hover:bg-orange-500 hover:transition"
-        >
-          Logout
-        </button>
       </aside>
 
+      {/* Mobile topbar */}
+      <div className="md:hidden fixed top-0 left-0 right-0 bg-white shadow-md p-4 flex justify-between items-center z-40">
+        <h1 className="text-xl font-bold text-orange-500">Admin</h1>
+        <button onClick={() => setShowSidebar(!showSidebar)}>
+          {showSidebar ? (
+            <X className="w-6 h-6 text-gray-700" />
+          ) : (
+            <Menu className="w-6 h-6 text-gray-700" />
+          )}
+        </button>
+      </div>
+
       {/* Main Content */}
-      <main className="flex-1">{children}</main>
+      <main className="flex-1 p-6 mt-16 md:mt-0 overflow-y-auto">
+        {children}
+      </main>
     </div>
   );
 }

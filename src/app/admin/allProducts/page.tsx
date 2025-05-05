@@ -2,6 +2,7 @@
 import useCategories from "@/hooks/useCategories";
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
+import { MdDeleteOutline } from "react-icons/md";
 import { toast } from "react-toastify";
 
 // Define types for product and category
@@ -24,15 +25,14 @@ const AllCategoriesProducts = () => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [productToDelete, setProductToDelete] = useState<string | null>(null);
 
-  // Fetch all products on component mount
   useEffect(() => {
     const fetchAllProducts = async () => {
       setLoading(true);
       try {
         const response = await fetch(`/api/products`);
         const data = await response.json();
-        setProducts(data); 
-        setFilteredProducts(data); 
+        setProducts(data);
+        setFilteredProducts(data);
       } catch (error) {
         console.error("Error fetching products:", error);
       } finally {
@@ -41,9 +41,8 @@ const AllCategoriesProducts = () => {
     };
 
     fetchAllProducts();
-  }, []); 
+  }, []);
 
-  // Handle category change and filter products based on active category
   useEffect(() => {
     if (activeCategory) {
       const filtered = products.filter(
@@ -51,19 +50,18 @@ const AllCategoriesProducts = () => {
       );
       setFilteredProducts(filtered);
     }
-  }, [activeCategory, products]); 
+  }, [activeCategory, products]);
 
   useEffect(() => {
     if (categories.length > 0) {
-      setActiveCategory(categories[0].name); 
+      setActiveCategory(categories[0].name);
     }
   }, [categories]);
 
   const handleDelete = async () => {
     if (!productToDelete) return;
-    
+
     try {
-      // Call the DELETE API to remove the product from the database
       const response = await fetch(`/api/products/${productToDelete}`, {
         method: "DELETE",
       });
@@ -72,12 +70,11 @@ const AllCategoriesProducts = () => {
         throw new Error("Failed to delete the product");
       }
 
-      
       setProducts(products.filter((product) => product._id !== productToDelete));
       setFilteredProducts(filteredProducts.filter((product) => product._id !== productToDelete));
 
       toast.success("Product deleted successfully");
-      setIsModalOpen(false); 
+      setIsModalOpen(false);
     } catch (error) {
       console.error("Error deleting product:", error);
       alert("Error deleting the product");
@@ -104,18 +101,21 @@ const AllCategoriesProducts = () => {
   }
 
   return (
-    <div className="max-w-7xl mx-auto p-4 ">
-      <p className="my-2 md:my-6 text-center text-md md:text-3xl">Handel You All Products</p>
+    <div className="w-full px-4 md:px-8">
+      <p className=" md:my-4 text-left text-lg md:text-2xl font-semibold">
+      Product Management
+      </p>
+
       {/* Tabs */}
-      <div className="flex overflow-x-auto border-b border-gray-200 dark:border-gray-700 mb-6">
+      <div className="flex flex-wrap gap-2 mb-6">
         {categories.map((category) => (
           <button
             key={category._id}
             onClick={() => setActiveCategory(category.name)}
-            className={`inline-flex items-center h-10 px-4 -mb-px text-sm sm:text-base whitespace-nowrap focus:outline-none border-b-2 cursor-pointer ${
+            className={`px-4 py-2 text-sm font-semibold rounded-md transition-all duration-200 cursor-pointer ${
               activeCategory === category.name
-                ? "text-black border-orange-400 rounded-t-md bg-orange-500 "
-                : "text-gray-700 border-transparent dark:text-black"
+                ? "bg-[#0f766e] text-white shadow-sm"
+                : "bg-gray-200 text-gray-800 hover:bg-gray-300"
             }`}
           >
             {category.name}
@@ -126,7 +126,7 @@ const AllCategoriesProducts = () => {
       {/* Products Grid */}
       <div className="space-y-4">
         {filteredProducts.length === 0 ? (
-          <div className="text-center text-gray-500">No products found</div>
+          <div className="text-left text-gray-500">No products found</div>
         ) : (
           filteredProducts.map((product) => (
             <div
@@ -145,20 +145,20 @@ const AllCategoriesProducts = () => {
 
               {/* Product Info */}
               <div className="flex flex-col flex-1">
-                <h3 className="text-lg font-semibold text-gray-800">{product.name}</h3>
-                <p className="text-orange-500 font-bold">
-                  ${product.discountPrice ? product.discountPrice : product.regularPrice}
+                <h3 className="text-lg font-semibold text-gray-800">{product?.name}</h3>
+                <p className=" font-bold">
+                  ${product?.discountPrice ? product?.discountPrice : product?.regularPrice}
                 </p>
-                <span className="text-gray-500 text-sm">{product.category}</span>
+                <span className="text-gray-500 text-sm">{product?.category}</span>
               </div>
 
               {/* Delete Button */}
               <button
                 onClick={() => openDeleteModal(product._id)}
                 className="text-red-500 text-sm font-medium hover:underline cursor-pointer"
-                aria-label={`Delete ${product.name}`}
+                aria-label={`Delete ${product?.name}`}
               >
-                Delete
+                <MdDeleteOutline className="text-2xl"></MdDeleteOutline>
               </button>
             </div>
           ))
