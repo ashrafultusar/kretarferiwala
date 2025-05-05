@@ -63,7 +63,7 @@ export default function ProductForm() {
 
   return (
     <div className=" ">
-    <h2 className="text-2xl font-bold mb-6 text-center">Add New Product</h2>
+    <h2 className="text-2xl font-bold mb-6 text-start">Add New Product</h2>
   
     <form
       onSubmit={handleSubmit}
@@ -180,7 +180,7 @@ export default function ProductForm() {
   
         <button
           type="submit"
-          className="bg-orange-500 hover:bg-orange-600 text-white py-2 rounded w-full font-semibold flex items-center justify-center"
+          className="bg-[#0f766e] cursor-pointer text-white py-2 rounded w-full font-semibold flex items-center justify-center"
         >
           {isLoading ? (
             <AiOutlineLoading3Quarters className="animate-spin h-5 w-5" />

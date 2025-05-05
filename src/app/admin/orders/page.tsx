@@ -66,8 +66,8 @@ console.log(orders);
         {statusTabs.map((tab) => (
           <button
             key={tab}
-            className={`px-4 py-2 cursor-pointer rounded-lg font-semibold ${
-              activeTab === tab ? "bg-blue-500 text-white" : "bg-gray-300"
+            className={`px-4 py-2 text-sm font-semibold rounded-md transition-all duration-200 cursor-pointer ${
+              activeTab === tab ? "bg-[#0f766e] text-white" : "bg-gray-300"
             }`}
             onClick={() => setActiveTab(tab)}
           >

@@ -4,6 +4,8 @@ import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import { toast } from "react-toastify";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
+import { MdDeleteOutline } from "react-icons/md";
+import { Upload } from "lucide-react";
 
 type Category = {
   _id: string;
@@ -98,43 +100,38 @@ const CategoryPage = () => {
 
   return (
     <div>
-      {/* Banner */}
-      <div className="relative w-full h-48 md:h-64 mb-8">
-        <Image
-          src="/card/card2.jpg"
-          alt="Category Banner"
-          fill
-          className="object-cover rounded-md"
-        />
-        <div className="absolute inset-0 bg-black/50 flex items-center justify-center">
-          <h1 className="text-white text-2xl md:text-4xl font-bold">
-            Manage Your Categories
-          </h1>
-        </div>
-      </div>
-
       {/* Category Upload Section */}
       <div className="max-w-7xl mx-auto p-6">
         <div className="flex flex-col lg:flex-row gap-6 items-start">
           {/* Add New Category */}
-          <div className="bg-gradient-to-br from-orange-100 to-orange-200 w-full lg:w-1/2 shadow-md rounded-lg p-6">
-            <h2 className="text-2xl font-semibold text-orange-800 mb-4 text-center">
+          <div className=" bg-[#f3f4f6] w-full lg:w-1/2 shadow-md rounded-lg p-6">
+            <h2 className="text-2xl font-semibold mb-4 text-center">
               Add New Category
             </h2>
             <form onSubmit={handleSubmit} className="flex flex-col gap-4">
               <input
                 type="text"
                 placeholder="Enter category name"
-                className="border border-orange-300 p-2 rounded"
+                className="border p-2 rounded"
                 value={category}
                 onChange={(e) => setCategory(e.target.value)}
               />
-              <input
-                type="file"
-                accept="image/*"
-                onChange={handleImageUpload}
-                className="border border-orange-300 p-2 rounded"
-              />
+              <div className="relative">
+                <label
+                  htmlFor="categoryImage"
+                  className="flex items-center gap-2 border p-2 rounded cursor-pointer text-gray-700 hover:bg-orange-50"
+                >
+                  <Upload className="w-5 h-5 text-black" />
+                  <span>Select Category Image</span>
+                </label>
+                <input
+                  id="categoryImage"
+                  type="file"
+                  accept="image/*"
+                  onChange={handleImageUpload}
+                  className="hidden"
+                />
+              </div>
               {imagePreview && (
                 <Image
                   src={imagePreview}
@@ -146,7 +143,7 @@ const CategoryPage = () => {
               )}
               <button
                 type="submit"
-                className="bg-orange-500 text-white px-4 py-2 rounded hover:bg-orange-600 cursor-pointer flex justify-center items-center"
+                className="bg-[#0f766e] text-white px-4 py-2 rounded cursor-pointer flex justify-center items-center"
               >
                 {isLoading ? (
                   <AiOutlineLoading3Quarters className="  animate-spin h-5 w-5 text-white" />
@@ -158,8 +155,8 @@ const CategoryPage = () => {
           </div>
 
           {/* Display Categories */}
-          <div className="bg-gradient-to-br from-purple-100 to-purple-200 w-full lg:w-1/2 shadow-md rounded-lg p-6">
-            <h3 className="text-2xl font-semibold text-purple-800 mb-4 text-center">
+          <div className="bg-[#f3f4f6]  w-full lg:w-1/2 shadow-md rounded-lg p-6">
+            <h3 className="text-2xl font-semibold  mb-4 text-center">
               All Categories
             </h3>
             {categories.length === 0 ? (
@@ -187,9 +184,9 @@ const CategoryPage = () => {
                     </div>
                     <button
                       onClick={() => handleDelete(cat._id, index)}
-                      className="bg-orange-500 px-3 rounded-md py-2 text-white hover:bg-orange-600 text-sm font-semibold cursor-pointer"
+                      className="text-red-500 px-3 rounded-md py-2 text-sm font-semibold cursor-pointer"
                     >
-                      Delete
+                      <MdDeleteOutline className="text-2xl"></MdDeleteOutline>
                     </button>
                   </li>
                 ))}
