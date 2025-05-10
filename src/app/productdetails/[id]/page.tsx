@@ -81,7 +81,7 @@ const ProductDetails = () => {
     };
 
     if (product) fetchRelatedProducts();
-  }, [product]);
+  }, [product,id]);
 
   const totalPages = Math.ceil(relatedProducts.length / productsPerPage);
   const paginatedProducts = relatedProducts.slice(

@@ -22,11 +22,11 @@ export async function POST(req: NextRequest) {
 }
 
 
-export async function GET(req: NextRequest) {
+export async function GET() {
     await dbConnect();
   
     try {
-      const orders = await Order.find().sort({ createdAt: -1 }); // newest first
+      const orders = await Order.find().sort({ createdAt: -1 }); 
       return NextResponse.json(orders);
     } catch (error) {
       console.error("Failed to fetch orders:", error);

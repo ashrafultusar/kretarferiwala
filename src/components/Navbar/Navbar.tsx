@@ -19,17 +19,7 @@ export default function Navbar() {
   const [searchTerm, setSearchTerm] = useState("");
 
   const router = useRouter();
-  // // cart value load from local storage
-  //   const [products, setProducts] = useState<Product[]>([]);
-
-  //   useEffect(() => {
-  //     const stored = localStorage.getItem("checkoutCart");
-  //     if (stored) {
-  //       setProducts(JSON.parse(stored));
-  //     }
-  //   }, []);
-  //   console.log(products);
-  // ---
+ 
   const handleSearch = () => {
     if (searchTerm.trim()) {
       router.push(`/search?query=${encodeURIComponent(searchTerm.trim())}`);
