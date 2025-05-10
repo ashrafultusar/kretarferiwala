@@ -66,14 +66,14 @@ const CheckoutPage = () => {
 
   const subTotal = products.reduce(
     (sum, item) => sum + item.discountPrice * item.quantity,
-    0
+    0 
   );
   const totalAmount = subTotal + deliveryCharge;
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
-
+ 
     if (!formData.name || !formData.phone || !formData.address) {
       setError("সব ফিল্ড পূরণ করুন");
       return;
@@ -130,7 +130,7 @@ const CheckoutPage = () => {
               required
             />
           </div>
-
+ 
           <div>
             <label className="block mb-1 font-semibold">
               আপনার মোবাইল নম্বর *
@@ -202,7 +202,7 @@ const CheckoutPage = () => {
 
           <button
             type="submit"
-            className="inline-block w-full text-center bg-red-500 hover:bg-red-600 text-white font-semibold py-3 rounded-md"
+            className="inline-block w-full text-center bg-red-500 hover:bg-red-600 text-white font-semibold py-3 rounded-md cursor-pointer"
           >
             অর্ডার কনফর্ম করুন
           </button>
@@ -263,7 +263,7 @@ const CheckoutPage = () => {
                   <td className="px-2 py-2">
                     <button
                       onClick={() => handleRemove(product.id)}
-                      className="text-red-500 hover:text-red-700 text-2xl"
+                      className="text-red-500 hover:text-red-700 text-2xl cursor-pointer"
                     >
                       <MdDeleteForever />
                     </button>

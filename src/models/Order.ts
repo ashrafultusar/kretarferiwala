@@ -1,6 +1,5 @@
 import { model, models, Schema } from "mongoose";
 
-
 const orderSchema = new Schema(
   {
     name: { type: String, required: true },
@@ -21,6 +20,8 @@ const orderSchema = new Schema(
     subTotal: Number,
     totalAmount: Number,
     paymentMethod: { type: String, default: "Cash on Delivery" },
+    // ✅ New Field for Order Status
+    status: { type: String, default: "Active" },
   },
   { timestamps: true }
 );
