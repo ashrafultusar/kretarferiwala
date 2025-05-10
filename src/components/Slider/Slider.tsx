@@ -9,7 +9,15 @@ import "swiper/css";
 import "swiper/css/effect-fade";
 import "swiper/css/pagination";
 
-const Slider = () => {
+interface ISliderImage {
+  _id: string;
+  imageUrl: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+const Slider: React.FC = () => {
+  const [sliderImages, setSliderImages] = useState<ISliderImage[]>([]);
   const [showScrollButton, setShowScrollButton] = useState(true);
 
   useEffect(() => {
@@ -28,11 +36,19 @@ const Slider = () => {
     });
   };
 
-  const sliderImages = [
-    { src: "/slider/slider1.jpg" },
-    { src: "/slider/slider2.jpg" },
-    { src: "/slider/slider3.jpg" },
-  ];
+  useEffect(() => {
+    const fetchSliderImages = async () => {
+      try {
+        const res = await fetch("/api/slider");
+        const data = await res.json();
+        setSliderImages(data);
+      } catch (error) {
+        console.error("Failed to fetch slider images:", error);
+      }
+    };
+
+    fetchSliderImages();
+  }, []);
 
   return (
     <div className="w-full relative overflow-hidden">
@@ -61,10 +77,10 @@ const Slider = () => {
         className="w-full aspect-[16/9] md:aspect-[21/9]"
       >
         {sliderImages.map((image, index) => (
-          <SwiperSlide key={index}>
+          <SwiperSlide key={image._id || index}>
             <div className="relative w-full h-full">
               <Image
-                src={image.src}
+                src={image.imageUrl}
                 alt={`Slide ${index + 1}`}
                 fill
                 sizes="100vw"

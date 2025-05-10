@@ -10,6 +10,7 @@ import {
   Upload,
   ShoppingBag,
   Layers,
+  HomeIcon
 } from "lucide-react";
 import Link from "next/link";
 import clsx from "clsx";
@@ -53,6 +54,11 @@ export default function AdminLayout({
       href: "/admin/categories",
       label: "Categories",
       icon: Layers,
+    },
+    {
+      href: "/admin/slider",
+      label: "Home Slider",
+      icon: HomeIcon,
     },
   ];
 
