@@ -31,22 +31,45 @@ const Page = () => {
     fetchOrders();
   }, []);
 
-  const handleStatusChange = (id: string, newStatus: string) => {
-    setOrders((prev) =>
-      prev.map((order) =>
-        order._id === id ? { ...order, status: newStatus } : order
-      )
-    );
-   
+  const handleStatusChange = async (id: string, newStatus: string) => {
+    try {
+      const res = await fetch(`/api/orders/${id}`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ status: newStatus }),
+      });
+  
+      if (!res.ok) throw new Error("Failed to update status");
+  
+      const result = await res.json();
+      const updatedStatus = result.data.status;
+  
+      // Local state update
+      setOrders((prev) =>
+        prev.map((order) =>
+          order._id === id ? { ...order, status: updatedStatus } : order
+        )
+      );
+    } catch (error) {
+      console.error("Error updating status:", error);
+    }
   };
+  
 
-  const filteredOrders = orders.filter((order) => {
+  const filteredOrders = orders
+  .filter((order) => {
     if (activeTab === "Active") {
       return order.status === "Active" || order.status === "Shipped";
     }
     return order.status === activeTab;
-  });
+  })
+  .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
 
+
+
+  
   return (
     <div className="p-6 bg-gray-100 min-h-screen">
       <h2 className="text-3xl font-bold mb-6">Total Orders: {orders.length}</h2>
