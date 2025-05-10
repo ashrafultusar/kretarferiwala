@@ -17,7 +17,7 @@ export default function ClientLayout({ children }: { children: React.ReactNode }
       <main className="flex-1">
         {children}
         <ToastContainer />
-      </main>
+      </main> 
       {!isAdmin && (
         <Link
           href="https://wa.me/8801571419493"

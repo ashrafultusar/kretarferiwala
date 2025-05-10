@@ -15,7 +15,6 @@ type Product = {
 };
 
 const CheckoutPage = () => {
-  
   const [products, setProducts] = useState<Product[]>([]);
   const [deliveryCharge, setDeliveryCharge] = useState(150);
   const [loading, setLoading] = useState(true);
@@ -26,6 +25,9 @@ const CheckoutPage = () => {
     note: "",
   });
   const [error, setError] = useState("");
+  const [orderSuccess, setOrderSuccess] = useState(false);
+  const [orderNumber, setOrderNumber] = useState<string | null>(null);
+  const [orderedProductNames, setOrderedProductNames] = useState<string[]>([]);
   const router = useRouter();
 
   useEffect(() => {
@@ -66,14 +68,14 @@ const CheckoutPage = () => {
 
   const subTotal = products.reduce(
     (sum, item) => sum + item.discountPrice * item.quantity,
-    0 
+    0
   );
   const totalAmount = subTotal + deliveryCharge;
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
- 
+
     if (!formData.name || !formData.phone || !formData.address) {
       setError("সব ফিল্ড পূরণ করুন");
       return;
@@ -93,19 +95,45 @@ const CheckoutPage = () => {
       });
 
       if (res.ok) {
+        const data = await res.json();
+        setOrderNumber(data.orderNumber);
+        setOrderedProductNames(products.map(product => product.name));
+
         localStorage.removeItem("checkoutCart");
-        toast.success('Order Successfully')
-        router.push("/order-received");
+        toast.success("Order placed successfully!");
+
+        setOrderSuccess(true);
       } else {
         const data = await res.json();
         setError(data.message || "অর্ডার পাঠাতে সমস্যা হয়েছে");
       }
     } catch (err) {
       console.error('error message:', err);
-      console.error("error message");
-      toast.error('Somthing is wrong')
+      toast.error('Somthing is wrong');
     }
   };
+
+  const handleCloseModal = () => {
+    setOrderSuccess(false);
+    router.push("/order-received");
+  };
+
+  const handleClickOutside = (e: React.MouseEvent) => {
+    const modal = document.getElementById("orderSuccessModal");
+    if (modal && !modal.contains(e.target as Node)) {
+      handleCloseModal();
+    }
+  };
+
+  if (products.length === 0) {
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <h2 className="text-xl font-semibold text-red-500">
+          আপনি কোনো প্রোডাক্ট নির্বাচন করেননি।
+        </h2>
+      </div>
+    );
+  }
 
   return (
     <div className="flex flex-col md:flex-row items-start gap-8 max-w-7xl mx-auto px-4 py-8 mt-32">
@@ -130,7 +158,7 @@ const CheckoutPage = () => {
               required
             />
           </div>
- 
+
           <div>
             <label className="block mb-1 font-semibold">
               আপনার মোবাইল নম্বর *
@@ -249,10 +277,10 @@ const CheckoutPage = () => {
                     >
                       -
                     </button>
-                    <span>{product.quantity}</span>
+                    <span className="mx-2">{product.quantity}</span>
                     <button
                       onClick={() => handleIncrease(product.id)}
-                      className="bg-orange-400 text-white px-2 rounded"
+                      className="bg-green-400 text-white px-2 rounded"
                     >
                       +
                     </button>
@@ -263,9 +291,9 @@ const CheckoutPage = () => {
                   <td className="px-2 py-2">
                     <button
                       onClick={() => handleRemove(product.id)}
-                      className="text-red-500 hover:text-red-700 text-2xl cursor-pointer"
+                      className="text-red-500"
                     >
-                      <MdDeleteForever />
+                      <MdDeleteForever size={20} />
                     </button>
                   </td>
                 </tr>
@@ -273,18 +301,58 @@ const CheckoutPage = () => {
             </tbody>
           </table>
 
-          <div className="mt-6 space-y-2 text-sm">
-            <div className="flex justify-between">
-              <span>Sub-Total</span>
+          <div className="text-right mt-4">
+            <div className="flex justify-between font-semibold">
+              <span>Subtotal</span>
               <span>{subTotal.toLocaleString()} টাকা</span>
             </div>
-            <div className="flex justify-between">
-              <span>Delivery Charges</span>
-              <span>{deliveryCharge} টাকা</span>
+            <div className="flex justify-between font-semibold">
+              <span>Delivery</span>
+              <span>{deliveryCharge.toLocaleString()} টাকা</span>
             </div>
-            <div className="flex justify-between font-bold text-red-500 pt-2 border-t mt-2">
-              <span>Total Amount</span>
+            <div className="flex justify-between font-semibold text-xl text-green-500">
+              <span>Total</span>
               <span>{totalAmount.toLocaleString()} টাকা</span>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Success Modal */}
+      {orderSuccess && (
+        <div
+          id="orderSuccessModal"
+          className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 flex justify-center items-center"
+          onClick={handleClickOutside}
+        >
+          <div className="bg-white p-8 rounded-lg w-96">
+            <h2 className="text-center text-xl font-semibold text-green-500">
+              আপনার অর্ডার সফলভাবে সম্পন্ন হয়েছে!
+            </h2>
+           
+            <p className="text-center mt-2">
+              অর্ডারকৃত প্রোডাক্ট:{" "}
+              <strong>{orderedProductNames.join(", ")}</strong>
+            </p>
+            <div className="mt-6 text-center">
+              <p className="text-center">
+                আমাদের সাথে যোগাযোগ করতে কল অথবা WhatsApp করুন:
+                <br />
+                WhatsApp : +8801321208940
+                <br />
+                হট লাইন: 09642-922922
+              </p>
+              <p className="mt-4 text-center text-red-500">
+                ফেইক অর্ডার শনাক্ত করতে আপনার IP অ্যাড্রেস আমরা রেখেছি। ফেইক অর্ডার করলে, আমরা তার বিরুদ্ধে আইনি পদক্ষেপ নিব।
+              </p>
+              <div className="mt-6 text-center">
+                <button
+                  onClick={handleCloseModal}
+                  className="text-white bg-orange-400 hover:bg-orange-500 cursor-pointer py-2 px-6 rounded-lg"
+                >
+                  OK
+                </button>
+              </div>
             </div>
           </div>
         </div>

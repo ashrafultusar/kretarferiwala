@@ -19,7 +19,7 @@ const page = () => {
           {/* <div className="text-lg font-semibold">
             অর্ডার নম্বর:{" "}
             <span className="bg-red-500 text-white px-3 py-1 rounded-full">{orderId}</span>
-          </div> */}
+          </div> */} 
           <div className="text-lg">
             অর্ডারের মোট মূল্য <span className="font-semibold">{totalAmount} ৳</span>
           </div>
