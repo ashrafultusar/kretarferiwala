@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 
-import ClientLayout from "@/components/ClientLayout"; // ✅ Import the client-side wrapper
-import { CheckoutProvider } from "./context/CheckoutContext";
+import ClientLayout from "@/components/ClientLayout"; 
+
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -30,9 +30,9 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen flex flex-col relative`}
       >
-        <CheckoutProvider>
+        
           <ClientLayout>{children}</ClientLayout>
-        </CheckoutProvider>
+        
       </body>
     </html>
   );

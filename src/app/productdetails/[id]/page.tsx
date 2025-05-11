@@ -155,9 +155,9 @@ const ProductDetails = () => {
           >
             অর্ডার করুন
           </Link>
-          <button className="w-full bg-blue-100 text-black py-3 rounded shadow">
+          <a href="https://wa.me/8801571419493" target="_blank" className="w-full text-center cursor-pointer bg-blue-100 text-black py-3 rounded shadow">
             কল করতে ক্লিক করুন: 01700400000
-          </button>
+          </a>
           <p className="font-bold">
             Code : <span className="font-medium">{product.code || "N/A"}</span>
           </p>

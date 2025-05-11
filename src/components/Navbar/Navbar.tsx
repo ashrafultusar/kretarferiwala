@@ -19,7 +19,7 @@ export default function Navbar() {
   const [searchTerm, setSearchTerm] = useState("");
 
   const router = useRouter();
- 
+
   const handleSearch = () => {
     if (searchTerm.trim()) {
       router.push(`/search?query=${encodeURIComponent(searchTerm.trim())}`);
@@ -75,14 +75,6 @@ export default function Navbar() {
               />
               <span className="text-black font-bold text-lg">Shop</span>
             </Link>
-            {/* <Link href="/checkout" className="relative text-black text-2xl">
-                <FiShoppingCart />
-                {products.length > 0 && (
-                  <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs font-bold w-5 h-5 flex items-center justify-center rounded-full">
-                    {products.length}
-                  </span>
-                )}
-              </Link> */}
           </div>
 
           {/* Desktop View */}
@@ -115,20 +107,16 @@ export default function Navbar() {
               </div>
             </div>
             <div className="flex items-center space-x-4">
-              <div className="flex flex-col items-end">
+              <a
+                href="https://wa.me/8801571419493"
+                target="_blank"
+                className="flex flex-col items-end"
+              >
                 <span className="text-sm text-gray-600">
                   অর্ডার করতে কল করুন
                 </span>
                 <span className="text-red-500 font-semibold">01700400000</span>
-              </div>
-              {/* <Link href="/checkout" className="relative text-black text-2xl">
-                <FiShoppingCart />
-                {products.length > 0 && (
-                  <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs font-bold w-5 h-5 flex items-center justify-center rounded-full">
-                    {products.length}
-                  </span>
-                )}
-              </Link> */}
+              </a>
             </div>
           </div>
         </div>
