@@ -1,6 +1,6 @@
 "use client";
 
-import { useRouter, usePathname } from "next/navigation";
+import {  usePathname } from "next/navigation";
 import { useState } from "react";
 import {
   Menu,
@@ -14,20 +14,18 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import clsx from "clsx";
+import { logout } from "../login/actions";
 
 export default function AdminLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const router = useRouter();
+  
   const pathname = usePathname(); 
   const [showSidebar, setShowSidebar] = useState(false);
 
-  const handleLogout = () => {
-    localStorage.removeItem("admin-auth");
-    router.push("/admin");
-  };
+  
 
   const links = [
     {
@@ -94,7 +92,7 @@ export default function AdminLayout({
           ))}
 
           <button
-            onClick={handleLogout}
+            onClick={() => logout()}
             className="mt-6 w-full py-2 bg-[#134e4a] hover:bg-red-700 text-white rounded text-center transition-all cursor-pointer"
           >
             Logout
