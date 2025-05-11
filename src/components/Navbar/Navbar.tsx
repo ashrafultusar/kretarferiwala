@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import Image from "next/image";
 import { IoMenuSharp } from "react-icons/io5";
 import { ImCross } from "react-icons/im";
@@ -27,28 +27,50 @@ export default function Navbar() {
     }
   };
 
-  const handleScroll = () => {
+  // const handleScroll = () => {
+  //   if (typeof window !== "undefined") {
+  //     const currentScrollY = window.scrollY;
+
+  //     if (currentScrollY > lastScrollY) {
+  
+  //       setScrollDirection("down");
+  //     } else {
+        
+  //       setScrollDirection("up");
+  //     }
+
+  //     setLastScrollY(currentScrollY <= 0 ? 0 : currentScrollY); // Prevent negative scroll
+  //   }
+  // };
+
+  // useEffect(() => {
+  //   window.addEventListener("scroll", handleScroll);
+  //   return () => {
+  //     window.removeEventListener("scroll", handleScroll);
+  //   };
+  // }, [lastScrollY]);
+
+
+  const handleScroll = useCallback(() => {
     if (typeof window !== "undefined") {
       const currentScrollY = window.scrollY;
 
       if (currentScrollY > lastScrollY) {
-        // User is scrolling down
         setScrollDirection("down");
       } else {
-        // User is scrolling up
         setScrollDirection("up");
       }
 
-      setLastScrollY(currentScrollY <= 0 ? 0 : currentScrollY); // Prevent negative scroll
+      setLastScrollY(currentScrollY <= 0 ? 0 : currentScrollY);
     }
-  };
+  }, [lastScrollY]);
 
   useEffect(() => {
     window.addEventListener("scroll", handleScroll);
     return () => {
       window.removeEventListener("scroll", handleScroll);
     };
-  }, [lastScrollY]);
+  }, [handleScroll]);
 
   return (
     <>

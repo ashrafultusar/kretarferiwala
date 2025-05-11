@@ -4,7 +4,7 @@ import { usePathname } from "next/navigation";
 import Navbar from "@/components/Navbar/Navbar";
 import Footer from "@/components/Footer/Footer";
 import { ToastContainer } from "react-toastify";
-import Link from "next/link";
+
 import { FaFacebookMessenger, FaWhatsapp } from "react-icons/fa";
 import { MdCall } from "react-icons/md";
 

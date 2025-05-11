@@ -29,7 +29,7 @@ const CheckoutPage = () => {
   const [orderNumber, setOrderNumber] = useState<string | null>(null);
   const [orderedProductNames, setOrderedProductNames] = useState<string[]>([]);
   const router = useRouter();
-
+console.log(orderNumber);
   useEffect(() => {
     const stored = localStorage.getItem("checkoutCart");
     if (stored) {

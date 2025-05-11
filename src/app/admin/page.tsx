@@ -1,9 +1,10 @@
 
+import React from 'react';
 
-export default function Dashboard() {
+const page = () => {
   return (
-    <div className="space-y-8 container mx-auto space-x-4">
-
+    <div>
+<div className="space-y-8 container mx-auto space-x-4">
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 pt-10">
         <div className="bg-white p-6 rounded-lg shadow-md">
           <h3 className="text-xl font-semibold text-gray-700">Total Sales</h3>
@@ -18,8 +19,9 @@ export default function Dashboard() {
           <p className="text-2xl font-bold mt-2">452</p>
         </div>
       </div>
-
-     
+    </div>
     </div>
   );
-}
+};
+
+export default page;
