@@ -39,6 +39,10 @@ const ProductDetails = () => {
   const [activeTab, setActiveTab] = useState<"description" | "return">(
     "description"
   );
+  const [deliveryCharge, setDeliveryCharge] = useState({
+    insideDhaka: 0,
+    outsideDhaka: 0,
+  });
 
   const [currentPage, setCurrentPage] = useState(1);
   const productsPerPage = 12;
@@ -81,8 +85,27 @@ const ProductDetails = () => {
     };
 
     if (product) fetchRelatedProducts();
-  }, [product,id]);
+  }, [product, id]);
 
+  // Fetch delivery charge
+  useEffect(() => {
+    const fetchDeliveryCharge = async () => {
+      try {
+        const res = await fetch("/api/updatedeliverycharge");
+        const data = await res.json();
+        if (data.success) {
+          setDeliveryCharge(data.data);
+        }
+      } catch (error) {
+        console.error("Failed to fetch delivery charge:", error);
+      }
+    };
+
+    fetchDeliveryCharge();
+  }, []);
+
+  console.log(deliveryCharge);
+  // paigenation
   const totalPages = Math.ceil(relatedProducts.length / productsPerPage);
   const paginatedProducts = relatedProducts.slice(
     (currentPage - 1) * productsPerPage,
@@ -155,7 +178,11 @@ const ProductDetails = () => {
           >
             অর্ডার করুন
           </Link>
-          <a href="https://wa.me/8801571419493" target="_blank" className="w-full text-center cursor-pointer bg-blue-100 text-black py-3 rounded shadow">
+          <a
+            href="https://wa.me/8801571419493"
+            target="_blank"
+            className="w-full text-center cursor-pointer bg-blue-100 text-black py-3 rounded shadow"
+          >
             কল করতে ক্লিক করুন: 01700400000
           </a>
           <p className="font-bold">
@@ -168,11 +195,11 @@ const ProductDetails = () => {
           <div className="text-sm">
             <div className="flex justify-between border-t pt-3">
               <span>ঢাকায় ডেলিভারি খরচ</span>
-              <span>৳ 70.00</span>
+              <span>৳ {deliveryCharge.insideDhaka}</span>
             </div>
             <div className="flex justify-between border-t pt-3">
               <span>ঢাকার বাইরে কুরিয়ার খরচ</span>
-              <span>৳ 130.00</span>
+              <span>৳ {deliveryCharge.outsideDhaka}</span>
             </div>
           </div>
         </div>
@@ -230,7 +257,7 @@ const ProductDetails = () => {
               name={item.name}
               regularPrice={item.regularPrice}
               discountPrice={item.discountPrice}
-              image={item.images[0]} 
+              image={item.images[0]}
             />
           ))}
         </div>

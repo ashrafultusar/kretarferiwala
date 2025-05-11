@@ -60,6 +60,11 @@ export default function AdminLayout({
       label: "Home Slider",
       icon: HomeIcon,
     },
+    {
+      href: "/admin/deliveryform",
+      label: "Delivery Charge",
+      icon: HomeIcon,
+    },
   ];
 
   return (

@@ -29,7 +29,37 @@ const CheckoutPage = () => {
   const [orderNumber, setOrderNumber] = useState<string | null>(null);
   const [orderedProductNames, setOrderedProductNames] = useState<string[]>([]);
   const router = useRouter();
-console.log(orderNumber);
+
+  const [deliveryOptions, setDeliveryOptions] = useState({
+    insideDhaka: 70,
+    outsideDhaka: 150,
+  });
+
+  console.log(orderNumber);
+
+  useEffect(() => {
+    const fetchDeliveryCharge = async () => {
+      try {
+        const res = await fetch("/api/updatedeliverycharge");
+        const data = await res.json();
+
+        if (data.success && data.data) {
+          setDeliveryOptions({
+            insideDhaka: data.data.insideDhaka,
+            outsideDhaka: data.data.outsideDhaka,
+          });
+
+          // Default value set (if needed)
+          setDeliveryCharge(data.data.outsideDhaka);
+        }
+      } catch (err) {
+        console.error("Failed to fetch delivery charges", err);
+      }
+    };
+
+    fetchDeliveryCharge();
+  }, []);
+
   useEffect(() => {
     const stored = localStorage.getItem("checkoutCart");
     if (stored) {
@@ -97,7 +127,7 @@ console.log(orderNumber);
       if (res.ok) {
         const data = await res.json();
         setOrderNumber(data.orderNumber);
-        setOrderedProductNames(products.map(product => product.name));
+        setOrderedProductNames(products.map((product) => product.name));
 
         localStorage.removeItem("checkoutCart");
         toast.success("Order placed successfully!");
@@ -108,14 +138,14 @@ console.log(orderNumber);
         setError(data.message || "অর্ডার পাঠাতে সমস্যা হয়েছে");
       }
     } catch (err) {
-      console.error('error message:', err);
-      toast.error('Somthing is wrong');
+      console.error("error message:", err);
+      toast.error("Somthing is wrong");
     }
   };
 
   const handleCloseModal = () => {
     setOrderSuccess(false);
-    router.push("/order-received");
+    router.push("/");
   };
 
   const handleClickOutside = (e: React.MouseEvent) => {
@@ -207,21 +237,25 @@ console.log(orderNumber);
                 <input
                   type="radio"
                   name="delivery"
-                  checked={deliveryCharge === 150}
-                  onChange={() => setDeliveryCharge(150)}
+                  checked={deliveryCharge === deliveryOptions.outsideDhaka}
+                  onChange={() =>
+                    setDeliveryCharge(deliveryOptions.outsideDhaka)
+                  }
                   className="mr-2"
                 />
-                ঢাকার বাইরে ১৫০ টাকা
+                ঢাকার বাইরে {deliveryOptions.outsideDhaka} টাকা
               </label>
               <label className="flex items-center bg-gray-300 text-black p-2 rounded-md cursor-pointer">
                 <input
                   type="radio"
                   name="delivery"
-                  checked={deliveryCharge === 70}
-                  onChange={() => setDeliveryCharge(70)}
+                  checked={deliveryCharge === deliveryOptions.insideDhaka}
+                  onChange={() =>
+                    setDeliveryCharge(deliveryOptions.insideDhaka)
+                  }
                   className="mr-2"
                 />
-                ঢাকার ভিতরে ৭০ টাকা
+                ঢাকার ভিতরে {deliveryOptions.insideDhaka} টাকা
               </label>
             </div>
           </div>
@@ -329,7 +363,7 @@ console.log(orderNumber);
             <h2 className="text-center text-xl font-semibold text-green-500">
               আপনার অর্ডার সফলভাবে সম্পন্ন হয়েছে!
             </h2>
-           
+
             <p className="text-center mt-2">
               অর্ডারকৃত প্রোডাক্ট:{" "}
               <strong>{orderedProductNames.join(", ")}</strong>
@@ -343,7 +377,8 @@ console.log(orderNumber);
                 হট লাইন: 09642-922922
               </p>
               <p className="mt-4 text-center text-red-500">
-                ফেইক অর্ডার শনাক্ত করতে আপনার IP অ্যাড্রেস আমরা রেখেছি। ফেইক অর্ডার করলে, আমরা তার বিরুদ্ধে আইনি পদক্ষেপ নিব।
+                ফেইক অর্ডার শনাক্ত করতে আপনার IP অ্যাড্রেস আমরা রেখেছি। ফেইক
+                অর্ডার করলে, আমরা তার বিরুদ্ধে আইনি পদক্ষেপ নিব।
               </p>
               <div className="mt-6 text-center">
                 <button
