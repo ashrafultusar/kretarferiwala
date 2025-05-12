@@ -13,9 +13,11 @@ export async function GET(req: NextRequest, { params }: { params: { id: string }
     }
     return NextResponse.json(order);
   } catch (error) {
+    console.error('error message',error);
     return NextResponse.json({ success: false, message: "Failed to get order" }, { status: 500 });
   }
 }
+
 
 export async function PATCH(
   request: NextRequest,

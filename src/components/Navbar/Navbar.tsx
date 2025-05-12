@@ -130,14 +130,14 @@ export default function Navbar() {
             </div>
             <div className="flex items-center space-x-4">
               <a
-                href="https://wa.me/8801571419493"
+                href="https://wa.me/8801795072200"
                 target="_blank"
                 className="flex flex-col items-end"
               >
                 <span className="text-sm text-gray-600">
                   অর্ডার করতে কল করুন
                 </span>
-                <span className="text-red-500 font-semibold">01700400000</span>
+                <span className="text-red-500 font-semibold">০১৭৯৫০৭২২০০</span>
               </a>
             </div>
           </div>

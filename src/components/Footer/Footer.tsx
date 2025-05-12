@@ -19,13 +19,13 @@ const Footer = () => {
             <h4 className="text-lg font-semibold mb-2">Outlet Location</h4>
             <div className="h-[2px] w-10 bg-white mb-4" />
             <p className="text-black leading-relaxed text-sm">
-              ৩য় তলা, এভারগ্রিন মিজান ক্যমার, <br />
-              ৬২১/১, মেট্রো স্টেশনের পাশে, পিলার নং-২৭৪, কাজীপাড়া, মিরপুর,{" "}
+          
+              প্লট-৭, রোড-এ, ব্লক-ক, সেকশন-৬, মিরপুর
               <br />
               ঢাকা-১২১৬ <br />
-              কল করুনঃ 09613-657755 <br />
+              কল করুনঃ ০১৭৯৫০৭২২০০ <br />
               ইমেইল করুনঃ <br />
-              info@xyz.com
+              kretarferiwala@gmail.com
             </p>
             {/* Social Icons */}
             <div className="flex items-center gap-3 mt-4">
