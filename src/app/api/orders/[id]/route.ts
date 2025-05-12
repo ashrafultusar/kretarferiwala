@@ -53,18 +53,22 @@
 //   }
 // }
 
-import { NextRequest, NextResponse } from 'next/server';
+
 import dbConnect from '@/lib/db';
 import Order from '@/models/Order';
 import mongoose from 'mongoose';
+import { NextRequest, NextResponse } from 'next/server';
 
+
+// ✅ Correct: Let’s use the inferred type from Next.js route handler structure
 export async function PATCH(
   request: NextRequest,
-  context: { params: { id: string } }
+  { params }: { params: Record<string, string> }
 ) {
-  await dbConnect();
+  const { id } = params;
 
-  const { id } = context.params;
+  // Connect to DB
+  await dbConnect();
 
   if (!mongoose.Types.ObjectId.isValid(id)) {
     return NextResponse.json(
