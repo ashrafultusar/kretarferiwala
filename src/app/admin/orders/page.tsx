@@ -1,4 +1,5 @@
 "use client";
+import Link from "next/link"; 
 import React, { useEffect, useState } from "react";
 
 const statusTabs = ["Active", "Shipped", "Delivered", "Cancelled"];
@@ -40,12 +41,12 @@ const Page = () => {
         },
         body: JSON.stringify({ status: newStatus }),
       });
-  
+
       if (!res.ok) throw new Error("Failed to update status");
-  
+
       const result = await res.json();
       const updatedStatus = result.data.status;
-  
+
       // Local state update
       setOrders((prev) =>
         prev.map((order) =>
@@ -56,20 +57,19 @@ const Page = () => {
       console.error("Error updating status:", error);
     }
   };
-  
 
   const filteredOrders = orders
-  .filter((order) => {
-    if (activeTab === "Active") {
-      return order.status === "Active" || order.status === "Shipped";
-    }
-    return order.status === activeTab;
-  })
-  .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+    .filter((order) => {
+      if (activeTab === "Active") {
+        return order.status === "Active" || order.status === "Shipped";
+      }
+      return order.status === activeTab;
+    })
+    .sort(
+      (a, b) =>
+        new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+    );
 
-
-
-  
   return (
     <div className="p-6 bg-gray-100 min-h-screen">
       <h2 className="text-3xl font-bold mb-6">Total Orders: {orders.length}</h2>
@@ -137,7 +137,12 @@ const Page = () => {
                 </td>
                 <td className="px-6 py-4">{order.totalAmount}৳</td>
                 <td className="px-6 py-4">
-                  <button className="text-blue-600 hover:underline">View</button>
+                  <Link
+                    href={`/admin/orders/${order._id}`}
+                    className="text-blue-600 hover:underline cursor-pointer"
+                  >
+                    View
+                  </Link>
                 </td>
               </tr>
             ))}
