@@ -3,15 +3,13 @@
 // import Order from '@/models/Order';
 // import mongoose from 'mongoose';
 
-
-
 // export async function PATCH(
 //   request: NextRequest,
-//   context: { params: { id: string } }
+//   { params }: { params: { id: string } }
 // ) {
 //   await dbConnect();
 
-//   const { id } = context.params;
+//   const { id } = params;
 
 //   if (!mongoose.Types.ObjectId.isValid(id)) {
 //     return NextResponse.json(
@@ -55,7 +53,6 @@
 //   }
 // }
 
-
 import { NextRequest, NextResponse } from 'next/server';
 import dbConnect from '@/lib/db';
 import Order from '@/models/Order';
@@ -63,11 +60,11 @@ import mongoose from 'mongoose';
 
 export async function PATCH(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  context: { params: { id: string } }
 ) {
   await dbConnect();
 
-  const { id } = params;
+  const { id } = context.params;
 
   if (!mongoose.Types.ObjectId.isValid(id)) {
     return NextResponse.json(
