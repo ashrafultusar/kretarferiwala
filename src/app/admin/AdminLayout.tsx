@@ -14,7 +14,7 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import clsx from "clsx";
-import { logout } from "../login/actions";
+
 
 export default function AdminLayout({
   children,
@@ -92,7 +92,7 @@ export default function AdminLayout({
           ))}
 
           <button
-            onClick={() => logout()}
+            
             className="mt-6 w-full py-2 bg-[#134e4a] hover:bg-red-700 text-white rounded text-center transition-all cursor-pointer"
           >
             Logout
