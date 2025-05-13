@@ -100,7 +100,7 @@ const CategoryPage = () => {
 
   return (
     <div>
-      {/* Category Upload Section */}
+  
       <div className="max-w-7xl mx-auto p-6">
         <div className="flex flex-col lg:flex-row gap-6 items-start">
           {/* Add New Category */}
