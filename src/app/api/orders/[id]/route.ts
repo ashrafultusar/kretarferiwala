@@ -1,23 +1,30 @@
-import { NextRequest, NextResponse } from 'next/server';
-import dbConnect from '@/lib/db';
-import Order from '@/models/Order';
-import mongoose from 'mongoose';
+import { NextRequest, NextResponse } from "next/server";
+import dbConnect from "@/lib/db";
+import Order from "@/models/Order";
+import mongoose from "mongoose";
 
-
-export async function GET(req: NextRequest, { params }: { params: { id: string } }) {
+export async function GET(
+  req: NextRequest,
+  { params }: { params: { id: string } }
+) {
   await dbConnect();
   try {
     const order = await Order.findById(params.id);
     if (!order) {
-      return NextResponse.json({ success: false, message: "Order not found" }, { status: 404 });
+      return NextResponse.json(
+        { success: false, message: "Order not found" },
+        { status: 404 }
+      );
     }
     return NextResponse.json(order);
   } catch (error) {
-    console.error('error message',error);
-    return NextResponse.json({ success: false, message: "Failed to get order" }, { status: 500 });
+    console.error("error message", error);
+    return NextResponse.json(
+      { success: false, message: "Failed to get order" },
+      { status: 500 }
+    );
   }
 }
-
 
 export async function PATCH(
   request: NextRequest,
@@ -29,7 +36,7 @@ export async function PATCH(
 
   if (!mongoose.Types.ObjectId.isValid(id)) {
     return NextResponse.json(
-      { success: false, message: 'Invalid order ID' },
+      { success: false, message: "Invalid order ID" },
       { status: 400 }
     );
   }
@@ -39,7 +46,7 @@ export async function PATCH(
 
     if (!status) {
       return NextResponse.json(
-        { success: false, message: 'Status is required' },
+        { success: false, message: "Status is required" },
         { status: 400 }
       );
     }
@@ -52,7 +59,7 @@ export async function PATCH(
 
     if (!updatedOrder) {
       return NextResponse.json(
-        { success: false, message: 'Order not found' },
+        { success: false, message: "Order not found" },
         { status: 404 }
       );
     }
@@ -68,5 +75,3 @@ export async function PATCH(
     );
   }
 }
-
-
