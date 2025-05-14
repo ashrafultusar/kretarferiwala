@@ -20,7 +20,7 @@ const useProducts = () => {
   const fetchProducts = useCallback(async () => {
     try {
       setLoading(true);
-      const res = await fetch("/api/products");
+      const res = await fetch(`http://localhost:5000/products`);
       const data = await res.json();
       setProducts(data);
     } catch (error) {

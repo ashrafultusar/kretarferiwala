@@ -34,7 +34,7 @@ export default function ProductForm() {
     });
 
     try {
-      const res = await fetch("/api/products", {
+      const res = await fetch("http://localhost:5000/products", {
         method: "POST",
         body: formData,
       });

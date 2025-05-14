@@ -21,7 +21,7 @@ const Page = () => {
   useEffect(() => {
     const fetchOrders = async () => {
       try {
-        const res = await fetch("/api/orders");
+        const res = await fetch("http://localhost:5000/allOrders");
         const data = await res.json();
         console.log("Fetched data:", data);
         setOrders(data);
@@ -34,7 +34,7 @@ const Page = () => {
 
   const handleStatusChange = async (id: string, newStatus: string) => {
     try {
-      const res = await fetch(`/api/orders/${id}`, {
+      const res = await fetch(`http://localhost:5000/orders/${id}`, {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",

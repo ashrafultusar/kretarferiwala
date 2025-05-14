@@ -36,9 +36,7 @@ const ProductDetails = () => {
   const [product, setProduct] = useState<Product | null>(null);
   const [relatedProducts, setRelatedProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
-  const [activeTab, setActiveTab] = useState<"description" | "return">(
-    "description"
-  );
+  const [activeTab, setActiveTab] = useState<"description" | "return">("description");
   const [deliveryCharge, setDeliveryCharge] = useState({
     insideDhaka: 0,
     outsideDhaka: 0,
@@ -46,46 +44,46 @@ const ProductDetails = () => {
 
   const [currentPage, setCurrentPage] = useState(1);
   const productsPerPage = 12;
-
+  
+// all products
   useEffect(() => {
-    const fetchProduct = async () => {
-      try {
-        const res = await fetch(`/api/products/${id}`);
-        const data = await res.json();
-        if (data.success) {
-          setProduct(data.data);
-        } else {
-          setProduct(null);
-        }
-      } catch (err) {
-        console.error(err);
+    setLoading(true); // Add setLoading(true) here
+    fetch(`http://localhost:5000/productdetails/${id}`)
+      .then((res) => res.json())
+      .then((data) => {
+        setProduct(data);
+      })
+      .catch((error) => {
+        console.error("Error fetching product details:", error);
         setProduct(null);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    if (id) fetchProduct();
+      })
+      .finally(() => {
+        setLoading(false); // Make sure setLoading(false) is called
+      });
   }, [id]);
 
+
+  // related products fetch
   useEffect(() => {
     const fetchRelatedProducts = async () => {
-      if (!product?.category) return;
-
+      if (!product?.category) return; // Ensure that product category exists
+  
       try {
-        const res = await fetch(`/api/products/related/${product.category}`);
+        const res = await fetch(`http://localhost:5000/products?category=${product.category}`);
         const data = await res.json();
-        if (data.success) {
-          const filtered = data.data.filter((p: Product) => p.id !== id);
-          setRelatedProducts(filtered);
-        }
+  
+        // Filter out the current product from the list of related products
+        const filtered = data.filter((p: Product) => p._id !== id); // Exclude the current product
+        setRelatedProducts(filtered); // Update the related products state
       } catch (err) {
         console.error("Failed to load related products:", err);
+        setRelatedProducts([]); // Handle error scenario by setting an empty array
       }
     };
-
+  
     if (product) fetchRelatedProducts();
-  }, [product, id]);
+  }, [product, id]); // Re-run when product or id changes
+  
 
   // Fetch delivery charge
   useEffect(() => {
@@ -93,8 +91,8 @@ const ProductDetails = () => {
       try {
         const res = await fetch("/api/updatedeliverycharge");
         const data = await res.json();
-        if (data.success) {
-          setDeliveryCharge(data.data);
+        if (data) {
+          setDeliveryCharge(data);
         }
       } catch (error) {
         console.error("Failed to fetch delivery charge:", error);
@@ -104,7 +102,6 @@ const ProductDetails = () => {
     fetchDeliveryCharge();
   }, []);
 
-  console.log(deliveryCharge);
   // paigenation
   const totalPages = Math.ceil(relatedProducts.length / productsPerPage);
   const paginatedProducts = relatedProducts.slice(
@@ -121,7 +118,7 @@ const ProductDetails = () => {
   }
 
   if (!product) {
-    return <div className="text-center py-10">প্রোডাক্ট পাওয়া যায়নি</div>;
+    return <div className="text-center py-10">প্রোডাক্ট পাওয়া যায়নি</div>;
   }
 
   return (
@@ -194,11 +191,11 @@ const ProductDetails = () => {
           </p>
           <div className="text-sm">
             <div className="flex justify-between border-t pt-3">
-              <span>ঢাকায় ডেলিভারি খরচ</span>
+              <span>ঢাকায় ডেলিভারি খরচ</span>
               <span>৳ {deliveryCharge.insideDhaka}</span>
             </div>
             <div className="flex justify-between border-t pt-3">
-              <span>ঢাকার বাইরে কুরিয়ার খরচ</span>
+              <span>ঢাকার বাইরে কুরিয়ার খরচ</span>
               <span>৳ {deliveryCharge.outsideDhaka}</span>
             </div>
           </div>
@@ -210,21 +207,19 @@ const ProductDetails = () => {
         <div className="flex space-x-4 border-b">
           <button
             onClick={() => setActiveTab("description")}
-            className={`py-2 px-4 cursor-pointer ${
-              activeTab === "description"
-                ? "border-b-2 border-green-600 text-green-600 font-semibold"
-                : "text-gray-500"
-            }`}
+            className={`py-2 px-4 cursor-pointer ${activeTab === "description"
+              ? "border-b-2 border-green-600 text-green-600 font-semibold"
+              : "text-gray-500"
+              }`}
           >
             Description
           </button>
           <button
             onClick={() => setActiveTab("return")}
-            className={`py-2 px-4 cursor-pointer ${
-              activeTab === "return"
-                ? "border-b-2 border-green-600 text-green-600 font-semibold"
-                : "text-gray-500"
-            }`}
+            className={`py-2 px-4 cursor-pointer ${activeTab === "return"
+              ? "border-b-2 border-green-600 text-green-600 font-semibold"
+              : "text-gray-500"
+              }`}
           >
             Return Policy
           </button>
@@ -239,7 +234,7 @@ const ProductDetails = () => {
               </p>
               <p className="mt-2">
                 ২) ছবি এবং বর্ণনার সাথে পণ্য মিলে থাকা সত্ত্বেও রিটার্ন করতে
-                চাইলে কুরিয়ার চার্জ নিজ দায়িত্বে দিতে হবে।
+                চাইলে কুরিয়ার চার্জ নিজ দায়িত্বে দিতে হবে।
               </p>
             </div>
           )}
@@ -247,32 +242,43 @@ const ProductDetails = () => {
       </div>
 
       {/* Related products */}
-      <div className="my-7">
-        <TitleWithLine title="Related Products" />
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-          {paginatedProducts.map((item) => (
-            <ProductCard
-              key={item._id}
-              id={item._id}
-              name={item.name}
-              regularPrice={item.regularPrice}
-              discountPrice={item.discountPrice}
-              image={item.images[0]}
-            />
-          ))}
-        </div>
+      {relatedProducts.length > 0 && ( // এখানে চেক করা হচ্ছে
+        <div className="my-7">
+          <TitleWithLine title="Related Products" />
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+            {paginatedProducts.map((item) => (
+              <ProductCard
+                key={item._id}
+                id={item._id}
+                name={item.name}
+                regularPrice={item.regularPrice}
+                discountPrice={item.discountPrice}
+                image={item.images[0]}
+              />
+            ))}
+          </div>
 
-        {/* Pagination only if more than 40 */}
-        {relatedProducts.length > 40 && (
-          <Pagination
-            currentPage={currentPage}
-            totalPages={totalPages}
-            onPageChange={setCurrentPage}
-          />
-        )}
-      </div>
+          {/* Pagination only if more than 40 */}
+          {relatedProducts.length > 40 && (
+            <Pagination
+              currentPage={currentPage}
+              totalPages={totalPages}
+              onPageChange={setCurrentPage}
+            />
+          )}
+        </div>
+      )}
+      {relatedProducts.length === 0 && (
+        <div className="my-7">
+          <TitleWithLine title="Related Products" />
+          <div className="text-center py-10">
+            <p>No related products found</p>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
 
 export default ProductDetails;
+

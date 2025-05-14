@@ -26,7 +26,6 @@ const CheckoutPage = () => {
   });
   const [error, setError] = useState("");
   const [orderSuccess, setOrderSuccess] = useState(false);
-  const [orderNumber, setOrderNumber] = useState<string | null>(null);
   const [orderedProductNames, setOrderedProductNames] = useState<string[]>([]);
   const router = useRouter();
 
@@ -35,7 +34,6 @@ const CheckoutPage = () => {
     outsideDhaka: 150,
   });
 
-  console.log(orderNumber);
 
   useEffect(() => {
     const fetchDeliveryCharge = async () => {
@@ -105,14 +103,14 @@ const CheckoutPage = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
-
+  
     if (!formData.name || !formData.phone || !formData.address) {
       setError("সব ফিল্ড পূরণ করুন");
       return;
     }
-
+  
     try {
-      const res = await fetch("/api/orders", {
+      const res = await fetch("http://localhost:5000/orders", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -123,23 +121,21 @@ const CheckoutPage = () => {
           totalAmount,
         }),
       });
-
+  
+      const data = await res.json();
+  
       if (res.ok) {
-        const data = await res.json();
-        setOrderNumber(data.orderNumber);
         setOrderedProductNames(products.map((product) => product.name));
-
         localStorage.removeItem("checkoutCart");
-        toast.success("Order placed successfully!");
-
+        toast.success(`Order placed successfully! Order Number: ${data.orderNumber}`);
         setOrderSuccess(true);
       } else {
-        const data = await res.json();
-        setError(data.message || "অর্ডার পাঠাতে সমস্যা হয়েছে");
+        setError(data.error || data.message || "অর্ডার পাঠাতে সমস্যা হয়েছে");
+        toast.error(data.error || "Failed to place order");
       }
     } catch (err) {
       console.error("error message:", err);
-      toast.error("Somthing is wrong");
+      toast.error("Something went wrong");
     }
   };
 

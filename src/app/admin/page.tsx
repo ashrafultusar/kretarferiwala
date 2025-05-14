@@ -31,7 +31,7 @@ const Page = () => {
   useEffect(() => {
     const fetchOrders = async () => {
       try {
-        const res = await fetch("/api/orders");
+        const res = await fetch("http://localhost:5000/allOrders");
         const data = await res.json();
         setOrders(data);
       } catch (error) {

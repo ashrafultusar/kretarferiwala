@@ -38,7 +38,7 @@ const OrderDetailsPage = () => {
 
     const fetchOrder = async () => {
       try {
-        const res = await fetch(`/api/orders/${id}`);
+        const res = await fetch(`http://localhost:5000/orders/${id}`);
         if (!res.ok) {
           setError("Order not found");
           return;

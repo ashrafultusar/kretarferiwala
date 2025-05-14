@@ -16,9 +16,9 @@ export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [scrollDirection, setScrollDirection] = useState("up");
   const [lastScrollY, setLastScrollY] = useState(0);
-  const [searchTerm, setSearchTerm] = useState("");
 
   const router = useRouter();
+  const [searchTerm, setSearchTerm] = useState("");
 
   const handleSearch = () => {
     if (searchTerm.trim()) {
@@ -32,10 +32,10 @@ export default function Navbar() {
   //     const currentScrollY = window.scrollY;
 
   //     if (currentScrollY > lastScrollY) {
-  
+
   //       setScrollDirection("down");
   //     } else {
-        
+
   //       setScrollDirection("up");
   //     }
 
@@ -49,7 +49,6 @@ export default function Navbar() {
   //     window.removeEventListener("scroll", handleScroll);
   //   };
   // }, [lastScrollY]);
-
 
   const handleScroll = useCallback(() => {
     if (typeof window !== "undefined") {
@@ -164,7 +163,6 @@ export default function Navbar() {
             <ImCross className="text-2xl text-black" />
           </button>
 
-          {/* Mobile Search */}
           {/* Mobile Search */}
           <div className="relative">
             <input

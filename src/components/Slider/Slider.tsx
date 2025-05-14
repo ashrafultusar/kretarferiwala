@@ -39,7 +39,7 @@ const Slider: React.FC = () => {
   useEffect(() => {
     const fetchSliderImages = async () => {
       try {
-        const res = await fetch("/api/slider");
+        const res = await fetch("http://localhost:5000/sliders");
         const data = await res.json();
         setSliderImages(data);
       } catch (error) {

@@ -5,6 +5,7 @@ import React, { useEffect, useState } from "react";
 import { MdDeleteOutline } from "react-icons/md";
 import { toast } from "react-toastify";
 
+
 // Define types for product and category
 interface Product {
   _id: string;
@@ -29,7 +30,7 @@ const AllCategoriesProducts = () => {
     const fetchAllProducts = async () => {
       setLoading(true);
       try {
-        const response = await fetch(`/api/products`);
+        const response = await fetch(`http://localhost:5000/products`);
         const data = await response.json();
         setProducts(data);
         setFilteredProducts(data);
@@ -58,29 +59,40 @@ const AllCategoriesProducts = () => {
     }
   }, [categories]);
 
-  const handleDelete = async () => {
-    if (!productToDelete) return;
+//  delete products
+const handleDelete = async () => {
+  if (!productToDelete) return;
 
-    try {
-      const response = await fetch(`/api/products/${productToDelete}`, {
-        method: "DELETE",
-      });
+  try {
+    const response = await fetch(`http://localhost:5000/product/${productToDelete}`, {
+      method: "DELETE",
+    });
 
-      if (!response.ok) {
-        throw new Error("Failed to delete the product");
-      }
+    const data = await response.json();
 
-      setProducts(products.filter((product) => product._id !== productToDelete));
-      setFilteredProducts(filteredProducts.filter((product) => product._id !== productToDelete));
+    if (response.ok) {
+      // Remove the deleted product from both state arrays
+      const updatedProducts = products.filter(product => product._id !== productToDelete);
+      setProducts(updatedProducts);
 
-      toast.success("Product deleted successfully");
+      const updatedFiltered = filteredProducts.filter(product => product._id !== productToDelete);
+      setFilteredProducts(updatedFiltered);
+
+      // Close modal and reset state
       setIsModalOpen(false);
-    } catch (error) {
-      console.error("Error deleting product:", error);
-      alert("Error deleting the product");
-      setIsModalOpen(false);
+      setProductToDelete(null);
+
+      // Optional: Show toast or alert
+      toast.success("Product deleted successfully!");
+    } else {
+      toast.error(data.message || "Failed to delete the product");
     }
-  };
+  } catch (error) {
+    console.error("Error deleting product:", error);
+    toast.error("An error occurred while deleting the product");
+  }
+};
+
 
   const openDeleteModal = (id: string) => {
     setProductToDelete(id);
